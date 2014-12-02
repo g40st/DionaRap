@@ -1,12 +1,12 @@
 <!-- Copyright 2014 Christian Högerle, Thomas Buck -->
-<project name="GRABO_3" default="compile" basedir=".">
+<project name="GRABO_5" default="compile" basedir=".">
   <description>
-    GRABO Aufgabe 3
+    GRABO Aufgabe 5
   </description>
 
   <property name="src" location="src"/>
   <property name="build" location="build"/>
-  <property name="target" value="GRABO_3"/>
+  <property name="target" value="GRABO_5"/>
   <property name="doc" location="doc"/>
   <property name="lib" location="lib"/>
 

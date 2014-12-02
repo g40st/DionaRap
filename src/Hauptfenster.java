@@ -53,7 +53,7 @@ public class Hauptfenster extends JFrame {
 
         // Spielfeld hinzufuegen
         spielfeld = new Spielfeld();
-        this.add(spielfeld);
+        this.add(spielfeld, BorderLayout.SOUTH);
 
         // Initialisierung Controller und Model
         newDionaRap();
@@ -61,9 +61,12 @@ public class Hauptfenster extends JFrame {
         // Navigator hinzufuegen
         navigator = new Navigator(this);
 
-        //Toolbar hinzufuegen
+        // Toolbar hinzufuegen
         toolbar = new Toolbar(this);
-        this.add(toolbar, BorderLayout.NORTH);
+        this.add(toolbar, BorderLayout.CENTER);
+
+        // Menueleiste hinzufuegen
+        this.add(new MenueLeiste(this), BorderLayout.NORTH);
 
         // Listener hinzufuegen
         this.addComponentListener(new ListenerFenster(this, navigator, navigator.nav_pos_const));
@@ -169,8 +172,6 @@ public class Hauptfenster extends JFrame {
         return max_y;
     }
 
-
-
     /**
      * get-Methode, gibt den Navigator zurueck
      *
@@ -200,6 +201,30 @@ public class Hauptfenster extends JFrame {
         displayFlag = f;
         runningFlag = running;
         wonFlag = won;
+    }
+
+    /**
+     * set-Methode, vertauscht das Spielfeld mit der Toolbar
+     *
+     * @param falls true wird die Toolbar im CENTER-Bereich positioniert / false dann im SOUTH-Bereich
+     */
+    public void setToolbarPosition(boolean center) {
+        if(center) {
+            this.remove(spielfeld);
+            this.remove(toolbar);
+            this.add(spielfeld, BorderLayout.SOUTH);
+            this.add(toolbar, BorderLayout.CENTER);
+            this.pack();
+
+        }
+        else {
+            this.remove(spielfeld);
+            this.remove(toolbar);
+            this.add(spielfeld, BorderLayout.CENTER);
+            this.add(toolbar, BorderLayout.SOUTH);
+            this.pack();
+        }
+
     }
 
     /**

@@ -20,6 +20,7 @@ class Navigator extends JWindow {
     // Polygon für die Form
     Polygon octagon;
     Tastatur tastatur;
+    Hauptfenster hauptfenster;
 
     /**
      * Konstruktor der Steuerflaeche vom Typ <code>JWindow</code>.
@@ -30,9 +31,9 @@ class Navigator extends JWindow {
      */
     Navigator(JFrame parent) {
         super(parent);
+        hauptfenster = (Hauptfenster) parent;
         this.setLayout(new BorderLayout());
         addPolygon();
-        drawScore();
         Rectangle nav_pos = parent.getBounds();
         this.setLocation(((int)nav_pos.getX()) + parent.getWidth() + nav_pos_const, ((int) nav_pos.getY()));
         this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
@@ -67,9 +68,21 @@ class Navigator extends JWindow {
         return tastatur;
     }
 
-    private void drawScore() {
-
-
+    /**
+     * Methode blendet den Navigator aus
+     *
+     */
+    public void setDisabledNavigator() {
+        this.setVisible(false);
     }
+
+    /**
+     * Methode blendet den Navigator ein
+     *
+     */
+    public void setEnabledNavigator() {
+        this.setVisible(true);
+    }
+
 
 }

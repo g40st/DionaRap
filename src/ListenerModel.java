@@ -43,6 +43,7 @@ class ListenerModel implements DionaRapListener {
      * Event, dass bei Spielende aufgerufen wird
      */
     public void statusChanged(GameStatusEvent e) {
+        hauptfenster.getToolbar().setScore(hauptfenster.getDionaRapModel().getScore());
         gameRunning = false;
         if(e.isGameOver()) {
             gameWon = false;

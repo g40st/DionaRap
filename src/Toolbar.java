@@ -114,4 +114,20 @@ class Toolbar extends JToolBar {
         textfield_score.setText(String.valueOf(0));
         progressbar.setValue(0);
     }
+
+    /**
+     * Methode blendet die Toolbar aus
+     *
+     */
+    public void setDisabledToolbar() {
+        this.setVisible(false);
+    }
+
+    /**
+     * Methode blendet die Toolbar ein
+     *
+     */
+    public void setEnabledToolbar() {
+        this.setVisible(true);
+    }
 }
