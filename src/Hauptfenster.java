@@ -27,6 +27,8 @@ public class Hauptfenster extends JFrame {
     static final int max_x = 16;
     // gibt die Anzahl der Felder in y-Richtung an
     static final int max_y = 10;
+    // ausgewaehltes Theme zu beginn
+    String theme = "Dracula";
     DionaRapModel dionaRapModel;
     DionaRapController dionaRapController;
     Navigator navigator;
@@ -52,7 +54,7 @@ public class Hauptfenster extends JFrame {
         this.setLayout(new BorderLayout());
 
         // Spielfeld hinzufuegen
-        spielfeld = new Spielfeld();
+        spielfeld = new Spielfeld(this);
         this.add(spielfeld, BorderLayout.SOUTH);
 
         // Initialisierung Controller und Model
@@ -71,6 +73,7 @@ public class Hauptfenster extends JFrame {
         // Listener hinzufuegen
         this.addComponentListener(new ListenerFenster(this, navigator, navigator.nav_pos_const));
         this.addKeyListener(new ListenerKeyEvents());
+        this.addMouseListener(new ListenerMaus(this));
         this.setFocusable(true);
 
         this.pack();
@@ -157,22 +160,6 @@ public class Hauptfenster extends JFrame {
     }
 
     /**
-     * statische get-Methode, gibt die Dimension in X-Richtung zurueck
-     *
-     */
-    public static int getMax_x() {
-        return max_x;
-    }
-
-    /**
-     * statische get-Methode, gibt die Dimension in Y-Richtung zurueck
-     *
-     */
-    public static int getMax_y() {
-        return max_y;
-    }
-
-    /**
      * get-Methode, gibt den Navigator zurueck
      *
      */
@@ -196,6 +183,25 @@ public class Hauptfenster extends JFrame {
         float d = ((opponents - (float) dionaRapModel.getOpponentCount()) / opponents) * 100;
         return (int) d;
     }
+
+    /**
+     * get-Methode, gibt das aktuelle Theme als String zurueck
+     *
+     */
+    public String getTheme() {
+        return theme;
+    }
+
+    /**
+     * set-Methode, das aktuelle Theme setzen und das Spielfeld neu zeichnen
+     *
+     */
+    public void setTheme(String theme) {
+        this.theme = theme;
+        spielfeld.setImgSrc();
+        spielfeld.drawAllPawns(getPawns());
+    }
+
 
     public void setRender(boolean f, boolean running, boolean won) {
         displayFlag = f;
@@ -224,7 +230,6 @@ public class Hauptfenster extends JFrame {
             this.add(toolbar, BorderLayout.SOUTH);
             this.pack();
         }
-
     }
 
     /**
@@ -264,7 +269,7 @@ public class Hauptfenster extends JFrame {
      */
     private void addDialog(boolean gameWon) {
         String separator = getSeparator();
-        String img_source = getDirectory() + "image" + separator + "Dracula";
+        String img_source = getDirectory() + "image" + separator + getTheme();
         String[] choices = {"Neues Spiel", "Abbrechen"};
         ImageIcon lose = new ImageIcon(img_source + separator + "gameover.gif");
         ImageIcon win = new ImageIcon(img_source + separator + "win.gif");

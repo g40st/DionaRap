@@ -11,16 +11,15 @@ import de.fhwgt.dionarap.model.objects.*;
 
 /**
  * Spielfeld
- * Initialiserung des Spielfeldes (10x10), abgeleitet von <code>JPanel</code>
+ * Initialiserung des Spielfeldes, abgeleitet von <code>JPanel</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
 class Spielfeld extends JPanel {
-    int max_x = Hauptfenster.getMax_x();
-    int max_y = Hauptfenster.getMax_y();
+    Hauptfenster hauptfenster;
     // Array fuer das Spielfeld
-    JLabel[][] label = new JLabel [max_y][max_x];
+    JLabel[][] label = new JLabel [Hauptfenster.max_y][Hauptfenster.max_x];
     // home-directory
     String img_source = Hauptfenster.getDirectory();
     // Separator
@@ -34,11 +33,10 @@ class Spielfeld extends JPanel {
      * Konstruktor des Spielfeldes vom Typ <code>JPanel</code>.
      * legt den Layout-Manager fest und ruft die Methode addJLabels() auf
      */
-    Spielfeld() {
-        super();
-        this.setLayout(new GridLayout(max_y, max_x));
-        // Theme "Dracula" setzen
-        img_source = img_source + "image" + separator + "Dracula";
+    Spielfeld(Hauptfenster hauptfenster) {
+        this.hauptfenster = hauptfenster;
+        this.setLayout(new GridLayout(Hauptfenster.max_y, Hauptfenster.max_x));
+        img_source = img_source + "image" + separator + hauptfenster.getTheme();
         addJLabels();
     }
 
@@ -46,8 +44,8 @@ class Spielfeld extends JPanel {
      * Methode erzeugt das Spielfeld entsprechend der Vorgabe mit abwechselnder JLabel-Hintergrundfarbe
      */
     private void addJLabels() {
-        for (int i = 0; i < max_y; i++) {
-            for (int k = 0; k < max_x; k++) {
+        for (int i = 0; i < Hauptfenster.max_y; i++) {
+            for (int k = 0; k < Hauptfenster.max_x; k++) {
                 label[i][k] = new JLabel();
                 if((i+k) % 2 == 0) {    // Modulo-Operation fuer abwechselnde Felder
                     label[i][k].setBackground(Color.BLACK);
@@ -115,10 +113,19 @@ class Spielfeld extends JPanel {
      *
      */
     public void delAllPawns() {
-        for(int i = 0; i < max_y; i++) {
-            for(int k = 0; k < max_x; k++) {
+        for(int i = 0; i < Hauptfenster.max_y; i++) {
+            for(int k = 0; k < Hauptfenster.max_x; k++) {
                 label[i][k].setIcon(null);
             }
         }
+    }
+
+    /**
+     * Methode, die das Verzeichnis der Bilder updatet
+     *
+     */
+    public void setImgSrc() {
+        img_source = Hauptfenster.getDirectory();
+        img_source = img_source + "image" + separator + hauptfenster.getTheme();
     }
 }

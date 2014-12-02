@@ -83,6 +83,4 @@ class Navigator extends JWindow {
     public void setEnabledNavigator() {
         this.setVisible(true);
     }
-
-
 }
