@@ -67,6 +67,10 @@ class Tastatur extends JPanel {
         }
     }
 
+    /**
+     * Methode gibt das Objekt des ListenerBewegung zurueck
+     *
+     */
     public ListenerBewegung getListenerBewegung() {
         return lis_move;
     }

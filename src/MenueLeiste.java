@@ -20,26 +20,36 @@ import javax.swing.AbstractButton;
 import javax.swing.SwingUtilities;
 import javax.swing.JScrollPane;
 
+/**
+ * Menueleiste
+ * Initialisierung der Menueleiste abgeleitet von <code>JMenuBar</code>, implementiert <code>ActionListener</code>
+ * Copyright (c) 2014
+ * @author Christian Hoegerle / Thomas Buck
+ * @version 1.0
+ */
 public class MenueLeiste extends JMenuBar implements ActionListener {
     Hauptfenster hauptfenster;
-    // Flag das anzeigt, ob die Toolbar sichtbar ist
+    // Flag, ob die Toolbar sichtbar ist
     boolean toolbar_view = true;
     // Flag für die Position der Toolbar (wenn Center dann true)
     boolean center = true;
-    // // Flag das anzeigt, ob die Toolbar sichtbar ist
+    // // Flag, ob die Toolbar sichtbar ist
     boolean navigator = true;
-    // Look and Feel
+    // Array indem alle Look and Feels gespeichert werden
     UIManager.LookAndFeelInfo [] lookandfeelinfo;
+    // Fuer jedes Look and Feel ein JRadioButtonMenuItem
     JRadioButtonMenuItem lookandfeel [];
+    // Anzahl der vorhanden Look and Feels
     int count;
+    // zeigt immer auf den aktuell aktiven activeRadioButton
     int activeRadioButton = 0;
 
-    // Menüleiste Elemente
+    // Menueleiste Elemente
     JMenu view;
     JMenu config;
     JMenu help;
 
-    // view
+    // view-Reiter
     JCheckBoxMenuItem view_toolbar;
     JMenu position_toolbar;
     JMenuItem toolbar_oben;
@@ -47,13 +57,19 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
     JCheckBoxMenuItem view_navigator;
     JMenu look_and_feel;
 
-    // config
+    // config-Reiter
     JMenuItem read_level;
 
-    // help
+    // help-Reiter
     JMenuItem game_description;
-    URL URL;
+    URL url;
 
+    /**
+     * Konstruktor der Klasse Toolbar
+     *
+     * ist fuer die Menueleiste zustaendig (Ansicht-Reiter, Konfiguration-Reiter und Hilfe-Reiter)
+     * @param das Hauptfenster wird uebergeben
+     */
     MenueLeiste(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
         view = new JMenu("Ansicht");
@@ -104,15 +120,22 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         }
         view.add(look_and_feel);
 
+        // setzen Separator
         view.insertSeparator(2);
         view.insertSeparator(4);
+
         this.add(view);
         this.add(config);
         this.add(help);
     }
 
+    /**
+     * Eventhandler fuer das Event <code>actionPerformed</code>
+     * Fuer jedes Element in der Menueleiste wird das jeweilige Event abgearbeitet
+     * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern
+     */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == view_toolbar) {
+        if (e.getSource() == view_toolbar) { // Ein-/Ausblenden der Toolbar
             if(toolbar_view) {
                 hauptfenster.getToolbar().setDisabledToolbar();
                 toolbar_view = false;
@@ -127,7 +150,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             }
         }
 
-        if (e.getSource() == toolbar_oben) {
+        if (e.getSource() == toolbar_oben) { // positionieren der toolbar am oberen Rand
                 center = true;
                 hauptfenster.setToolbarPosition(center);
                 toolbar_unten.setEnabled(true);
@@ -135,7 +158,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                 hauptfenster.pack();
         }
 
-        if (e.getSource() == toolbar_unten) {
+        if (e.getSource() == toolbar_unten) { // positionieren der toolbar am unteren Rand
                 center = false;
                 hauptfenster.setToolbarPosition(center);
                 toolbar_unten.setEnabled(false);
@@ -143,7 +166,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                 hauptfenster.pack();
         }
 
-        if (e.getSource() == view_navigator) {
+        if (e.getSource() == view_navigator) { // Ein-/Ausblenden des Navigators
             if(navigator) {
                 hauptfenster.getNavigator().setDisabledNavigator();
                 navigator = false;
@@ -156,23 +179,23 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             }
         }
 
-        if (e.getSource() == game_description) {
+        if (e.getSource() == game_description) { // Anzeigen der Spielbeschreibung (erzeugen des JDialog und JEditorPane)
             String home_source = Hauptfenster.getDirectory();
             String separator = Hauptfenster.getSeparator();
             JDialog dialog = new JDialog(hauptfenster, "Spielbeschreibung", true);
             JEditorPane editorPane = new JEditorPane();
             editorPane.setEditable(false);
             try {
-                URL = new URL("file://" + home_source + separator + "html" + separator + "Spielbeschreibung.html");
+                url = new URL("file://" + home_source + separator + "html" + separator + "Spielbeschreibung.html");
             }
             catch (MalformedURLException ex) {
-                System.err.println("File kann nicht gelesen werden: " + URL);
+                System.err.println("File kann nicht gelesen werden: " + url);
             }
             try {
-                editorPane.setPage(URL);
+                editorPane.setPage(url);
             }
             catch (IOException ex) {
-                System.err.println("File kann nicht gelesen werden: " + URL);
+                System.err.println("File kann nicht gelesen werden: " + url);
             }
             JScrollPane editorScrollPane = new JScrollPane(editorPane);
             editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -182,7 +205,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             dialog.setVisible(true);
         }
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) { // Abarbeiten aller JRadioButtons und setzen des gewuenschten Look and Feel
             if(e.getSource() == lookandfeel[i]) {
                 lookandfeel[activeRadioButton].setSelected(false);
                 activeRadioButton = i;
@@ -191,7 +214,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                     SwingUtilities.updateComponentTreeUI(hauptfenster);
                 }
                 catch (Exception ex) {
-                    System.out.println("Exeception: ");
+                    System.out.println("Exeception: " + ex);
                 }
                 hauptfenster.pack();
             }
