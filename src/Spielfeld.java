@@ -29,6 +29,7 @@ class Spielfeld extends JPanel {
     // Integer für die letzte Blickrichtung
     int viewing_direction_Player = 0;
 
+
     /**
      * Konstruktor des Spielfeldes vom Typ <code>JPanel</code>.
      * legt den Layout-Manager fest und ruft die Methode addJLabels() auf
@@ -44,6 +45,8 @@ class Spielfeld extends JPanel {
      * Methode erzeugt das Spielfeld entsprechend der Vorgabe mit abwechselnder JLabel-Hintergrundfarbe
      */
     private void addJLabels() {
+        // Mauslistener
+        ListenerMaus lis_maus = new ListenerMaus(hauptfenster);
         for (int i = 0; i < Hauptfenster.max_y; i++) {
             for (int k = 0; k < Hauptfenster.max_x; k++) {
                 label[i][k] = new JLabel();
@@ -55,6 +58,7 @@ class Spielfeld extends JPanel {
                 }
                 label[i][k].setPreferredSize(new Dimension(50, 50));
                 label[i][k].setOpaque(true);
+                label[i][k].addMouseListener(lis_maus);
                 this.add(label[i][k]);
             }
         }
@@ -127,5 +131,13 @@ class Spielfeld extends JPanel {
     public void setImgSrc() {
         img_source = Hauptfenster.getDirectory();
         img_source = img_source + "image" + separator + hauptfenster.getTheme();
+    }
+
+    /**
+     * Methode, die das Spielfeldarray zurueckgibt
+     *
+     */
+    public JLabel[][] getLabel() {
+        return label;
     }
 }

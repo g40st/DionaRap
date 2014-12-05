@@ -3,6 +3,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+import de.fhwgt.dionarap.controller.DionaRapController;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,6 +20,10 @@ import java.awt.event.ActionEvent;
 class ListenerMaus extends MouseAdapter implements ActionListener {
     // Objekt des Hauptfensters
     Hauptfenster hauptfenster;
+    JLabel[][] label = new JLabel [Hauptfenster.max_y][Hauptfenster.max_x];
+    int x;
+    int y;
+    DionaRapController drcp;
     JPopupMenu popupMenu;
     JMenuItem dracula;
     JMenuItem spaceWars;
@@ -40,15 +47,55 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
         spaceWars.addActionListener(this);
         popupMenu.add(squareHead = new JMenuItem("SquareHead", new ImageIcon(img_source + "image" + separator + "SquareHead" + separator + "popup.gif")));
         squareHead.addActionListener(this);
+
     }
 
     /**
      * Eventhandler fuer das Event <code>mouseClicked</code>
-     *
+     * Event, erzeugt ein Popup-Menue bei Rechtsklick auf die Spielflaeche
+     * Event, das bei Linksklick auf ein benachbartes Feld den Spieler bewegt bzw. schießt
      */
-    public void mouseClicked(MouseEvent e) { // Anzeigen des Popup-Menues bei Rechtsklick
-        if(e.getButton() == 3) {
+    public void mouseClicked(MouseEvent e) {
+        if(e.getButton() == 3) { // Anzeigen des Popup-Menues bei Rechtsklick
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
+        } else if (e.getButton() == 1) { // bewegt den Spieler bei Linksklick auf ein benachbartes Feld
+            label = hauptfenster.getSpielfeld().getLabel();
+            y = hauptfenster.getPlayer().getY();
+            x = hauptfenster.getPlayer().getX();
+            drcp = (DionaRapController) hauptfenster.getDionaRapController();
+            for (int i = 0; i < Hauptfenster.max_y; i++) {
+                for (int k = 0; k < Hauptfenster.max_x; k++) {
+                    if(e.getSource().equals(label[i][k])) {
+                        if(i == y && k == x) {
+                            drcp.shoot();
+                        } else if(y - i == -1 && x - k == 1) {
+                            hauptfenster.getSpielfeld().setLastDirection(1);
+                            drcp.movePlayer(1);
+                        } else if(y - i == -1 && x - k == 0) {
+                            hauptfenster.getSpielfeld().setLastDirection(2);
+                            drcp.movePlayer(2);
+                        } else if(y - i == -1 && x - k == -1) {
+                            hauptfenster.getSpielfeld().setLastDirection(3);
+                            drcp.movePlayer(3);
+                        } else if(y - i == 0 && x - k == -1) {
+                            hauptfenster.getSpielfeld().setLastDirection(6);
+                            drcp.movePlayer(6);
+                        } else if(y - i == 1 && x - k == -1) {
+                            hauptfenster.getSpielfeld().setLastDirection(9);
+                            drcp.movePlayer(9);
+                        } else if(y - i == 1 && x - k == 0) {
+                            hauptfenster.getSpielfeld().setLastDirection(8);
+                            drcp.movePlayer(8);
+                        } else if(y - i == 1 && x - k == 1) {
+                            hauptfenster.getSpielfeld().setLastDirection(7);
+                            drcp.movePlayer(7);
+                        } else if(y - i == 0 && x - k == 1) {
+                            hauptfenster.getSpielfeld().setLastDirection(4);
+                            drcp.movePlayer(4);
+                        }
+                    }
+                }
+            }
         }
     }
 

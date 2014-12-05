@@ -34,7 +34,7 @@ public class Hauptfenster extends JFrame {
     Navigator navigator;
     Spielfeld spielfeld;
     Toolbar toolbar;
-    int opponents = 3;
+    int opponents = 0;
     boolean displayFlag = false;
     boolean runningFlag = true;
     boolean wonFlag = false;
