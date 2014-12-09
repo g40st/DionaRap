@@ -36,7 +36,6 @@ class Navigator extends JWindow {
         addPolygon();
         Rectangle nav_pos = parent.getBounds();
         this.setLocation(((int)nav_pos.getX()) + parent.getWidth() + nav_pos_const, ((int) nav_pos.getY()));
-        this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         this.setShape(octagon);
         tastatur = new Tastatur();
         this.add(tastatur, BorderLayout.NORTH);

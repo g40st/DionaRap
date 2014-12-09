@@ -38,6 +38,9 @@ public class Hauptfenster extends JFrame {
     int opponents = 3;
     // Multithreading-Configuration
     MTConfiguration conf;
+    // fuer die Position des Fensters
+    static int pos_x = 0;
+    static int pos_y = 0;
     boolean displayFlag = false;
     boolean runningFlag = true;
     boolean wonFlag = false;
@@ -77,7 +80,11 @@ public class Hauptfenster extends JFrame {
 
         this.pack();
         // Hauptfenster in der Mitte platzieren
-        this.setLocationRelativeTo(null);
+        if(pos_y == 0 && pos_x == 0) {
+            this.setLocationRelativeTo(null);
+        } else {
+            this.setLocation(pos_x, pos_y);
+        }
         this.setVisible(true);
         this.requestFocusInWindow();
     }
@@ -259,6 +266,8 @@ public class Hauptfenster extends JFrame {
      * Methode, erzeugt ein neues Spiel
      */
     public void newGame() {
+        pos_y = this.getY();
+        pos_x = this.getX();
         this.dispose();
         h = new Hauptfenster("DionaRap");
     }
