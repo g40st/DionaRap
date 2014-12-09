@@ -34,6 +34,7 @@ class ListenerModel implements DionaRapListener {
      * Event, dass bei einer Spielaenderung alle Spielfiguren loescht und wieder neu setzt
      */
     public void modelChanged(DionaRapChangedEvent e) {
+        hauptfenster.getToolbar().setAmmoIcons(hauptfenster.getDionaRapModel().getShootAmount());
         hauptfenster.getToolbar().setScore(hauptfenster.getDionaRapModel().getScore());
         hauptfenster.getToolbar().setProgress(hauptfenster.getProgress());
         hauptfenster.setRender(true, gameRunning, gameWon);

@@ -1,8 +1,7 @@
-import javax.swing.JFrame;
-
 import java.awt.Rectangle;
 import java.awt.BorderLayout;
 
+import javax.swing.JFrame;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
@@ -14,6 +13,7 @@ import de.fhwgt.dionarap.model.objects.Player;
 import de.fhwgt.dionarap.model.objects.Opponent;
 import de.fhwgt.dionarap.controller.DionaRapController;
 import de.fhwgt.dionarap.model.data.MTConfiguration;
+import de.fhwgt.dionarap.model.data.Grid;
 
 /**
  * Hauptfenster
@@ -23,10 +23,10 @@ import de.fhwgt.dionarap.model.data.MTConfiguration;
  * @version 1.0
  */
 public class Hauptfenster extends JFrame {
-    // gibt die Anzahl der Felder in x-Richtung an
-    static final int max_x = 16;
-    // gibt die Anzahl der Felder in y-Richtung an
-    static final int max_y = 10;
+    // ein Spielfeld anlegen
+    Grid grid = new Grid(10, 16);
+    // objekt des Hauptfensters
+    static Hauptfenster h;
     // ausgewaehltes Theme zu beginn
     String theme = "Dracula";
     DionaRapModel dionaRapModel;
@@ -34,7 +34,10 @@ public class Hauptfenster extends JFrame {
     Navigator navigator;
     Spielfeld spielfeld;
     Toolbar toolbar;
-    int opponents = 0;
+    // Anzahl der Gegner
+    int opponents = 3;
+    // Multithreading-Configuration
+    MTConfiguration conf;
     boolean displayFlag = false;
     boolean runningFlag = true;
     boolean wonFlag = false;
@@ -53,10 +56,6 @@ public class Hauptfenster extends JFrame {
         this.setResizable(false); // verhindert Groeßenaenderung des Fensters
         this.setLayout(new BorderLayout());
 
-        // Spielfeld hinzufuegen
-        spielfeld = new Spielfeld(this);
-        this.add(spielfeld, BorderLayout.SOUTH);
-
         // Initialisierung Controller und Model
         newDionaRap();
 
@@ -65,10 +64,10 @@ public class Hauptfenster extends JFrame {
 
         // Toolbar hinzufuegen
         toolbar = new Toolbar(this);
-        this.add(toolbar, BorderLayout.CENTER);
+        this.add(toolbar, BorderLayout.NORTH);
 
         // Menueleiste hinzufuegen
-        this.add(new MenueLeiste(this), BorderLayout.NORTH);
+        this.setJMenuBar(new MenueLeiste(this));
 
         // Listener hinzufuegen
         this.addComponentListener(new ListenerFenster(this, navigator, navigator.nav_pos_const));
@@ -84,21 +83,49 @@ public class Hauptfenster extends JFrame {
     }
 
     /**
-     * Methode, die die Spielelogik initialisiert (DionaRapModel und DionaRapController)
+     * Methode, die die Spielelogik und das Spielfeld initialisiert (DionaRapModel,DionaRapController und Spielfeld)
      *
      */
     public void newDionaRap() {
-        dionaRapModel = new DionaRapModel(max_y, max_x, opponents, 4);
+        dionaRapModel = new DionaRapModel(grid.getGridSizeY(), grid.getGridSizeX(), opponents, 4);
+        // Anzahl der Munition zu beginn des Spiels
+        dionaRapModel.setShootAmount(5);
+        // Spielfeld hinzufuegen
+        spielfeld = new Spielfeld(this);
+        this.add(spielfeld, BorderLayout.CENTER);
         spielfeld.setLastDirection(0);
         dionaRapModel.addModelChangedEventListener(new ListenerModel(this, spielfeld));
         spielfeld.drawAllPawns(getPawns());
         dionaRapController = new DionaRapController(dionaRapModel);
-        //MTConfiguration c = new MTConfiguration();
-        //c.setShotGetsOwnThread(true);
-        //c.setShotWaitTime(200);
-        //c.setOpponentStartWaitTime(10000000);
+        // Anlegen der Multithreading-Configuration
+        addMTConfiguration();
+        dionaRapController.setMultiThreaded(conf);
+    }
 
-        dionaRapController.deactivateMultiThreading();
+    /**
+     * Methode, die die MultiThreading-Variablen setzt
+     *
+     */
+    private void addMTConfiguration() {
+        conf = new MTConfiguration();
+        conf.setAlgorithmAStarActive(true);
+        conf.setAvoidCollisionWithObstacles(true);
+        conf.setAvoidCollisionWithOpponent(false);
+        conf.setMinimumTime(800);
+        conf.setShotGetsOwnThread(true);
+        conf.setOpponentStartWaitTime(5000);
+        conf.setOpponentWaitTime(2000);
+        conf.setShotWaitTime(200);
+        conf.setRandomOpponentWaitTime(false);
+        conf.setDynamicOpponentWaitTime(false);
+    }
+
+    /**
+     * get-Methode, gibt die Multithreading-Configuration zurueck
+     *
+     */
+    public MTConfiguration getConf() {
+        return conf;
     }
 
     /**
@@ -214,22 +241,26 @@ public class Hauptfenster extends JFrame {
      *
      * @param falls true wird die Toolbar im CENTER-Bereich positioniert / false dann im SOUTH-Bereich
      */
-    public void setToolbarPosition(boolean center) {
-        if(center) {
-            this.remove(spielfeld);
+    public void setToolbarPosition(boolean north) {
+        if(north) {
             this.remove(toolbar);
-            this.add(spielfeld, BorderLayout.SOUTH);
-            this.add(toolbar, BorderLayout.CENTER);
+            this.add(toolbar, BorderLayout.NORTH);
             this.pack();
 
         }
         else {
-            this.remove(spielfeld);
             this.remove(toolbar);
-            this.add(spielfeld, BorderLayout.CENTER);
             this.add(toolbar, BorderLayout.SOUTH);
             this.pack();
         }
+    }
+
+    /**
+     * Methode, erzeugt ein neues Spiel
+     */
+    public void newGame() {
+        this.dispose();
+        h = new Hauptfenster("DionaRap");
     }
 
     /**
@@ -238,7 +269,7 @@ public class Hauptfenster extends JFrame {
      * @param args Kommandozeilenparameter (nicht verwendet)
      */
     public static void main(String[] args) {
-        Hauptfenster h = new Hauptfenster("DionaRap");
+        h = new Hauptfenster("DionaRap");
 
         // "Render loop" Proof-of-Concept
         while (true) {
@@ -282,8 +313,7 @@ public class Hauptfenster extends JFrame {
         }
         if(result == 0) {
             spielfeld.delAllPawns();
-            newDionaRap();
-            getToolbar().setDefault();
+            newGame();
         }
     }
 }

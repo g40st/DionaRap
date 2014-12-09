@@ -19,6 +19,9 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.AbstractButton;
 import javax.swing.SwingUtilities;
 import javax.swing.JScrollPane;
+import javax.swing.JFileChooser;
+import javax.swing.JDialog;
+import de.fhwgt.dionarap.levelreader.LevelReader;
 
 /**
  * Menueleiste
@@ -31,9 +34,9 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
     Hauptfenster hauptfenster;
     // Flag, ob die Toolbar sichtbar ist
     boolean toolbar_view = true;
-    // Flag für die Position der Toolbar (wenn Center dann true)
-    boolean center = true;
-    // // Flag, ob die Toolbar sichtbar ist
+    // Flag für die Position der Toolbar (wenn North dann true)
+    boolean north = true;
+    // Flag, ob die Toolbar sichtbar ist
     boolean navigator = true;
     // Array indem alle Look and Feels gespeichert werden
     UIManager.LookAndFeelInfo [] lookandfeelinfo;
@@ -120,6 +123,11 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         }
         view.add(look_and_feel);
 
+        //Level Reader
+        read_level = new JMenuItem("Level einlesen");
+        read_level.addActionListener(this);
+        config.add(read_level);
+
         // setzen Separator
         view.insertSeparator(2);
         view.insertSeparator(4);
@@ -133,6 +141,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Fuer jedes Element in der Menueleiste wird das jeweilige Event abgearbeitet
      * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern
+     *         Einlesen von XML-Dateien(Levelreader)
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view_toolbar) { // Ein-/Ausblenden der Toolbar
@@ -151,16 +160,16 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         }
 
         if (e.getSource() == toolbar_oben) { // positionieren der toolbar am oberen Rand
-                center = true;
-                hauptfenster.setToolbarPosition(center);
+                north = true;
+                hauptfenster.setToolbarPosition(north);
                 toolbar_unten.setEnabled(true);
                 toolbar_oben.setEnabled(false);
                 hauptfenster.pack();
         }
 
         if (e.getSource() == toolbar_unten) { // positionieren der toolbar am unteren Rand
-                center = false;
-                hauptfenster.setToolbarPosition(center);
+                north = false;
+                hauptfenster.setToolbarPosition(north);
                 toolbar_unten.setEnabled(false);
                 toolbar_oben.setEnabled(true);
                 hauptfenster.pack();
@@ -177,6 +186,19 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                 navigator = true;
                 hauptfenster.pack();
             }
+        }
+
+        if (e.getSource() == read_level) { // XML Datei einlesen (LevelReader)
+                JFileChooser chooser = new JFileChooser(Hauptfenster.getDirectory() + "level");
+                chooser.showOpenDialog(hauptfenster);
+                hauptfenster.getSpielfeld().delAllLabels();
+                LevelReader levelreader = new LevelReader(hauptfenster.getConf(), hauptfenster.getDionaRapModel());
+                levelreader.readLevel(chooser.getSelectedFile().toString());
+                hauptfenster.getSpielfeld().addJLabels();
+                hauptfenster.getSpielfeld().delAllPawns();
+                hauptfenster.getSpielfeld().drawAllPawns(hauptfenster.getPawns());
+                hauptfenster.getToolbar().setAmmoIcons(hauptfenster.getDionaRapModel().getShootAmount());
+                hauptfenster.pack();
         }
 
         if (e.getSource() == game_description) { // Anzeigen der Spielbeschreibung (erzeugen des JDialog und JEditorPane)

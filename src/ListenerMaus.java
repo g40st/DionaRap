@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 class ListenerMaus extends MouseAdapter implements ActionListener {
     // Objekt des Hauptfensters
     Hauptfenster hauptfenster;
-    JLabel[][] label = new JLabel [Hauptfenster.max_y][Hauptfenster.max_x];
+    JLabel[][] label;
     int x;
     int y;
     DionaRapController drcp;
@@ -59,12 +59,13 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
         if(e.getButton() == 3) { // Anzeigen des Popup-Menues bei Rechtsklick
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
         } else if (e.getButton() == 1) { // bewegt den Spieler bei Linksklick auf ein benachbartes Feld
+            label = new JLabel [hauptfenster.getDionaRapModel().getGrid().getGridSizeY()][hauptfenster.getDionaRapModel().getGrid().getGridSizeX()];
             label = hauptfenster.getSpielfeld().getLabel();
             y = hauptfenster.getPlayer().getY();
             x = hauptfenster.getPlayer().getX();
             drcp = (DionaRapController) hauptfenster.getDionaRapController();
-            for (int i = 0; i < Hauptfenster.max_y; i++) {
-                for (int k = 0; k < Hauptfenster.max_x; k++) {
+            for (int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {
+                for (int k = 0; k < hauptfenster.getDionaRapModel().getGrid().getGridSizeX(); k++) {
                     if(e.getSource().equals(label[i][k])) {
                         if(i == y && k == x) {
                             drcp.shoot();

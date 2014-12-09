@@ -19,7 +19,7 @@ import de.fhwgt.dionarap.model.objects.*;
 class Spielfeld extends JPanel {
     Hauptfenster hauptfenster;
     // Array fuer das Spielfeld
-    JLabel[][] label = new JLabel [Hauptfenster.max_y][Hauptfenster.max_x];
+    JLabel[][] label;
     // home-directory
     String img_source = Hauptfenster.getDirectory();
     // Separator
@@ -36,7 +36,6 @@ class Spielfeld extends JPanel {
      */
     Spielfeld(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
-        this.setLayout(new GridLayout(Hauptfenster.max_y, Hauptfenster.max_x));
         img_source = img_source + "image" + separator + hauptfenster.getTheme();
         addJLabels();
     }
@@ -44,22 +43,33 @@ class Spielfeld extends JPanel {
     /**
      * Methode erzeugt das Spielfeld entsprechend der Vorgabe mit abwechselnder JLabel-Hintergrundfarbe
      */
-    private void addJLabels() {
-        // Mauslistener
+    public void addJLabels() {
+        this.setLayout(new GridLayout(hauptfenster.getDionaRapModel().getGrid().getGridSizeY(), hauptfenster.getDionaRapModel().getGrid().getGridSizeX()));
+        label = new JLabel [hauptfenster.getDionaRapModel().getGrid().getGridSizeY()][hauptfenster.getDionaRapModel().getGrid().getGridSizeX()];
         ListenerMaus lis_maus = new ListenerMaus(hauptfenster);
-        for (int i = 0; i < Hauptfenster.max_y; i++) {
-            for (int k = 0; k < Hauptfenster.max_x; k++) {
+        for (int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {
+            for (int k = 0; k < hauptfenster.getDionaRapModel().getGrid().getGridSizeX(); k++) {
                 label[i][k] = new JLabel();
                 if((i+k) % 2 == 0) {    // Modulo-Operation fuer abwechselnde Felder
                     label[i][k].setBackground(Color.BLACK);
-                }
-                else {
+                } else {
                     label[i][k].setBackground(Color.WHITE);
                 }
                 label[i][k].setPreferredSize(new Dimension(50, 50));
                 label[i][k].setOpaque(true);
                 label[i][k].addMouseListener(lis_maus);
                 this.add(label[i][k]);
+            }
+        }
+    }
+
+    /**
+     * Methode loescht alle Labels aus dem JPanel
+     */
+    public void delAllLabels() {
+        for (int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {
+            for (int k = 0; k < hauptfenster.getDionaRapModel().getGrid().getGridSizeX(); k++) {
+                this.remove(label[i][k]);
             }
         }
     }
@@ -93,7 +103,7 @@ class Spielfeld extends JPanel {
             } else if(spielfiguren[i] instanceof Destruction) {
                 label[spielfiguren[i].getY()][spielfiguren[i].getX()].setIcon(new ImageIcon(img_source + separator + "destruction.gif"));
             } else if(spielfiguren[i] instanceof Ammo) {
-                label[spielfiguren[i].getY()][spielfiguren[i].getX()].setIcon(new ImageIcon(img_source + separator + "ammo.gif"));
+                label[spielfiguren[i].getY()][spielfiguren[i].getX()].setIcon(new ImageIcon(img_source + separator + "ammo.png"));
             }
         }
     }
@@ -117,8 +127,8 @@ class Spielfeld extends JPanel {
      *
      */
     public void delAllPawns() {
-        for(int i = 0; i < Hauptfenster.max_y; i++) {
-            for(int k = 0; k < Hauptfenster.max_x; k++) {
+        for(int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {
+            for(int k = 0; k < hauptfenster.getDionaRapModel().getGrid().getGridSizeX(); k++) {
                 label[i][k].setIcon(null);
             }
         }
@@ -140,4 +150,6 @@ class Spielfeld extends JPanel {
     public JLabel[][] getLabel() {
         return label;
     }
+
+
 }

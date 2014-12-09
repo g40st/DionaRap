@@ -4,6 +4,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.GridLayout;
+import java.awt.ComponentOrientation;
 
 /**
  * Toolbar
@@ -14,6 +22,8 @@ import javax.swing.JProgressBar;
  */
 class Toolbar extends JToolBar {
     Hauptfenster hauptfenster;
+    // Separator
+    String separator = Hauptfenster.getSeparator();
     JButton newGame;
     JButton list;
     JPanel score;
@@ -21,6 +31,8 @@ class Toolbar extends JToolBar {
     JPanel progress;
     JTextField textfield_score;
     JProgressBar progressbar;
+    JLabel arr_ammo[] = new JLabel [3];
+    int countAmmo;
 
     /**
      * Konstruktor der Klasse Toolbar
@@ -54,6 +66,15 @@ class Toolbar extends JToolBar {
         ammo = new JPanel();
         ammo.setToolTipText("Zeigt den aktuellen Munitionsvorrat an");
         ammo.setBorder(BorderFactory.createTitledBorder("Munition"));
+        ammo.setLayout(new GridLayout(1, 3, 10, 10));
+        for(int i = 0; i < 3; i++) {
+            arr_ammo[i] = new JLabel();
+            arr_ammo[i].setSize(30 ,30);
+            arr_ammo[i].setPreferredSize(new Dimension(30, 30));
+            arr_ammo[i].setHorizontalAlignment(JLabel.CENTER);
+        }
+        setAmmoIcons(hauptfenster.getDionaRapModel().getShootAmount());
+
         this.add(ammo);
 
         // Anlegen Spielfortschritt
@@ -70,11 +91,10 @@ class Toolbar extends JToolBar {
         list = new JButton("Bestenliste");
         list.setActionCommand("11");
         this.add(list);
-
     }
 
     /**
-     * Methode setzt den NeuesSpiel-Button auf aktiv
+     * Methode setzt den "Neues Spiel"-Button auf aktiv
      *
      */
     public void setEnabled() {
@@ -82,7 +102,7 @@ class Toolbar extends JToolBar {
     }
 
     /**
-     * Methode setzt den NeuesSpiel-Button auf inaktiv
+     * Methode setzt den "Neues Spiel"-Button auf inaktiv
      *
      */
     public void setDisabled() {
@@ -106,16 +126,6 @@ class Toolbar extends JToolBar {
     }
 
     /**
-     * Methode setzt den NeuesSpiel-Button, Punktestand und Spielfortschritt auf default
-     *
-     */
-    public void setDefault() {
-        newGame.setEnabled(false);
-        textfield_score.setText(String.valueOf(0));
-        progressbar.setValue(0);
-    }
-
-    /**
      * Methode blendet die Toolbar aus
      *
      */
@@ -129,5 +139,42 @@ class Toolbar extends JToolBar {
      */
     public void setEnabledToolbar() {
         this.setVisible(true);
+    }
+
+    /**
+     * Methode zeichnet die Munitionsanzeige in der Toolbar
+     *
+     */
+    public void setAmmoIcons(int countAmmo) {
+        String img_source = Hauptfenster.getDirectory() + "image" + separator + hauptfenster.getTheme();
+        ImageIcon img_ammo = new ImageIcon(img_source + separator + "ammo_small.png");
+        if(this.countAmmo != countAmmo) {
+            this.countAmmo = countAmmo;
+            for (int i = 0; i < 3 ; i++) {
+                arr_ammo[i].setText(null);
+                arr_ammo[i].setIcon(null);
+                arr_ammo[i].setBorder(null);
+                ammo.remove(arr_ammo[i]);
+                ammo.add(arr_ammo[i]);
+            }
+            if(countAmmo <= 3) {
+                for (int i = 0; i < countAmmo; i++) {
+                    arr_ammo[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    arr_ammo[i].setIcon(img_ammo);
+                    ammo.add(arr_ammo[i]);
+                }
+            } else {
+                arr_ammo[0].setBorder(null);
+                arr_ammo[0].setText("*" + String.valueOf(countAmmo));
+                ammo.add(arr_ammo[0]);
+                arr_ammo[1].setIcon(img_ammo);
+                arr_ammo[1].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                ammo.add(arr_ammo[1]);
+                arr_ammo[2].setIcon(img_ammo);
+                arr_ammo[2].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                ammo.add(arr_ammo[2]);
+            }
+        }
+        ammo.updateUI();
     }
 }
