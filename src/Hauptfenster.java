@@ -41,6 +41,8 @@ public class Hauptfenster extends JFrame {
     // fuer die Position des Fensters
     static int pos_x = 0;
     static int pos_y = 0;
+    // Component Listener
+    ListenerFenster lis_component;
     boolean displayFlag = false;
     boolean runningFlag = true;
     boolean wonFlag = false;
@@ -73,7 +75,7 @@ public class Hauptfenster extends JFrame {
         this.setJMenuBar(new MenueLeiste(this));
 
         // Listener hinzufuegen
-        this.addComponentListener(new ListenerFenster(this, navigator, navigator.nav_pos_const));
+        this.addComponentListener(lis_component = new ListenerFenster(this, navigator, navigator.nav_pos_const));
         this.addKeyListener(new ListenerKeyEvents());
         this.addMouseListener(new ListenerMaus(this));
         this.setFocusable(true);
@@ -133,6 +135,14 @@ public class Hauptfenster extends JFrame {
      */
     public MTConfiguration getConf() {
         return conf;
+    }
+
+    /**
+     * get-Methode, gibt den ListenerBewegung zurueck
+     *
+     */
+    public ListenerFenster getListenerFenster() {
+        return lis_component;
     }
 
     /**

@@ -2,6 +2,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ComponentEvent;
 
 import java.lang.Exception;
 import java.io.IOException;
@@ -189,15 +190,24 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         }
 
         if (e.getSource() == read_level) { // XML Datei einlesen (LevelReader)
+                // Filechooser fuer die XML Datei
                 JFileChooser chooser = new JFileChooser(Hauptfenster.getDirectory() + "level");
                 chooser.showOpenDialog(hauptfenster);
+                // Alle Labels des bisherigen Spielfeldes loeschen
                 hauptfenster.getSpielfeld().delAllLabels();
+                // Levelreader ausfuehren
                 LevelReader levelreader = new LevelReader(hauptfenster.getConf(), hauptfenster.getDionaRapModel());
                 levelreader.readLevel(chooser.getSelectedFile().toString());
+                // neues Spielfeld zeichnen
                 hauptfenster.getSpielfeld().addJLabels();
                 hauptfenster.getSpielfeld().delAllPawns();
                 hauptfenster.getSpielfeld().drawAllPawns(hauptfenster.getPawns());
                 hauptfenster.getToolbar().setAmmoIcons(hauptfenster.getDionaRapModel().getShootAmount());
+                // neue Multithreading-Configuration setzen
+                hauptfenster.getDionaRapController().setMultiThreaded(hauptfenster.getDionaRapModel().getActiveConfiguration());
+                // den Navigator zum Hauptfenster positionieren
+                ListenerFenster lis = hauptfenster.getListenerFenster();
+                lis.componentMoved(new ComponentEvent(hauptfenster, ComponentEvent.COMPONENT_MOVED));
                 hauptfenster.pack();
         }
 
