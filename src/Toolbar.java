@@ -113,7 +113,7 @@ class Toolbar extends JToolBar {
      * Methode setzt den Punktestand
      *
      */
-    public void setScore(int score) {
+    private void setScore(int score) {
         textfield_score.setText(String.valueOf(score));
     }
 
@@ -121,7 +121,7 @@ class Toolbar extends JToolBar {
      * Methode setzt den Spielfortschritt
      *
      */
-    public void setProgress(int progress) {
+    private void setProgress(int progress) {
         progressbar.setValue(progress);
     }
 
@@ -145,7 +145,7 @@ class Toolbar extends JToolBar {
      * Methode zeichnet die Munitionsanzeige in der Toolbar
      *
      */
-    public void setAmmoIcons(int countAmmo) {
+    private void setAmmoIcons(int countAmmo) {
         String img_source = Hauptfenster.getDirectory() + "image" + separator + hauptfenster.getTheme();
         ImageIcon img_ammo = new ImageIcon(img_source + separator + "ammo_small.png");
         if(this.countAmmo != countAmmo) {
@@ -176,5 +176,15 @@ class Toolbar extends JToolBar {
             }
         }
         ammo.updateUI();
+    }
+
+    /**
+     * Methode updatet die Toolbar-Elemente (Munitionsanzeige, Punktestand, Fortschritt)
+     *@param aktuelle Munitionsvorrat, aktueller Punktestand, aktueller Fortschritt wird uebergeben
+     */
+    public void updateToolbar(int countAmmo, int score, int progress) {
+        setAmmoIcons(countAmmo);
+        setScore(score);
+        setProgress(progress);
     }
 }

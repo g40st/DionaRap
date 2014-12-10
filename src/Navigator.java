@@ -32,13 +32,12 @@ class Navigator extends JWindow {
     Navigator(JFrame parent) {
         super(parent);
         hauptfenster = (Hauptfenster) parent;
-        this.setLayout(new BorderLayout());
         addPolygon();
         Rectangle nav_pos = parent.getBounds();
         this.setLocation(((int)nav_pos.getX()) + parent.getWidth() + nav_pos_const, ((int) nav_pos.getY()));
         this.setShape(octagon);
         tastatur = new Tastatur();
-        this.add(tastatur, BorderLayout.NORTH);
+        this.add(tastatur);
         this.pack();
         this.setVisible(true);
     }

@@ -114,6 +114,7 @@ class Spielfeld extends JPanel {
      */
     public void gameStatusEnd(Player player, boolean gameWon) {
         if(!gameWon) {
+            System.out.println("Spiel verloren");
             label[player.getY()][player.getX()].setIcon(null);
             label[player.getY()][player.getX()].setIcon(new ImageIcon(img_source + separator + viewing_direction[10]));
         } else if (gameWon) {
@@ -151,5 +152,12 @@ class Spielfeld extends JPanel {
         return label;
     }
 
-
+    /**
+     * Methode, die alle Spielfiguren neu zeichnet
+     *
+     */
+    public void drawNew() {
+        delAllPawns();
+        drawAllPawns(hauptfenster.getPawns());
+    }
 }

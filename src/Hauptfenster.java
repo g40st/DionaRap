@@ -3,8 +3,6 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 
 import de.fhwgt.dionarap.model.data.DionaRapModel;
@@ -103,7 +101,7 @@ public class Hauptfenster extends JFrame {
         spielfeld = new Spielfeld(this);
         this.add(spielfeld, BorderLayout.CENTER);
         spielfeld.setLastDirection(0);
-        dionaRapModel.addModelChangedEventListener(new ListenerModel(this, spielfeld));
+        dionaRapModel.addModelChangedEventListener(new ListenerModel(this));
         spielfeld.drawAllPawns(getPawns());
         dionaRapController = new DionaRapController(dionaRapModel);
         // Anlegen der Multithreading-Configuration
@@ -246,13 +244,6 @@ public class Hauptfenster extends JFrame {
         spielfeld.drawAllPawns(getPawns());
     }
 
-
-    public void setRender(boolean f, boolean running, boolean won) {
-        displayFlag = f;
-        runningFlag = running;
-        wonFlag = won;
-    }
-
     /**
      * set-Methode, vertauscht das Spielfeld mit der Toolbar
      *
@@ -289,50 +280,5 @@ public class Hauptfenster extends JFrame {
      */
     public static void main(String[] args) {
         h = new Hauptfenster("DionaRap");
-
-        // "Render loop" Proof-of-Concept
-        while (true) {
-            if (h.displayFlag) {
-                h.spielfeld.delAllPawns();
-                h.spielfeld.drawAllPawns(h.getPawns());
-                h.displayFlag = false;
-            }
-
-            if (!h.runningFlag) {
-                h.spielfeld.gameStatusEnd(h.getPlayer(), h.wonFlag);
-                h.getToolbar().setEnabled();
-                h.addDialog(h.wonFlag);
-                h.runningFlag = true;
-            }
-
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-            }
-        }
-    }
-
-    /**
-     * Methode, die das JDialogPane zeichnet und nach "Neues Spiel / Abbrechen" fraegt
-     *
-     *@param boolean ob das Spiel gewonnen oder verloren, Reaktion auf den Button "Neues Spiel"
-     */
-    private void addDialog(boolean gameWon) {
-        String separator = getSeparator();
-        String img_source = getDirectory() + "image" + separator + getTheme();
-        String[] choices = {"Neues Spiel", "Abbrechen"};
-        ImageIcon lose = new ImageIcon(img_source + separator + "gameover.gif");
-        ImageIcon win = new ImageIcon(img_source + separator + "win.gif");
-        int result;
-        if(gameWon) {
-            result = JOptionPane.showOptionDialog(this, "Sie haben das Spiel gewonnen!", "Win", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, win, choices, "Neues Spiel");
-        }
-        else {
-            result = JOptionPane.showOptionDialog(this, "Sie haben das Spiel verloren!", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, lose, choices, "Neues Spiel");
-        }
-        if(result == 0) {
-            spielfeld.delAllPawns();
-            newGame();
-        }
     }
 }

@@ -206,9 +206,10 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                 // neue Multithreading-Configuration setzen
                 hauptfenster.getDionaRapController().setMultiThreaded(hauptfenster.getDionaRapModel().getActiveConfiguration());
                 // den Navigator zum Hauptfenster positionieren
+                hauptfenster.pack();
                 ListenerFenster lis = hauptfenster.getListenerFenster();
                 lis.componentMoved(new ComponentEvent(hauptfenster, ComponentEvent.COMPONENT_MOVED));
-                hauptfenster.pack();
+
         }
 
         if (e.getSource() == game_description) { // Anzeigen der Spielbeschreibung (erzeugen des JDialog und JEditorPane)
