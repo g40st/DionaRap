@@ -145,7 +145,7 @@ class Toolbar extends JToolBar {
      * Methode zeichnet die Munitionsanzeige in der Toolbar
      *
      */
-    private void setAmmoIcons(int countAmmo) {
+    public void setAmmoIcons(int countAmmo) {
         String img_source = Hauptfenster.getDirectory() + "image" + separator + hauptfenster.getTheme();
         ImageIcon img_ammo = new ImageIcon(img_source + separator + "ammo_small.png");
         if(this.countAmmo != countAmmo) {
