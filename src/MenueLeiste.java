@@ -200,16 +200,14 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                 levelreader.readLevel(chooser.getSelectedFile().toString());
                 // neues Spielfeld zeichnen
                 hauptfenster.getSpielfeld().addJLabels();
-                hauptfenster.getSpielfeld().delAllPawns();
-                hauptfenster.getSpielfeld().drawAllPawns(hauptfenster.getPawns());
-                hauptfenster.getToolbar().setAmmoIcons(hauptfenster.getDionaRapModel().getShootAmount());
+                hauptfenster.getSpielfeld().drawNew();
+                hauptfenster.getToolbar().updateToolbar(hauptfenster.getDionaRapModel().getShootAmount(), hauptfenster.getDionaRapModel().getScore(), hauptfenster.getProgress());
                 // neue Multithreading-Configuration setzen
                 hauptfenster.getDionaRapController().setMultiThreaded(hauptfenster.getDionaRapModel().getActiveConfiguration());
                 // den Navigator zum Hauptfenster positionieren
                 hauptfenster.pack();
                 ListenerFenster lis = hauptfenster.getListenerFenster();
                 lis.componentMoved(new ComponentEvent(hauptfenster, ComponentEvent.COMPONENT_MOVED));
-
         }
 
         if (e.getSource() == game_description) { // Anzeigen der Spielbeschreibung (erzeugen des JDialog und JEditorPane)

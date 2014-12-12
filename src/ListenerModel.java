@@ -4,6 +4,9 @@ import de.fhwgt.dionarap.model.events.GameStatusEvent;
 
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import java.io.IOException;
+import de.fhwgt.dionarap.view.HighScoreFile;
 
 /**
  * ListenerModel
@@ -56,6 +59,16 @@ class ListenerModel implements DionaRapListener {
         hauptfenster.getToolbar().updateToolbar(hauptfenster.getDionaRapModel().getShootAmount(), hauptfenster.getDionaRapModel().getScore(), hauptfenster.getProgress());
         hauptfenster.getSpielfeld().gameStatusEnd(hauptfenster.getPlayer(), gameWon); // das Icon bei gewonnen oder verloren setzen
         hauptfenster.getToolbar().setEnabled(); // den "Neues Spiel"-Button auf aktiv setzen
+
+        int end_position = HighScoreFile.SCORE_TO_LOW_FOR_HIGHSCORE;
+        try{
+            end_position = HighScoreFile.getInstance().getScorePosition(hauptfenster.getDionaRapModel().getScore()); // auslesen der Position
+        } catch (IOException ex) {
+            System.err.println("File kann nicht gelesen werden: " + ex);
+        }
+        if(end_position != HighScoreFile.SCORE_TO_LOW_FOR_HIGHSCORE) {
+            addBestlist();
+        }
         addDialog(gameWon); // den Dialog zeichnen
     }
 
@@ -80,6 +93,48 @@ class ListenerModel implements DionaRapListener {
         if(result == 0) {
             hauptfenster.getSpielfeld().drawNew();
             hauptfenster.newGame();
+        }
+    }
+
+    /**
+     * Methode, die einen JDialog zeichnet und anschließen den Spieler an die richtige Stelle in der Bestenliste eintraegt
+     *
+     */
+    private void addBestlist() {
+        String separator = Hauptfenster.getSeparator();
+        String img_source = Hauptfenster.getDirectory() + "image" + separator + hauptfenster.getTheme();
+        String[] choices = {"Eintragen", "Abbrechen"};
+        int position = -1;
+        ImageIcon win = new ImageIcon(img_source + separator + "win.gif");
+        try{
+                position = HighScoreFile.getInstance().getScorePosition(hauptfenster.getDionaRapModel().getScore());
+        } catch (IOException ex) {
+                System.err.println("File kann nicht gelesen werden: " + ex);
+        }
+        System.out.println("Position: " + position);
+
+        JOptionPane optionPane = new JOptionPane();
+        optionPane.setMessage("Sie können sich in die Bestenliste auf Platz " + position + " eintragen. \n\nBitte geben Sie ihren Name ein:");
+        optionPane.setMessageType(JOptionPane.PLAIN_MESSAGE);
+        optionPane.setOptionType(JOptionPane.YES_NO_OPTION);
+        optionPane.setIcon(win);
+        optionPane.setWantsInput(true);
+        optionPane.setOptions(choices);
+        JDialog dialog = optionPane.createDialog(hauptfenster, "Sie haben das Spiel gewonnen!");
+        dialog.setVisible(true);
+
+        if(optionPane.getValue().equals("Eintragen")) {
+            String playername;
+            if(optionPane.getInputValue().toString().length() != 0) {
+                playername = optionPane.getInputValue().toString();
+            } else {
+                playername = "NoName";
+            }
+            try{
+                HighScoreFile.getInstance().writeScoreIntoFile(playername, hauptfenster.getDionaRapModel().getScore());
+            } catch (IOException ex) {
+                System.err.println("File kann nicht gelesen werden: " + ex);
+            }
         }
     }
 }

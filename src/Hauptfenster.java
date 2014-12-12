@@ -1,10 +1,12 @@
 import java.awt.Rectangle;
 import java.awt.BorderLayout;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 
+import de.fhwgt.dionarap.levelreader.LevelReader;
 import de.fhwgt.dionarap.model.data.DionaRapModel;
 import de.fhwgt.dionarap.model.objects.AbstractPawn;
 import de.fhwgt.dionarap.model.objects.Player;
@@ -23,8 +25,6 @@ import de.fhwgt.dionarap.model.data.Grid;
 public class Hauptfenster extends JFrame {
     // ein Spielfeld anlegen
     Grid grid = new Grid(10, 16);
-    // objekt des Hauptfensters
-    static Hauptfenster h;
     // ausgewaehltes Theme zu beginn
     String theme = "Dracula";
     DionaRapModel dionaRapModel;
@@ -34,6 +34,8 @@ public class Hauptfenster extends JFrame {
     Toolbar toolbar;
     // Anzahl der Gegner
     int opponents = 3;
+    // Anzahl der Hindernisse
+    int obstacles = 4;
     // Multithreading-Configuration
     MTConfiguration conf;
     // fuer die Position des Fensters
@@ -41,9 +43,9 @@ public class Hauptfenster extends JFrame {
     static int pos_y = 0;
     // Component Listener
     ListenerFenster lis_component;
-    boolean displayFlag = false;
-    boolean runningFlag = true;
-    boolean wonFlag = false;
+    // Flag ob ein Level mit dem Levelreader geladen wurde
+    static boolean level_read = false;
+    String str_level;
 
     /**
      * Standard Konstruktor der Klasse Hauptfenster
@@ -94,7 +96,7 @@ public class Hauptfenster extends JFrame {
      *
      */
     public void newDionaRap() {
-        dionaRapModel = new DionaRapModel(grid.getGridSizeY(), grid.getGridSizeX(), opponents, 4);
+        dionaRapModel = new DionaRapModel(grid.getGridSizeY(), grid.getGridSizeX(), opponents, obstacles);
         // Anzahl der Munition zu beginn des Spiels
         dionaRapModel.setShootAmount(5);
         // Spielfeld hinzufuegen
@@ -122,7 +124,7 @@ public class Hauptfenster extends JFrame {
         conf.setShotGetsOwnThread(true);
         conf.setOpponentStartWaitTime(5000);
         conf.setOpponentWaitTime(2000);
-        conf.setShotWaitTime(200);
+        conf.setShotWaitTime(300);
         conf.setRandomOpponentWaitTime(false);
         conf.setDynamicOpponentWaitTime(false);
     }
@@ -264,13 +266,22 @@ public class Hauptfenster extends JFrame {
     }
 
     /**
+     * set-Methode, setzt den LevelReader auf aktiv
+     * @param der Pfad zur ausgewaehlten XML-Datei wird uebergeben
+     */
+    public void setLevelRead(String str_level) {
+        level_read = true;
+        this.str_level = str_level;
+    }
+
+    /**
      * Methode, erzeugt ein neues Spiel
      */
     public void newGame() {
         pos_y = this.getY();
         pos_x = this.getX();
         this.dispose();
-        h = new Hauptfenster("DionaRap");
+        new Hauptfenster("DionaRap");
     }
 
     /**
@@ -279,6 +290,6 @@ public class Hauptfenster extends JFrame {
      * @param args Kommandozeilenparameter (nicht verwendet)
      */
     public static void main(String[] args) {
-        h = new Hauptfenster("DionaRap");
+        new Hauptfenster("DionaRap");
     }
 }

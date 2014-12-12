@@ -6,12 +6,21 @@ import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.GridLayout;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+
+import java.io.IOException;
+import de.fhwgt.dionarap.view.HighScoreFile;
 
 /**
  * Toolbar
@@ -20,10 +29,11 @@ import java.awt.ComponentOrientation;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class Toolbar extends JToolBar {
+class Toolbar extends JToolBar implements ActionListener {
     Hauptfenster hauptfenster;
     // Separator
     String separator = Hauptfenster.getSeparator();
+    String [] arr_list;
     JButton newGame;
     JButton list;
     JPanel score;
@@ -48,7 +58,7 @@ class Toolbar extends JToolBar {
         newGame = new JButton("Neues Spiel");
         newGame.setActionCommand("10");
         newGame.setEnabled(false);
-        newGame.addActionListener(new ListenerBewegung());
+        newGame.addActionListener(this);
         this.add(newGame);
 
         // Anlegen JPanel
@@ -90,6 +100,7 @@ class Toolbar extends JToolBar {
         // Anlegen Bestenliste
         list = new JButton("Bestenliste");
         list.setActionCommand("11");
+        list.addActionListener(this);
         this.add(list);
     }
 
@@ -186,5 +197,42 @@ class Toolbar extends JToolBar {
         setAmmoIcons(countAmmo);
         setScore(score);
         setProgress(progress);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if(Integer.parseInt(e.getActionCommand()) == 10) { // ActionEvent fuer den "Neues Spiel"-Button in der Toolbar
+            JButton btn = (JButton) e.getSource();
+            Hauptfenster hauptfenster = (Hauptfenster) btn.getTopLevelAncestor();
+            hauptfenster.newGame();
+            hauptfenster.requestFocus();
+        }
+        if(Integer.parseInt(e.getActionCommand()) == 11) { // ActionEvent fuer den "Bestenliste"-Button in der Toolbar
+            String[] columnNames = {"Spielername", "Punkte", "Rang"};
+            JFrame blist = new JFrame("Bestenliste");
+
+            // Auslesen der Bestenliste
+            try{
+                arr_list = HighScoreFile.getInstance().readFromHighscore();
+            } catch (IOException ex) {
+                System.err.println("File kann nicht gelesen werden: " + ex);
+            }
+
+            // 2-dimensoniales Array das der JTable uebergeben wird
+            String [][] arr_list2d = new String [10][3];
+            int count = 0;
+            for (int i = 0; i < 10; i++) { // fuellen des 2D-Arrays
+                for(int k = 0; k < 2; k++) {
+                    arr_list2d[i][k] = arr_list[count];
+                    count++;
+                }
+                arr_list2d[i][2] = String.valueOf(i+1);
+            }
+            JTable table = new JTable(arr_list2d, columnNames);
+            table.setRowHeight(30);
+            blist.add(new JScrollPane(table));
+            blist.setLocationRelativeTo(hauptfenster);
+            blist.setSize(350,350);
+            blist.setVisible(true);
+        }
     }
 }

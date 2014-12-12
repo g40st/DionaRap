@@ -31,12 +31,5 @@ class ListenerBewegung implements ActionListener {
 
             hauptfenster.requestFocus();
         }
-
-        if(Integer.parseInt(e.getActionCommand()) == 10) { // ActionEvent fuer den "Neues Spiel"-Button in der Toolbar
-            JButton btn = (JButton) e.getSource();
-            Hauptfenster hauptfenster = (Hauptfenster) btn.getTopLevelAncestor();
-            hauptfenster.newGame();
-            hauptfenster.requestFocus();
-        }
     }
 }
