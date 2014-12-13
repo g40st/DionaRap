@@ -26,10 +26,13 @@ class ListenerWaffe implements ActionListener {
         DionaRapController drcp = (DionaRapController) hauptfenster.getDionaRapController();
 
         if (hauptfenster.getDionaRapModel().getShootAmount() == 0) {
-            if(!(hauptfenster.getThread1().isAlive())) {
-                hauptfenster.getThread1().start();
+            if(hauptfenster.getThread1() == null) {
+               hauptfenster.createNewThread1();
+            } else if(!(hauptfenster.getThread1().isAlive())) {
+                hauptfenster.createNewThread1();
             }
         }
+
         drcp.shoot();
 
         hauptfenster.requestFocus();

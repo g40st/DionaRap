@@ -63,8 +63,6 @@ public class Hauptfenster extends JFrame {
      */
     Hauptfenster(String text) {
         super(text);
-        // Thread
-        t1 = new Thread1(this);
 
         // Frame-Definition
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -168,17 +166,16 @@ public class Hauptfenster extends JFrame {
      * get-Methode, gibt den Thread fuer das Blinken der Munitionsanzeige zurueck
      *
      */
-    public Thread getThread1 () {
+    public Thread getThread1() {
         return t1;
     }
 
     /**
      * set-Methode, startet den Thread fuer das Blinken der Munitionsanzeige
      *
-     * @param aktiver Thread
      */
-    public void setThread1 (Thread t1) {
-        this.t1 = t1;
+    public void createNewThread1() {
+        t1 = new Thread1(this);
         t1.start();
     }
 
@@ -325,42 +322,27 @@ public class Hauptfenster extends JFrame {
 
 class Thread1 extends Thread {
     private Hauptfenster hauptfenster;
-    private boolean red;
-    private long lastTime;
     private static final long blinkDelay = 500;
 
     Thread1(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
-        red = false;
-        lastTime = (new Date()).getTime();
     }
 
     public void run() {
-        while (true) {
-            if (hauptfenster.getDionaRapModel().getShootAmount() == 0) {
-                long time = (new Date()).getTime();
-                if (time >= (lastTime + blinkDelay)) {
-                    red = !red;
-                    JLabel[] ammo = hauptfenster.getToolbar().getArrAmmo();
-                    for (int i = 0; i < 3; i++) {
-                        if (red) {
-                            ammo[i].setBorder(BorderFactory.createLineBorder(Color.RED));
-                        } else {
-                            ammo[i].setBorder(BorderFactory.createEmptyBorder());
-                        }
-                    }
-                    hauptfenster.getToolbar().getAmmo().updateUI();
-                    lastTime = time;
-                    try {
-                        Thread.sleep(blinkDelay * 4 / 5); // Don't waste much CPU waiting
-                    } catch (InterruptedException ex) { }
+        for (int i = 0; (i < 6) && (hauptfenster.getDionaRapModel().getShootAmount() == 0); i++) {
+            JLabel[] ammo = hauptfenster.getToolbar().getArrAmmo();
+            for (int k = 0; k < 3; k++) {
+                if ((i % 2) == 0) {
+                    ammo[k].setBorder(BorderFactory.createLineBorder(Color.RED));
+                } else {
+                    ammo[k].setBorder(BorderFactory.createEmptyBorder());
                 }
-            } else {
-                red = false;
-                try {
-                    Thread.sleep(blinkDelay / 2); // Don't waste much CPU waiting
-                } catch (InterruptedException ex) { }
+                hauptfenster.getToolbar().getAmmo().updateUI();
             }
+
+            try {
+                Thread.sleep(blinkDelay); // Don't waste much CPU waiting
+            } catch (InterruptedException ex) { }
         }
     }
 }

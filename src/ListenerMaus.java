@@ -68,6 +68,13 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
                 for (int k = 0; k < hauptfenster.getDionaRapModel().getGrid().getGridSizeX(); k++) {
                     if(e.getSource().equals(label[i][k])) {
                         if(i == y && k == x) {
+                            if (hauptfenster.getDionaRapModel().getShootAmount() == 0) {
+                                if(hauptfenster.getThread1() == null) {
+                                    hauptfenster.createNewThread1();
+                                } else if(!(hauptfenster.getThread1().isAlive())) {
+                                    hauptfenster.createNewThread1();
+                                }
+                            }
                             drcp.shoot();
                         } else if(y - i == -1 && x - k == 1) {
                             hauptfenster.getSpielfeld().setLastDirection(1);
