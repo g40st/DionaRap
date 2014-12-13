@@ -1,10 +1,13 @@
 import java.awt.Rectangle;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentEvent;
+import java.awt.Color;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 import de.fhwgt.dionarap.levelreader.LevelReader;
 import de.fhwgt.dionarap.model.data.DionaRapModel;
@@ -33,7 +36,7 @@ public class Hauptfenster extends JFrame {
     Spielfeld spielfeld;
     Toolbar toolbar;
     // Anzahl der Gegner
-    int opponents = 3;
+    int opponents = 0;
     // Anzahl der Hindernisse
     int obstacles = 4;
     // Multithreading-Configuration
@@ -290,6 +293,41 @@ public class Hauptfenster extends JFrame {
      * @param args Kommandozeilenparameter (nicht verwendet)
      */
     public static void main(String[] args) {
-        new Hauptfenster("DionaRap");
+        Hauptfenster h = new Hauptfenster("DionaRap");
+        Thread t1 = new Thread1(h);
+        t1.start();
+    }
+
+}
+
+class Thread1 extends Thread {
+    private Hauptfenster hauptfenster;
+
+    Thread1(Hauptfenster hauptfenster) {
+        this.hauptfenster = hauptfenster;
+    }
+
+    public void run() {
+        while(true) {
+            try{
+                if(hauptfenster.getDionaRapModel().getShootAmount() == 0) {
+                    JLabel[] arr_ammo = hauptfenster.getToolbar().getArrAmmo();
+                    for (int i = 0; i < 100; i++) {
+                        arr_ammo[0].setBorder(BorderFactory.createLineBorder(Color.RED));
+                        arr_ammo[1].setBorder(BorderFactory.createLineBorder(Color.RED));
+                        arr_ammo[2].setBorder(BorderFactory.createLineBorder(Color.RED));
+                        hauptfenster.getToolbar().getAmmo().updateUI();
+                        Thread.sleep(1000);
+                        arr_ammo[0].setBorder(null);
+                        arr_ammo[1].setBorder(null);
+                        arr_ammo[2].setBorder(null);
+                        hauptfenster.getToolbar().getAmmo().updateUI();
+                    }
+                }
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                System.err.println("Thread Sleep: " + ex);
+            }
+        }
     }
 }

@@ -105,6 +105,22 @@ class Toolbar extends JToolBar implements ActionListener {
     }
 
     /**
+     * get-Methode gibt die Labels der Munitionsanzeige zurueck (benoetigt im Thread)
+     *
+     */
+    public JLabel[] getArrAmmo() {
+        return arr_ammo;
+    }
+
+    /**
+     * get-Methode gibt das Panel zurueck indem sich die Munitionsanzeige befindet (benoetigt im Thread)
+     *
+     */
+    public JPanel getAmmo() {
+        return ammo;
+    }
+
+    /**
      * Methode setzt den "Neues Spiel"-Button auf aktiv
      *
      */
