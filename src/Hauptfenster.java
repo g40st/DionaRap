@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.Color;
 
+import java.util.Date;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JComponent;
@@ -302,31 +304,41 @@ public class Hauptfenster extends JFrame {
 
 class Thread1 extends Thread {
     private Hauptfenster hauptfenster;
+    private boolean red;
+    private long lastTime;
+    private static final long blinkDelay = 500;
 
     Thread1(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
+        red = false;
+        lastTime = (new Date()).getTime();
     }
 
     public void run() {
-        while(true) {
-            try{
-                if(hauptfenster.getDionaRapModel().getShootAmount() == 0) {
-                    JLabel[] arr_ammo = hauptfenster.getToolbar().getArrAmmo();
-                    for (int i = 0; i < 100; i++) {
-                        arr_ammo[0].setBorder(BorderFactory.createLineBorder(Color.RED));
-                        arr_ammo[1].setBorder(BorderFactory.createLineBorder(Color.RED));
-                        arr_ammo[2].setBorder(BorderFactory.createLineBorder(Color.RED));
-                        hauptfenster.getToolbar().getAmmo().updateUI();
-                        Thread.sleep(1000);
-                        arr_ammo[0].setBorder(null);
-                        arr_ammo[1].setBorder(null);
-                        arr_ammo[2].setBorder(null);
-                        hauptfenster.getToolbar().getAmmo().updateUI();
+        while (true) {
+            if (hauptfenster.getDionaRapModel().getShootAmount() == 0) {
+                long time = (new Date()).getTime();
+                if (time >= (lastTime + blinkDelay)) {
+                    red = !red;
+                    JLabel[] ammo = hauptfenster.getToolbar().getArrAmmo();
+                    for (int i = 0; i < 3; i++) {
+                        if (red) {
+                            ammo[i].setBorder(BorderFactory.createLineBorder(Color.RED));
+                        } else {
+                            ammo[i].setBorder(BorderFactory.createEmptyBorder());
+                        }
                     }
+                    hauptfenster.getToolbar().getAmmo().updateUI();
+                    lastTime = time;
+                    try {
+                        Thread.sleep(blinkDelay * 4 / 5); // Don't waste much CPU waiting
+                    } catch (InterruptedException ex) { }
                 }
-                Thread.sleep(5000);
-            } catch (InterruptedException ex) {
-                System.err.println("Thread Sleep: " + ex);
+            } else {
+                red = false;
+                try {
+                    Thread.sleep(blinkDelay / 2); // Don't waste much CPU waiting
+                } catch (InterruptedException ex) { }
             }
         }
     }
