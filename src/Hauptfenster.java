@@ -15,6 +15,7 @@ import de.fhwgt.dionarap.levelreader.LevelReader;
 import de.fhwgt.dionarap.model.data.DionaRapModel;
 import de.fhwgt.dionarap.model.objects.AbstractPawn;
 import de.fhwgt.dionarap.model.objects.Player;
+import de.fhwgt.dionarap.model.objects.Ammo;
 import de.fhwgt.dionarap.model.objects.Opponent;
 import de.fhwgt.dionarap.controller.DionaRapController;
 import de.fhwgt.dionarap.model.data.MTConfiguration;
@@ -51,6 +52,8 @@ public class Hauptfenster extends JFrame {
     // Flag ob ein Level mit dem Levelreader geladen wurde
     static boolean level_read = false;
     String str_level;
+    // Thread fuer das Blinken der Munitionsanzeige
+    Thread t1;
 
     /**
      * Standard Konstruktor der Klasse Hauptfenster
@@ -60,6 +63,8 @@ public class Hauptfenster extends JFrame {
      */
     Hauptfenster(String text) {
         super(text);
+        // Thread
+        t1 = new Thread1(this);
 
         // Frame-Definition
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -104,6 +109,7 @@ public class Hauptfenster extends JFrame {
         dionaRapModel = new DionaRapModel(grid.getGridSizeY(), grid.getGridSizeX(), opponents, obstacles);
         // Anzahl der Munition zu beginn des Spiels
         dionaRapModel.setShootAmount(5);
+        dionaRapModel.addAmmo(new Ammo(4,5));
         // Spielfeld hinzufuegen
         spielfeld = new Spielfeld(this);
         this.add(spielfeld, BorderLayout.CENTER);
@@ -156,6 +162,24 @@ public class Hauptfenster extends JFrame {
      */
     public AbstractPawn[] getPawns() {
         return dionaRapModel.getAllPawns();
+    }
+
+    /**
+     * get-Methode, gibt den Thread fuer das Blinken der Munitionsanzeige zurueck
+     *
+     */
+    public Thread getThread1 () {
+        return t1;
+    }
+
+    /**
+     * set-Methode, startet den Thread fuer das Blinken der Munitionsanzeige
+     *
+     * @param aktiver Thread
+     */
+    public void setThread1 (Thread t1) {
+        this.t1 = t1;
+        t1.start();
     }
 
     /**
@@ -296,10 +320,7 @@ public class Hauptfenster extends JFrame {
      */
     public static void main(String[] args) {
         Hauptfenster h = new Hauptfenster("DionaRap");
-        Thread t1 = new Thread1(h);
-        t1.start();
     }
-
 }
 
 class Thread1 extends Thread {
