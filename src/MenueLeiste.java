@@ -10,26 +10,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.MalformedURLException;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
-import javax.swing.UIManager;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.AbstractButton;
-import javax.swing.SwingUtilities;
-import javax.swing.JScrollPane;
-import javax.swing.JFileChooser;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
+import javax.swing.*;
 
 import de.fhwgt.dionarap.levelreader.LevelReader;
+import de.fhwgt.dionarap.model.data.Grid;
 import de.fhwgt.dionarap.model.data.MTConfiguration;
 
 /**
@@ -74,6 +58,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
     // config-Reiter
     JMenuItem read_level;
     JMenuItem game_settings;
+    MTConfiguration conf;
     JTextField [] text = new JTextField[7];
     JCheckBox box1;
     JCheckBox box2;
@@ -260,13 +245,17 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         if (e.getSource() == game_settings) { // Spieleinstellungen-Dialog
             // panel fuer den Dialog
             JPanel panel = new JPanel();
-            MTConfiguration conf = hauptfenster.getConf();
+            conf = hauptfenster.conf;
             for (int i = 0; i < 7; i++) {
                 text[i] = new JTextField();
             }
             box1 = new JCheckBox("Zufällige Wartezeiten der Gegner");
             box2 = new JCheckBox("Gegner meiden Kollisionen mit Hindernis");
             box3 = new JCheckBox("Gegner meiden Kollisionen mit anderen Gegnern");
+            JButton button1 = new JButton("Übernehmen");
+            button1.addActionListener(this);
+            JButton button2 = new JButton("Abbrechen");
+            button2.addActionListener(this);
             panel.setLayout(new GridLayout(11, 2));
             // setzen der Defaultwerte
             setDefaults(conf);
@@ -291,15 +280,34 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             panel.add(text[5]);
             panel.add(new JLabel("Anzahl Gegner: "));
             panel.add(text[6]);
-            panel.add(new JButton("Übernehmen"));
-            panel.add(new JButton("Abbrechen"));
+            panel.add(button1);
+            panel.add(button2);
 
-            settings = new JDialog();
+            // JDialog erzeugen
+            settings = new JDialog(hauptfenster, true);
             settings.add(panel);
             settings.setLocationRelativeTo(hauptfenster);
             settings.setResizable(false);
             settings.pack();
             settings.setVisible(true);
+        }
+
+        if(e.getActionCommand() == "Abbrechen") {
+            settings.dispose();
+        }
+
+        if(e.getActionCommand() == "Übernehmen") { // die Werte aus den Spieleinstellungen zuweisen
+            conf.setOpponentStartWaitTime(Integer.parseInt(text[0].getText()));
+            conf.setShotWaitTime(Integer.parseInt(text[1].getText()));
+            conf.setOpponentWaitTime(Integer.parseInt(text[2].getText()));
+            conf.setAvoidCollisionWithOpponent(box3.isSelected());
+            conf.setAvoidCollisionWithObstacles(box2.isSelected());
+            hauptfenster.grid = new Grid(Integer.parseInt(text[3].getText()), Integer.parseInt(text[4].getText()));
+            hauptfenster.opponents = (Integer.parseInt(text[6].getText()));
+            hauptfenster.obstacles = (Integer.parseInt(text[5].getText()));
+            JOptionPane.showMessageDialog(settings, "Änderungen werden bei Neustart der Partie übernommen!");
+            settings.dispose();
+            hauptfenster.requestFocus();
         }
 
         for (int i = 0; i < count; i++) { // Abarbeiten aller JRadioButtons und setzen des gewuenschten Look and Feel

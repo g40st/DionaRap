@@ -21,7 +21,7 @@ class ListenerBewegung implements ActionListener {
      * Event auf den Button "Neues Spiel" in der Toolbar (ActionCommand 10)
      */
     public void actionPerformed(ActionEvent e) {
-        if( Integer.parseInt(e.getActionCommand()) > 0 && Integer.parseInt(e.getActionCommand()) < 10) {
+        if(Integer.parseInt(e.getActionCommand()) > 0 && Integer.parseInt(e.getActionCommand()) < 10) {
             JButton btn = (JButton) e.getSource();
             Hauptfenster hauptfenster = (Hauptfenster) btn.getTopLevelAncestor().getParent();
             DionaRapController drcp = (DionaRapController) hauptfenster.getDionaRapController();

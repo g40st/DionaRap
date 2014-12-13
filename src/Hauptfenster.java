@@ -3,8 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.Color;
 
-import java.util.Date;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JComponent;
@@ -13,13 +11,13 @@ import javax.swing.JLabel;
 
 import de.fhwgt.dionarap.levelreader.LevelReader;
 import de.fhwgt.dionarap.model.data.DionaRapModel;
+import de.fhwgt.dionarap.model.data.MTConfiguration;
+import de.fhwgt.dionarap.model.data.Grid;
 import de.fhwgt.dionarap.model.objects.AbstractPawn;
 import de.fhwgt.dionarap.model.objects.Player;
 import de.fhwgt.dionarap.model.objects.Ammo;
 import de.fhwgt.dionarap.model.objects.Opponent;
 import de.fhwgt.dionarap.controller.DionaRapController;
-import de.fhwgt.dionarap.model.data.MTConfiguration;
-import de.fhwgt.dionarap.model.data.Grid;
 
 /**
  * Hauptfenster
@@ -30,9 +28,9 @@ import de.fhwgt.dionarap.model.data.Grid;
  */
 public class Hauptfenster extends JFrame {
     // ein Spielfeld anlegen
-    Grid grid = new Grid(10, 16);
+    static Grid grid = new Grid(10, 16);
     // ausgewaehltes Theme zu beginn
-    String theme = "Dracula";
+    static String theme = "Dracula";
     DionaRapModel dionaRapModel;
     DionaRapController dionaRapController;
     Navigator navigator;
@@ -43,7 +41,7 @@ public class Hauptfenster extends JFrame {
     // Anzahl der Hindernisse
     static int obstacles = 4;
     // Multithreading-Configuration
-    MTConfiguration conf;
+    static MTConfiguration conf = new MTConfiguration();
     // fuer die Position des Fensters
     static int pos_x = 0;
     static int pos_y = 0;
@@ -125,7 +123,6 @@ public class Hauptfenster extends JFrame {
      *
      */
     private void addMTConfiguration() {
-        conf = new MTConfiguration();
         conf.setAlgorithmAStarActive(true);
         conf.setAvoidCollisionWithObstacles(true);
         conf.setAvoidCollisionWithOpponent(false);
@@ -136,6 +133,10 @@ public class Hauptfenster extends JFrame {
         conf.setShotWaitTime(300);
         conf.setRandomOpponentWaitTime(true);
         conf.setDynamicOpponentWaitTime(false);
+    }
+
+    public void setOpponents(int opponents) {
+        this.opponents = opponents;
     }
 
     /**
