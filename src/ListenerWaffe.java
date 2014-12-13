@@ -25,7 +25,7 @@ class ListenerWaffe implements ActionListener {
         Hauptfenster hauptfenster = (Hauptfenster) btn.getTopLevelAncestor().getParent();
         DionaRapController drcp = (DionaRapController) hauptfenster.getDionaRapController();
 
-        if (hauptfenster.getDionaRapModel().getShootAmount() == 0) {
+        if (hauptfenster.getDionaRapModel().getShootAmount() == 0) { // Erzuegen des "Blink"-Threads, falls Munition = 0
             if(hauptfenster.getThread1() == null) {
                hauptfenster.createNewThread1();
             } else if(!(hauptfenster.getThread1().isAlive())) {

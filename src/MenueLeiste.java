@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
+import java.awt.GridLayout;
 
 import java.lang.Exception;
 import java.io.IOException;
@@ -22,7 +23,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.JScrollPane;
 import javax.swing.JFileChooser;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JButton;
+
 import de.fhwgt.dionarap.levelreader.LevelReader;
+import de.fhwgt.dionarap.model.data.MTConfiguration;
 
 /**
  * Menueleiste
@@ -33,6 +41,8 @@ import de.fhwgt.dionarap.levelreader.LevelReader;
  */
 public class MenueLeiste extends JMenuBar implements ActionListener {
     Hauptfenster hauptfenster;
+    // Dialog fuer die Spieleinstellungen
+    JDialog settings;
     // Flag, ob die Toolbar sichtbar ist
     boolean toolbar_view = true;
     // Flag für die Position der Toolbar (wenn North dann true)
@@ -63,6 +73,11 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
 
     // config-Reiter
     JMenuItem read_level;
+    JMenuItem game_settings;
+    JTextField [] text = new JTextField[7];
+    JCheckBox box1;
+    JCheckBox box2;
+    JCheckBox box3;
 
     // help-Reiter
     JMenuItem game_description;
@@ -124,14 +139,20 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         }
         view.add(look_and_feel);
 
-        //Level Reader
+        // Level Reader
         read_level = new JMenuItem("Level einlesen");
         read_level.addActionListener(this);
         config.add(read_level);
 
+        // Spieleinstellungen
+        game_settings = new JMenuItem("Spieleinstellungen");
+        game_settings.addActionListener(this);
+        config.add(game_settings);
+
         // setzen Separator
         view.insertSeparator(2);
         view.insertSeparator(4);
+        config.insertSeparator(1);
 
         this.add(view);
         this.add(config);
@@ -236,6 +257,51 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             dialog.setVisible(true);
         }
 
+        if (e.getSource() == game_settings) { // Spieleinstellungen-Dialog
+            // panel fuer den Dialog
+            JPanel panel = new JPanel();
+            MTConfiguration conf = hauptfenster.getConf();
+            for (int i = 0; i < 7; i++) {
+                text[i] = new JTextField();
+            }
+            box1 = new JCheckBox("Zufällige Wartezeiten der Gegner");
+            box2 = new JCheckBox("Gegner meiden Kollisionen mit Hindernis");
+            box3 = new JCheckBox("Gegner meiden Kollisionen mit anderen Gegnern");
+            panel.setLayout(new GridLayout(11, 2));
+            // setzen der Defaultwerte
+            setDefaults(conf);
+            // die einzelnen Elemente hinzufuegen
+            panel.add(new JLabel("Wartezeit der Gegner zu Beginn: "));
+            panel.add(text[0]);
+            panel.add(new JLabel("Verzögerung eines Schusses: "));
+            panel.add(text[1]);
+            panel.add(new JLabel("Wartezeit eines Gegners vor jedem Schritt:    "));
+            panel.add(text[2]);
+            panel.add(panel.add(new JLabel()));
+            panel.add(box1);
+            panel.add(panel.add(new JLabel()));
+            panel.add(box2);
+            panel.add(panel.add(new JLabel()));
+            panel.add(box3);
+            panel.add(new JLabel("Anzahl Zeilen des Spielfeldes: "));
+            panel.add(text[3]);
+            panel.add(new JLabel("Anzahl Spalten des Spielfeldes: "));
+            panel.add(text[4]);
+            panel.add(new JLabel("Anzahl Hindernisse: "));
+            panel.add(text[5]);
+            panel.add(new JLabel("Anzahl Gegner: "));
+            panel.add(text[6]);
+            panel.add(new JButton("Übernehmen"));
+            panel.add(new JButton("Abbrechen"));
+
+            settings = new JDialog();
+            settings.add(panel);
+            settings.setLocationRelativeTo(hauptfenster);
+            settings.setResizable(false);
+            settings.pack();
+            settings.setVisible(true);
+        }
+
         for (int i = 0; i < count; i++) { // Abarbeiten aller JRadioButtons und setzen des gewuenschten Look and Feel
             if(e.getSource() == lookandfeel[i]) {
                 lookandfeel[activeRadioButton].setSelected(false);
@@ -250,5 +316,27 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                 hauptfenster.pack();
             }
         }
+    }
+
+    private void setDefaults(MTConfiguration conf) {
+        text[0].setText(String.valueOf(conf.getOpponentStartWaitTime()));
+        text[1].setText(String.valueOf(conf.getShotWaitTime()));
+        text[2].setText(String.valueOf(conf.getOpponentWaitTime()));
+        text[3].setText(String.valueOf(hauptfenster.getGrid().getGridSizeY()));
+        text[4].setText(String.valueOf(hauptfenster.getGrid().getGridSizeX()));
+        text[5].setText(String.valueOf(hauptfenster.obstacles));
+        text[6].setText(String.valueOf(hauptfenster.opponents));
+
+        if(conf.isRandomOpponentWaitTime()) {
+            box1.setSelected(true);
+            text[2].setEnabled(false);
+        }
+        if(conf.isAvoidCollisionWithObstacles()) {
+            box2.setSelected(true);
+        }
+        if(conf.isAvoidCollisionWithOpponent()) {
+            box2.setSelected(true);
+        }
+
     }
 }

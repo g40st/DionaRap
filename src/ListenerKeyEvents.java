@@ -35,7 +35,7 @@ public class ListenerKeyEvents implements KeyListener {
             //System.out.println("Move " + hauptfenster.getTitle() + " " + e.getKeyChar());
         }
         else if((e.getKeyChar() == '5') || (e.getKeyChar() == KeyEvent.VK_SPACE)) {
-            if (hauptfenster.getDionaRapModel().getShootAmount() == 0) {
+            if (hauptfenster.getDionaRapModel().getShootAmount() == 0) { // Erzuegen des "Blink"-Threads, falls Munition = 0
                 if(hauptfenster.getThread1() == null) {
                     hauptfenster.createNewThread1();
                 } else if(!(hauptfenster.getThread1().isAlive())) {

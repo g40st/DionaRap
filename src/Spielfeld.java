@@ -33,6 +33,8 @@ class Spielfeld extends JPanel {
     /**
      * Konstruktor des Spielfeldes vom Typ <code>JPanel</code>.
      * legt den Layout-Manager fest und ruft die Methode addJLabels() auf
+     *
+     * @param bekommt das Hauptfenster uebergeben
      */
     Spielfeld(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;

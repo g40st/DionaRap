@@ -39,9 +39,9 @@ public class Hauptfenster extends JFrame {
     Spielfeld spielfeld;
     Toolbar toolbar;
     // Anzahl der Gegner
-    int opponents = 0;
+    static int opponents = 2;
     // Anzahl der Hindernisse
-    int obstacles = 4;
+    static int obstacles = 4;
     // Multithreading-Configuration
     MTConfiguration conf;
     // fuer die Position des Fensters
@@ -132,9 +132,9 @@ public class Hauptfenster extends JFrame {
         conf.setMinimumTime(800);
         conf.setShotGetsOwnThread(true);
         conf.setOpponentStartWaitTime(5000);
-        conf.setOpponentWaitTime(2000);
+        //conf.setOpponentWaitTime(2000);
         conf.setShotWaitTime(300);
-        conf.setRandomOpponentWaitTime(false);
+        conf.setRandomOpponentWaitTime(true);
         conf.setDynamicOpponentWaitTime(false);
     }
 
@@ -144,6 +144,14 @@ public class Hauptfenster extends JFrame {
      */
     public MTConfiguration getConf() {
         return conf;
+    }
+
+    /**
+     * get-Methode, gibt das Grid zurueck
+     *
+     */
+    public Grid getGrid() {
+        return grid;
     }
 
     /**
@@ -320,14 +328,30 @@ public class Hauptfenster extends JFrame {
     }
 }
 
+/**
+ * Thread1
+ * ist fuer das Blinken das Munitionsanzeige zustaendig
+ * Copyright (c) 2014
+ * @author Christian Hoegerle / Thomas Buck
+ * @version 1.0
+ */
 class Thread1 extends Thread {
     private Hauptfenster hauptfenster;
     private static final long blinkDelay = 500;
 
+    /**
+     * Konstruktor des Thread vom Typ <code>Thread</code>.
+     * Zuweisen der Hauptfensters
+     *
+     * @param bekommt das Hauptfenster uebergeben
+     */
     Thread1(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
     }
 
+    /**
+     * run-Methode,ist fuer das Blinken (3x) der Munitionsanzeige zustaendig
+     */
     public void run() {
         for (int i = 0; (i < 6) && (hauptfenster.getDionaRapModel().getShootAmount() == 0); i++) {
             JLabel[] ammo = hauptfenster.getToolbar().getArrAmmo();
@@ -339,9 +363,8 @@ class Thread1 extends Thread {
                 }
                 hauptfenster.getToolbar().getAmmo().updateUI();
             }
-
             try {
-                Thread.sleep(blinkDelay); // Don't waste much CPU waiting
+                Thread.sleep(blinkDelay);
             } catch (InterruptedException ex) { }
         }
     }
