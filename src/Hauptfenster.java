@@ -36,20 +36,20 @@ public class Hauptfenster extends JFrame {
     Navigator navigator;
     Spielfeld spielfeld;
     Toolbar toolbar;
+    MenueLeiste menubar;
     // Anzahl der Gegner
     static int opponents = 2;
     // Anzahl der Hindernisse
     static int obstacles = 4;
     // Multithreading-Configuration
     static MTConfiguration conf = new MTConfiguration();
+    // Flag falls die Spieleinstellungen angepasst wurden
+    static boolean game_settings = false;
     // fuer die Position des Fensters
     static int pos_x = 0;
     static int pos_y = 0;
     // Component Listener
     ListenerFenster lis_component;
-    // Flag ob ein Level mit dem Levelreader geladen wurde
-    static boolean level_read = false;
-    String str_level;
     // Thread fuer das Blinken der Munitionsanzeige
     Thread t1;
 
@@ -78,7 +78,7 @@ public class Hauptfenster extends JFrame {
         this.add(toolbar, BorderLayout.NORTH);
 
         // Menueleiste hinzufuegen
-        this.setJMenuBar(new MenueLeiste(this));
+        this.setJMenuBar(menubar = new MenueLeiste(this));
 
         // Listener hinzufuegen
         this.addComponentListener(lis_component = new ListenerFenster(this, navigator, navigator.nav_pos_const));
@@ -105,6 +105,7 @@ public class Hauptfenster extends JFrame {
         dionaRapModel = new DionaRapModel(grid.getGridSizeY(), grid.getGridSizeX(), opponents, obstacles);
         // Anzahl der Munition zu beginn des Spiels
         dionaRapModel.setShootAmount(5);
+        // Ein Ammo-Objekt auf dem Spielfeld anlegen
         dionaRapModel.addAmmo(new Ammo(4,5));
         // Spielfeld hinzufuegen
         spielfeld = new Spielfeld(this);
@@ -113,8 +114,8 @@ public class Hauptfenster extends JFrame {
         dionaRapModel.addModelChangedEventListener(new ListenerModel(this));
         spielfeld.drawAllPawns(getPawns());
         dionaRapController = new DionaRapController(dionaRapModel);
-        // Anlegen der Multithreading-Configuration
-        addMTConfiguration();
+        // Anlegen der Multithreading-Configuration, wird nur aufgerufen wenn die Spieleinstellungen nicht angepasst wurden
+        if(!game_settings) addMTConfiguration();
         dionaRapController.setMultiThreaded(conf);
     }
 
@@ -129,14 +130,25 @@ public class Hauptfenster extends JFrame {
         conf.setMinimumTime(800);
         conf.setShotGetsOwnThread(true);
         conf.setOpponentStartWaitTime(5000);
-        //conf.setOpponentWaitTime(2000);
         conf.setShotWaitTime(300);
         conf.setRandomOpponentWaitTime(true);
         conf.setDynamicOpponentWaitTime(false);
     }
 
-    public void setOpponents(int opponents) {
-        this.opponents = opponents;
+    /**
+     * Methode, setzt das Spieleinstellungen Flag auf true, wenn diese geändert wurden
+     *
+     */
+    public void setGameSettings() {
+        game_settings = true;
+    }
+
+    /**
+     * get-Methode, gibt die Menuebar zurueck
+     *
+     */
+    public MenueLeiste getMenubar() {
+        return menubar;
     }
 
     /**
@@ -298,15 +310,6 @@ public class Hauptfenster extends JFrame {
             this.add(toolbar, BorderLayout.SOUTH);
             this.pack();
         }
-    }
-
-    /**
-     * set-Methode, setzt den LevelReader auf aktiv
-     * @param der Pfad zur ausgewaehlten XML-Datei wird uebergeben
-     */
-    public void setLevelRead(String str_level) {
-        level_read = true;
-        this.str_level = str_level;
     }
 
     /**

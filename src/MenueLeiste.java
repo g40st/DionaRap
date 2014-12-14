@@ -132,6 +132,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         // Spieleinstellungen
         game_settings = new JMenuItem("Spieleinstellungen");
         game_settings.addActionListener(this);
+        game_settings.setEnabled(false);
         config.add(game_settings);
 
         // setzen Separator
@@ -142,6 +143,14 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         this.add(view);
         this.add(config);
         this.add(help);
+    }
+
+    /**
+     * Methode, setzt das "Spieleinstellungen-Element" auf aktiv
+     *
+     */
+    public void setGameSettingsEnabled() {
+        game_settings.setEnabled(true);
     }
 
     /**
@@ -305,6 +314,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             hauptfenster.grid = new Grid(Integer.parseInt(text[3].getText()), Integer.parseInt(text[4].getText()));
             hauptfenster.opponents = (Integer.parseInt(text[6].getText()));
             hauptfenster.obstacles = (Integer.parseInt(text[5].getText()));
+            hauptfenster.setGameSettings();
             JOptionPane.showMessageDialog(settings, "Änderungen werden bei Neustart der Partie übernommen!");
             settings.dispose();
             hauptfenster.requestFocus();

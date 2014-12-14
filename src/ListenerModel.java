@@ -59,6 +59,7 @@ class ListenerModel implements DionaRapListener {
         hauptfenster.getToolbar().updateToolbar(hauptfenster.getDionaRapModel().getShootAmount(), hauptfenster.getDionaRapModel().getScore(), hauptfenster.getProgress());
         hauptfenster.getSpielfeld().gameStatusEnd(hauptfenster.getPlayer(), gameWon); // das Icon bei gewonnen oder verloren setzen
         hauptfenster.getToolbar().setEnabled(); // den "Neues Spiel"-Button auf aktiv setzen
+        hauptfenster.getMenubar().setGameSettingsEnabled(); // den "Spieleinstellungen"-Button auf aktiv setzen
 
         int end_position = HighScoreFile.SCORE_TO_LOW_FOR_HIGHSCORE;
         try{
@@ -66,7 +67,7 @@ class ListenerModel implements DionaRapListener {
         } catch (IOException ex) {
             System.err.println("File kann nicht gelesen werden: " + ex);
         }
-        if(end_position != HighScoreFile.SCORE_TO_LOW_FOR_HIGHSCORE) {
+        if(end_position != HighScoreFile.SCORE_TO_LOW_FOR_HIGHSCORE && gameWon) {
             addBestlist();
         }
         addDialog(gameWon); // den Dialog zeichnen
@@ -106,10 +107,11 @@ class ListenerModel implements DionaRapListener {
         String[] choices = {"Eintragen", "Abbrechen"};
         int position = -1;
         ImageIcon win = new ImageIcon(img_source + separator + "win.gif");
+
         try{
-                position = HighScoreFile.getInstance().getScorePosition(hauptfenster.getDionaRapModel().getScore());
+            position = HighScoreFile.getInstance().getScorePosition(hauptfenster.getDionaRapModel().getScore());
         } catch (IOException ex) {
-                System.err.println("File kann nicht gelesen werden: " + ex);
+            System.err.println("File kann nicht gelesen werden: " + ex);
         }
         System.out.println("Position: " + position);
 

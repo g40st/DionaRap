@@ -17,18 +17,17 @@ import de.fhwgt.dionarap.model.objects.*;
  * @version 1.0
  */
 class Spielfeld extends JPanel {
-    Hauptfenster hauptfenster;
+    private Hauptfenster hauptfenster;
     // Array fuer das Spielfeld
-    JLabel[][] label;
+    private JLabel[][] label;
     // home-directory
-    String img_source = Hauptfenster.getDirectory();
+    private String img_source = Hauptfenster.getDirectory();
     // Separator
-    String separator = Hauptfenster.getSeparator();
+    private String separator = Hauptfenster.getSeparator();
     // Stringarray für die verschiedenen Blickrichtungen
-    String [] viewing_direction = {"player.gif", "player1.gif", "player2.gif", "player3.gif", "player4.gif", null, "player6.gif", "player7.gif", "player8.gif", "player9.gif", "loss.gif", "win.gif"};
+    private String [] viewing_direction = {"player.gif", "player1.gif", "player2.gif", "player3.gif", "player4.gif", null, "player6.gif", "player7.gif", "player8.gif", "player9.gif", "loss.gif", "win.gif"};
     // Integer für die letzte Blickrichtung
-    int viewing_direction_Player = 0;
-
+    private int viewing_direction_Player = 0;
 
     /**
      * Konstruktor des Spielfeldes vom Typ <code>JPanel</code>.
