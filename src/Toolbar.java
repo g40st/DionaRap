@@ -6,13 +6,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.GridLayout;
@@ -30,19 +30,19 @@ import de.fhwgt.dionarap.view.HighScoreFile;
  * @version 1.0
  */
 class Toolbar extends JToolBar implements ActionListener {
-    Hauptfenster hauptfenster;
+    private Hauptfenster hauptfenster;
     // Separator
-    String separator = Hauptfenster.getSeparator();
-    String [] arr_list;
-    JButton newGame;
-    JButton list;
-    JPanel score;
-    JPanel ammo;
-    JPanel progress;
-    JTextField textfield_score;
-    JProgressBar progressbar;
-    JLabel arr_ammo[] = new JLabel [3];
-    int countAmmo;
+    private String separator = Hauptfenster.getSeparator();
+    private String [] arr_list;
+    private JButton newGame;
+    private JButton list;
+    private JPanel score;
+    private JPanel ammo;
+    private JPanel progress;
+    private JTextField textfield_score;
+    private JProgressBar progressbar;
+    private JLabel arr_ammo[] = new JLabel [3];
+    private int countAmmo;
 
     /**
      * Konstruktor der Klasse Toolbar
@@ -215,10 +215,13 @@ class Toolbar extends JToolBar implements ActionListener {
         setProgress(progress);
     }
 
+    /**
+     * Eventhandler fuer das Event <code>actionPerformed</code>
+     * Fuer jedes Element in der Tollbar wird das Event verarbeietet
+     * Events: "Neues Spiel"-Button wird betaetigt, Anzeigen der Bestenliste in einem JFrame
+     */
     public void actionPerformed(ActionEvent e) {
         if(Integer.parseInt(e.getActionCommand()) == 10) { // ActionEvent fuer den "Neues Spiel"-Button in der Toolbar
-            JButton btn = (JButton) e.getSource();
-            Hauptfenster hauptfenster = (Hauptfenster) btn.getTopLevelAncestor();
             hauptfenster.newGame();
             hauptfenster.requestFocus();
         }

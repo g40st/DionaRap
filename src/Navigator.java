@@ -18,9 +18,9 @@ class Navigator extends JWindow {
     // gibt den relativen Abstand zum Hauptfenster an (konstant)
     public static final int nav_pos_const = 30;
     // Polygon für die Form
-    Polygon octagon;
-    Tastatur tastatur;
-    Hauptfenster hauptfenster;
+    private Polygon octagon;
+    private Tastatur tastatur;
+    private Hauptfenster hauptfenster;
 
     /**
      * Konstruktor der Steuerflaeche vom Typ <code>JWindow</code>.

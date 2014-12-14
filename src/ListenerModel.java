@@ -17,13 +17,13 @@ import de.fhwgt.dionarap.view.HighScoreFile;
  */
 class ListenerModel implements DionaRapListener {
     // Instanz des Hauptfensters
-    Hauptfenster hauptfenster;
+    private Hauptfenster hauptfenster;
     // Instanz des Spielfeldes
-    Spielfeld feld;
+    private Spielfeld feld;
     // Spielende verloren
-    boolean gameWon = false;
+    private boolean gameWon = false;
     // Spielende gewonnen
-    boolean gameRunning = true;
+    private boolean gameRunning = true;
 
     /**
      * Konstruktor der Klasse ListenerFenster

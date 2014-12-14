@@ -22,12 +22,12 @@ class Tastatur extends JPanel {
     // gibt die maximale Anzahl der Tasten an
     static final int max_buttons = 9;
     // eine Instanz des ListenerBewegung
-    ListenerBewegung lis_move = new ListenerBewegung();
+    private ListenerBewegung lis_move = new ListenerBewegung();
     // Stringarray fuer die verschiedenen Pfeilrichtungen
-    String [] button_direction = {"taste1.gif", "taste2.gif", "taste3.gif", "taste4.gif", "taste5.gif", "taste6.gif", "taste7.gif", "taste8.gif", "taste9.gif"};
+    private String [] button_direction = {"taste1.gif", "taste2.gif", "taste3.gif", "taste4.gif", "taste5.gif", "taste6.gif", "taste7.gif", "taste8.gif", "taste9.gif"};
     // String-Variable fuer den Navigator-Pfad
-    String nav_source = Hauptfenster.getDirectory();
-    String separator = Hauptfenster.getSeparator();
+    private String nav_source = Hauptfenster.getDirectory();
+    private String separator = Hauptfenster.getSeparator();
 
     /**
      * Konstruktor der Steuerflaeche vom Typ <code>JPanel</code>.

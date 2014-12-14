@@ -19,17 +19,17 @@ import java.awt.event.ActionEvent;
  */
 class ListenerMaus extends MouseAdapter implements ActionListener {
     // Objekt des Hauptfensters
-    Hauptfenster hauptfenster;
-    JLabel[][] label;
-    int x;
-    int y;
-    DionaRapController drcp;
-    JPopupMenu popupMenu;
-    JMenuItem dracula;
-    JMenuItem spaceWars;
-    JMenuItem squareHead;
-    String img_source = Hauptfenster.getDirectory();
-    String separator = Hauptfenster.getSeparator();
+    private Hauptfenster hauptfenster;
+    private JLabel[][] label;
+    private int x;
+    private int y;
+    private DionaRapController drcp;
+    private JPopupMenu popupMenu;
+    private JMenuItem dracula;
+    private JMenuItem spaceWars;
+    private JMenuItem squareHead;
+    private String img_source = Hauptfenster.getDirectory();
+    private String separator = Hauptfenster.getSeparator();
 
     /**
      * Konstruktor der Klasse ListenerMaus

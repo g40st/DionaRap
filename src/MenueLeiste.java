@@ -24,49 +24,49 @@ import de.fhwgt.dionarap.model.data.MTConfiguration;
  * @version 1.0
  */
 public class MenueLeiste extends JMenuBar implements ActionListener {
-    Hauptfenster hauptfenster;
+    private Hauptfenster hauptfenster;
     // Dialog fuer die Spieleinstellungen
-    JDialog settings;
+    private JDialog settings;
     // Flag, ob die Toolbar sichtbar ist
-    boolean toolbar_view = true;
+    private boolean toolbar_view = true;
     // Flag für die Position der Toolbar (wenn North dann true)
-    boolean north = true;
+    private boolean north = true;
     // Flag, ob die Toolbar sichtbar ist
-    boolean navigator = true;
+    private boolean navigator = true;
     // Array indem alle Look and Feels gespeichert werden
-    UIManager.LookAndFeelInfo [] lookandfeelinfo;
+    private UIManager.LookAndFeelInfo [] lookandfeelinfo;
     // Fuer jedes Look and Feel ein JRadioButtonMenuItem
-    JRadioButtonMenuItem lookandfeel [];
+    private JRadioButtonMenuItem lookandfeel[];
     // Anzahl der vorhanden Look and Feels
-    int count;
+    private int count;
     // zeigt immer auf den aktuell aktiven activeRadioButton
-    int activeRadioButton = 0;
+    private int activeRadioButton = 0;
 
     // Menueleiste Elemente
-    JMenu view;
-    JMenu config;
-    JMenu help;
+    private JMenu view;
+    private JMenu config;
+    private JMenu help;
 
     // view-Reiter
-    JCheckBoxMenuItem view_toolbar;
-    JMenu position_toolbar;
-    JMenuItem toolbar_oben;
-    JMenuItem toolbar_unten;
-    JCheckBoxMenuItem view_navigator;
-    JMenu look_and_feel;
+    private JCheckBoxMenuItem view_toolbar;
+    private JMenu position_toolbar;
+    private JMenuItem toolbar_oben;
+    private JMenuItem toolbar_unten;
+    private JCheckBoxMenuItem view_navigator;
+    private JMenu look_and_feel;
 
     // config-Reiter
-    JMenuItem read_level;
-    JMenuItem game_settings;
-    MTConfiguration conf;
-    JTextField [] text = new JTextField[7];
-    JCheckBox box1;
-    JCheckBox box2;
-    JCheckBox box3;
+    private JMenuItem read_level;
+    private JMenuItem game_settings;
+    private MTConfiguration conf;
+    private JTextField [] text = new JTextField[7];
+    private JCheckBox box1;
+    private JCheckBox box2;
+    private JCheckBox box3;
 
     // help-Reiter
-    JMenuItem game_description;
-    URL url;
+    private JMenuItem game_description;
+    private URL url;
 
     /**
      * Konstruktor der Klasse Toolbar
@@ -157,7 +157,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Fuer jedes Element in der Menueleiste wird das jeweilige Event abgearbeitet
      * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern
-     *         Einlesen von XML-Dateien(Levelreader)
+     *         Einlesen von XML-Dateien(Levelreader), Aendern der Spieleinstellungen
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view_toolbar) { // Ein-/Ausblenden der Toolbar
@@ -251,7 +251,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             dialog.setVisible(true);
         }
 
-        if (e.getSource() == game_settings) { // Spieleinstellungen-Dialog
+        if (e.getSource() == game_settings) { // erzeugen des Spieleinstellung-Dialoges
             // panel fuer den Dialog
             JPanel panel = new JPanel();
             conf = hauptfenster.conf;
@@ -277,6 +277,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             panel.add(text[2]);
             panel.add(panel.add(new JLabel()));
             panel.add(box1);
+            box1.addActionListener(this);
             panel.add(panel.add(new JLabel()));
             panel.add(box2);
             panel.add(panel.add(new JLabel()));
@@ -301,26 +302,35 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             settings.setVisible(true);
         }
 
-        if(e.getActionCommand() == "Abbrechen") {
+        if(e.getActionCommand() == "Abbrechen") { // Abfrage fuer den "Abbrechen"-Button in den Spieleinstellungen
             settings.dispose();
         }
 
-        if(e.getActionCommand() == "Übernehmen") { // die Werte aus den Spieleinstellungen zuweisen
+        if(e.getActionCommand() == "Übernehmen") { // Abfrage fuer den "Uebernehmen"-Button in den Spieleinstellungen
             conf.setOpponentStartWaitTime(Integer.parseInt(text[0].getText()));
             conf.setShotWaitTime(Integer.parseInt(text[1].getText()));
             conf.setOpponentWaitTime(Integer.parseInt(text[2].getText()));
+            conf.setRandomOpponentWaitTime(box1.isSelected());
             conf.setAvoidCollisionWithOpponent(box3.isSelected());
             conf.setAvoidCollisionWithObstacles(box2.isSelected());
             hauptfenster.grid = new Grid(Integer.parseInt(text[3].getText()), Integer.parseInt(text[4].getText()));
             hauptfenster.opponents = (Integer.parseInt(text[6].getText()));
             hauptfenster.obstacles = (Integer.parseInt(text[5].getText()));
-            hauptfenster.setGameSettings();
+            hauptfenster.setGameSettings(); // Flag, dass die Spieleinstellungen geaendert wurden
             JOptionPane.showMessageDialog(settings, "Änderungen werden bei Neustart der Partie übernommen!");
-            settings.dispose();
+            settings.dispose(); // Spieleinstellungen schließen
             hauptfenster.requestFocus();
         }
 
-        for (int i = 0; i < count; i++) { // Abarbeiten aller JRadioButtons und setzen des gewuenschten Look and Feel
+        if(e.getSource() == box1) { // setzt das Textfeld auf aktiv und inaktiv (abhängig von der Checkbox)
+            if(!((JCheckBox) e.getSource()).isSelected()) {
+                text[2].setEnabled(true);
+            } else {
+                text[2].setEnabled(false);
+            }
+        }
+
+        for (int i = 0; i < count; i++) { // Abarbeiten aller JRadioButtons und setzen des gewuenschten Look-and-Feels
             if(e.getSource() == lookandfeel[i]) {
                 lookandfeel[activeRadioButton].setSelected(false);
                 activeRadioButton = i;
@@ -336,6 +346,11 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         }
     }
 
+    /**
+     * Methode, die die einzelnen Elemente in den Spieleinstellungen mit den aktuellen Werten aus der Multithreading-Config fuellt
+     *
+     * @param aktuelle Multithreading-Config
+     */
     private void setDefaults(MTConfiguration conf) {
         text[0].setText(String.valueOf(conf.getOpponentStartWaitTime()));
         text[1].setText(String.valueOf(conf.getShotWaitTime()));
@@ -353,8 +368,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             box2.setSelected(true);
         }
         if(conf.isAvoidCollisionWithOpponent()) {
-            box2.setSelected(true);
+            box3.setSelected(true);
         }
-
     }
 }

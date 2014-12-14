@@ -29,29 +29,29 @@ import de.fhwgt.dionarap.controller.DionaRapController;
 public class Hauptfenster extends JFrame {
     // ein Spielfeld anlegen
     static Grid grid = new Grid(10, 16);
-    // ausgewaehltes Theme zu beginn
-    static String theme = "Dracula";
-    DionaRapModel dionaRapModel;
-    DionaRapController dionaRapController;
-    Navigator navigator;
-    Spielfeld spielfeld;
-    Toolbar toolbar;
-    MenueLeiste menubar;
     // Anzahl der Gegner
     static int opponents = 2;
     // Anzahl der Hindernisse
     static int obstacles = 4;
     // Multithreading-Configuration
     static MTConfiguration conf = new MTConfiguration();
+    // ausgewaehltes Theme zu beginn
+    private static String theme = "Dracula";
+    private DionaRapModel dionaRapModel;
+    private DionaRapController dionaRapController;
+    private Navigator navigator;
+    private Spielfeld spielfeld;
+    private Toolbar toolbar;
+    private MenueLeiste menubar;
     // Flag falls die Spieleinstellungen angepasst wurden
-    static boolean game_settings = false;
+    private static boolean game_settings = false;
     // fuer die Position des Fensters
-    static int pos_x = 0;
-    static int pos_y = 0;
+    private static int pos_x = 0;
+    private static int pos_y = 0;
     // Component Listener
-    ListenerFenster lis_component;
+    private ListenerFenster lis_component;
     // Thread fuer das Blinken der Munitionsanzeige
-    Thread t1;
+    private Thread t1;
 
     /**
      * Standard Konstruktor der Klasse Hauptfenster
@@ -126,12 +126,13 @@ public class Hauptfenster extends JFrame {
     private void addMTConfiguration() {
         conf.setAlgorithmAStarActive(true);
         conf.setAvoidCollisionWithObstacles(true);
-        conf.setAvoidCollisionWithOpponent(false);
+        conf.setAvoidCollisionWithOpponent(true);
         conf.setMinimumTime(800);
         conf.setShotGetsOwnThread(true);
         conf.setOpponentStartWaitTime(5000);
         conf.setShotWaitTime(300);
-        conf.setRandomOpponentWaitTime(true);
+        conf.setRandomOpponentWaitTime(false);
+        conf.setOpponentWaitTime(200);
         conf.setDynamicOpponentWaitTime(false);
     }
 
@@ -354,7 +355,7 @@ class Thread1 extends Thread {
     }
 
     /**
-     * run-Methode,ist fuer das Blinken (3x) der Munitionsanzeige zustaendig
+     * run-Methode,ist fuer das Blinken(3x) der Munitionsanzeige zustaendig
      */
     public void run() {
         for (int i = 0; (i < 6) && (hauptfenster.getDionaRapModel().getShootAmount() == 0); i++) {

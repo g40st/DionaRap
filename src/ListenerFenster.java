@@ -9,9 +9,9 @@ import java.awt.event.ComponentEvent;
  * @version 1.0
  */
 class ListenerFenster implements ComponentListener {
-    Hauptfenster hauptfenster;
-    Navigator navigator;
-    int nav_pos_const;
+    private Hauptfenster hauptfenster;
+    private Navigator navigator;
+    private int nav_pos_const;
 
     /**
      * Konstruktor der Klasse ListenerFenster
