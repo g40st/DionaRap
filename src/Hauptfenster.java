@@ -407,7 +407,7 @@ class Thread1 extends Thread {
             }
             try {
                 Thread.sleep(blinkDelay);
-            } catch (InterruptedException ex) { }
+            } catch (InterruptedException ex) {}
         }
     }
 }
@@ -425,6 +425,9 @@ class Thread2 extends Thread {
     private boolean run = true;
     private static final long blinkDelay = 500;
     private JLabel[][] label;
+    // Array das alle Objekte bekommt, die Blinken sollen
+    JLabel[] arr_blink = new JLabel[8];
+    int count = 0;
     private int y;
     private int x;
 
@@ -448,62 +451,53 @@ class Thread2 extends Thread {
         y = hauptfenster.getPlayer().getY();
         x = hauptfenster.getPlayer().getX();
 
-        for (int i = 0; (i < 8) && (run); i++) {
-            if ((i % 2) == 0) {
-                if(!isObstacle(y + 1, x - 1)) { // Richtung 1
-                    label[y+1][x-1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+        if(!isObstacle(y + 1, x - 1)) { // Richtung 1
+            addLabel(y + 1, x - 1);
+        }
+        if(!isObstacle(y + 1, x)) { // Richtung 2
+            addLabel(y + 1, x);
+        }
+        if(!isObstacle(y + 1, x + 1)) { // Richtung 3
+            addLabel(y + 1, x + 1);
+        }
+        if(!isObstacle(y, x - 1)) { // Richtung 4
+            addLabel(y, x - 1);
+        }
+        if(!isObstacle(y, x + 1)) { // Richtung 6
+            addLabel(y, x + 1);
+        }
+        if(!isObstacle(y - 1, x - 1)) { // Richtung 7
+            addLabel(y - 1, x - 1);
+        }
+        if(!isObstacle(y - 1, x)) { // Richtung 8
+            addLabel(y - 1, x);
+        }
+        if(!isObstacle(y - 1, x + 1)) { // Richtung 9
+            addLabel(y - 1, x + 1);
+        }
+
+        for (int i = 0; (i < 6) && (run); i++) {
+            for (int k = 0; k < count; k++) { // die Liste der zu blinkenden Felder abarbeiten
+                if(i % 2 == 0) {
+                    arr_blink[k].setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,Color.RED));
+                } else {
+                    arr_blink[k].setBorder(BorderFactory.createEmptyBorder());
                 }
-                if(!isObstacle(y + 1, x)) { // Richtung 2
-                    label[y+1][x].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
-                }
-                if(!isObstacle(y + 1, x + 1)) { // Richtung 3
-                    label[y+1][x+1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
-                }
-                if(!isObstacle(y, x - 1)) { // Richtung 4
-                    label[y][x-1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
-                }
-                if(!isObstacle(y, x + 1)) { // Richtung 6
-                    label[y][x+1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
-                }
-                if(!isObstacle(y - 1, x - 1)) { // Richtung 7
-                    label[y-1][x-1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
-                }
-                if(!isObstacle(y - 1, x)) { // Richtung 8
-                    label[y-1][x].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
-                }
-                if(!isObstacle(y - 1, x + 1)) { // Richtung 9
-                    label[y-1][x+1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
-                }
-            } else {
-                label[y+1][x-1].setBorder(BorderFactory.createEmptyBorder());
-                label[y+1][x].setBorder(BorderFactory.createEmptyBorder());
-                label[y+1][x+1].setBorder(BorderFactory.createEmptyBorder());
-                label[y][x-1].setBorder(BorderFactory.createEmptyBorder());
-                label[y][x+1].setBorder(BorderFactory.createEmptyBorder());
-                label[y-1][x-1].setBorder(BorderFactory.createEmptyBorder());
-                label[y-1][x].setBorder(BorderFactory.createEmptyBorder());
-                label[y-1][x+1].setBorder(BorderFactory.createEmptyBorder());
             }
             try {
                 Thread.sleep(blinkDelay);
-            } catch (InterruptedException ex) { }
+            } catch (InterruptedException ex) {}
         }
-        // Als letzten Schritt den Border wieder entfernen
-        if(!run) {
-            label[y+1][x-1].setBorder(BorderFactory.createEmptyBorder());
-            label[y+1][x].setBorder(BorderFactory.createEmptyBorder());
-            label[y+1][x+1].setBorder(BorderFactory.createEmptyBorder());
-            label[y][x-1].setBorder(BorderFactory.createEmptyBorder());
-            label[y][x+1].setBorder(BorderFactory.createEmptyBorder());
-            label[y-1][x-1].setBorder(BorderFactory.createEmptyBorder());
-            label[y-1][x].setBorder(BorderFactory.createEmptyBorder());
-            label[y-1][x+1].setBorder(BorderFactory.createEmptyBorder());
+        for (int k = 0; k < count; k++) {
+            arr_blink[k].setBorder(BorderFactory.createEmptyBorder());
         }
     }
+
     /**
      * Methode, prueft ob sich ein Hinderniss an den uebergebenen Koordinaten befindet
      * true: wenn sich ein Hindernis an den uebergebenen Koordinaten befindet
      * false: wenn sich kein Hindernis an den uebergebenen Koordinaten befindet
+     * @param die Y-Koordinate und die X-Koordinate um die benachbarten Felder blicken lassen zu koennen
      */
     public boolean isObstacle(int y, int x) {
         AbstractPawn[] spielfiguren = hauptfenster.getPawns();
@@ -522,5 +516,13 @@ class Thread2 extends Thread {
      */
     public void stopRun() {
         run = false;
+    }
+    /**
+     * Methode, die das arr_blink fuellt
+     * @param die Y-Koordinate und die X-Koordinate, um die benachbarten Felder blicken lassen zu koennen
+     */
+    public void addLabel(int z, int t) {
+        arr_blink[count] = label[z][t];
+        count++;
     }
 }
