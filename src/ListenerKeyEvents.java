@@ -32,6 +32,7 @@ public class ListenerKeyEvents implements KeyListener {
         if(e.getKeyChar() != '5' &&  ('1' <= e.getKeyChar() && e.getKeyChar() <= '9')){
             hauptfenster.getSpielfeld().setLastDirection(Character.getNumericValue(e.getKeyChar()));
             drcp.movePlayer(Character.getNumericValue(e.getKeyChar()));
+            hauptfenster.getSounds().playMove();
             //System.out.println("Move " + hauptfenster.getTitle() + " " + e.getKeyChar());
         }
         else if((e.getKeyChar() == '5') || (e.getKeyChar() == KeyEvent.VK_SPACE)) {
@@ -42,7 +43,9 @@ public class ListenerKeyEvents implements KeyListener {
                     hauptfenster.createNewThread1();
                 }
             }
-
+            if (hauptfenster.getDionaRapModel().getShootAmount() != 0) {
+                hauptfenster.getSounds().playShoot();
+            }
             drcp.shoot();
             //System.out.println("Shot " + hauptfenster.getTitle() + " " + e.getKeyChar());
         }

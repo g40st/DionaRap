@@ -75,7 +75,11 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
                                     hauptfenster.createNewThread1();
                                 }
                             }
+                            if (hauptfenster.getDionaRapModel().getShootAmount() != 0) {
+                                hauptfenster.getSounds().playShoot();
+                            }
                             drcp.shoot();
+                            break;
                         } else if(y - i == -1 && x - k == 1) {
                             hauptfenster.getSpielfeld().setLastDirection(1);
                             drcp.movePlayer(1);
@@ -101,6 +105,7 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
                             hauptfenster.getSpielfeld().setLastDirection(4);
                             drcp.movePlayer(4);
                         }
+                        hauptfenster.getSounds().playMove();
                     }
                 }
             }

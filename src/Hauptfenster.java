@@ -43,6 +43,7 @@ public class Hauptfenster extends JFrame {
     private Spielfeld spielfeld;
     private Toolbar toolbar;
     private MenueLeiste menubar;
+    private Sounds sounds;
     // Flag falls die Spieleinstellungen angepasst wurden
     private static boolean game_settings = false;
     // fuer die Position des Fensters
@@ -61,6 +62,9 @@ public class Hauptfenster extends JFrame {
      */
     Hauptfenster(String text) {
         super(text);
+
+        // Klasse fuer die Sounds
+        sounds = new Sounds(this);
 
         // Frame-Definition
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -132,7 +136,7 @@ public class Hauptfenster extends JFrame {
         conf.setOpponentStartWaitTime(5000);
         conf.setShotWaitTime(300);
         conf.setRandomOpponentWaitTime(false);
-        conf.setOpponentWaitTime(200);
+        conf.setOpponentWaitTime(1500);
         conf.setDynamicOpponentWaitTime(false);
     }
 
@@ -150,6 +154,14 @@ public class Hauptfenster extends JFrame {
      */
     public MenueLeiste getMenubar() {
         return menubar;
+    }
+
+    /**
+     * get-Methode, gibt die Klasse Sounds zurueck
+     *
+     */
+    public Sounds getSounds() {
+        return sounds;
     }
 
     /**

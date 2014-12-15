@@ -32,6 +32,9 @@ class ListenerWaffe implements ActionListener {
                 hauptfenster.createNewThread1();
             }
         }
+        if (hauptfenster.getDionaRapModel().getShootAmount() != 0) {
+            hauptfenster.getSounds().playShoot();
+        }
 
         drcp.shoot();
 

@@ -28,6 +28,7 @@ class ListenerBewegung implements ActionListener {
 
             hauptfenster.getSpielfeld().setLastDirection(Integer.parseInt(e.getActionCommand()));
             drcp.movePlayer(Integer.parseInt(e.getActionCommand()));
+            hauptfenster.getSounds().playMove();
 
             hauptfenster.requestFocus();
         }

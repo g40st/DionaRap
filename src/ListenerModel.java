@@ -52,8 +52,10 @@ class ListenerModel implements DionaRapListener {
         gameRunning = false;
         if(e.isGameOver()) {
             gameWon = false;
+            hauptfenster.getSounds().playGameOver(); // abspielen der Sounds
         } else if(e.isGameWon()) {
             gameWon = true;
+            hauptfenster.getSounds().playGameWon(); // abspielen der Sounds
         }
         hauptfenster.getSpielfeld().drawNew(); // Spielfeld neu zeichnen
         hauptfenster.getToolbar().updateToolbar(hauptfenster.getDionaRapModel().getShootAmount(), hauptfenster.getDionaRapModel().getScore(), hauptfenster.getProgress());
@@ -91,6 +93,7 @@ class ListenerModel implements DionaRapListener {
         else {
             result = JOptionPane.showOptionDialog(hauptfenster, "Sie haben das Spiel verloren!", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, lose, choices, "Neues Spiel");
         }
+        hauptfenster.getSounds().stopPlaying(); // beenden aller aktiven Soundwiedergaben
         if(result == 0) {
             hauptfenster.getSpielfeld().drawNew();
             hauptfenster.newGame();
