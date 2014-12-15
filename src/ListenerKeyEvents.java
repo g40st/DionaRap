@@ -32,10 +32,13 @@ public class ListenerKeyEvents implements KeyListener {
         if(e.getKeyChar() != '5' &&  ('1' <= e.getKeyChar() && e.getKeyChar() <= '9')){
             hauptfenster.getSpielfeld().setLastDirection(Character.getNumericValue(e.getKeyChar()));
             drcp.movePlayer(Character.getNumericValue(e.getKeyChar()));
+            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) { // Sobald eine gueltige Bewegung vollzogen wird, wird der Thread 2 beendet
+                hauptfenster.stopThread2Run();
+            }
             hauptfenster.getSounds().playMove();
             //System.out.println("Move " + hauptfenster.getTitle() + " " + e.getKeyChar());
         }
-        else if((e.getKeyChar() == '5') || (e.getKeyChar() == KeyEvent.VK_SPACE)) {
+        else if((e.getKeyChar() == '5')) {
             if (hauptfenster.getDionaRapModel().getShootAmount() == 0) { // Erzuegen des "Blink"-Threads, falls Munition = 0
                 if(hauptfenster.getThread1() == null) {
                     hauptfenster.createNewThread1();
@@ -43,7 +46,10 @@ public class ListenerKeyEvents implements KeyListener {
                     hauptfenster.createNewThread1();
                 }
             }
-            if (hauptfenster.getDionaRapModel().getShootAmount() != 0) {
+            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) { // Sobald eine gueltige Bewegung vollzogen wird, wird der Thread 2 beendet
+                hauptfenster.stopThread2Run();
+            }
+            if (hauptfenster.getDionaRapModel().getShootAmount() != 0) { // Sobald die Muntion leer ist wird keine Sound mehr abgespielt
                 hauptfenster.getSounds().playShoot();
             }
             drcp.shoot();

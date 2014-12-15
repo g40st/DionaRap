@@ -32,7 +32,10 @@ class ListenerWaffe implements ActionListener {
                 hauptfenster.createNewThread1();
             }
         }
-        if (hauptfenster.getDionaRapModel().getShootAmount() != 0) {
+        if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) { // Sobald eine gueltige Bewegung vollzogen wird, wird der Thread 2 beendet
+                hauptfenster.stopThread2Run();
+        }
+        if (hauptfenster.getDionaRapModel().getShootAmount() != 0) { // Sobald die Muntion leer ist wird keine Sound mehr abgespielt
             hauptfenster.getSounds().playShoot();
         }
 

@@ -15,6 +15,7 @@ import de.fhwgt.dionarap.model.data.MTConfiguration;
 import de.fhwgt.dionarap.model.data.Grid;
 import de.fhwgt.dionarap.model.objects.AbstractPawn;
 import de.fhwgt.dionarap.model.objects.Player;
+import de.fhwgt.dionarap.model.objects.Obstacle;
 import de.fhwgt.dionarap.model.objects.Ammo;
 import de.fhwgt.dionarap.model.objects.Opponent;
 import de.fhwgt.dionarap.controller.DionaRapController;
@@ -30,7 +31,7 @@ public class Hauptfenster extends JFrame {
     // ein Spielfeld anlegen
     static Grid grid = new Grid(10, 16);
     // Anzahl der Gegner
-    static int opponents = 2;
+    static int opponents = 0;
     // Anzahl der Hindernisse
     static int obstacles = 4;
     // Multithreading-Configuration
@@ -53,6 +54,8 @@ public class Hauptfenster extends JFrame {
     private ListenerFenster lis_component;
     // Thread fuer das Blinken der Munitionsanzeige
     private Thread t1;
+    // Thread fuer das Blinken der benachbarten Felder
+    private Thread2 t2;
 
     /**
      * Standard Konstruktor der Klasse Hauptfenster
@@ -111,6 +114,7 @@ public class Hauptfenster extends JFrame {
         dionaRapModel.setShootAmount(5);
         // Ein Ammo-Objekt auf dem Spielfeld anlegen
         dionaRapModel.addAmmo(new Ammo(4,5));
+        dionaRapModel.addObstacle(new Obstacle(5,7));
         // Spielfeld hinzufuegen
         spielfeld = new Spielfeld(this);
         this.add(spielfeld, BorderLayout.CENTER);
@@ -211,6 +215,27 @@ public class Hauptfenster extends JFrame {
     public void createNewThread1() {
         t1 = new Thread1(this);
         t1.start();
+    }
+
+    /**
+     * get-Methode, gibt den Thread fuer das Blinken der benachbarten Felder zurueck
+     *
+     */
+    public Thread getThread2() {
+        return t2;
+    }
+
+    /**
+     * Methode, startet den Thread fuer das Blinken der benachbarten Felder
+     *
+     */
+    public void createNewThread2() {
+        t2 = new Thread2(this);
+        t2.start();
+    }
+
+    public void stopThread2Run() {
+        t2.stopRun();
     }
 
     /**
@@ -367,7 +392,7 @@ class Thread1 extends Thread {
     }
 
     /**
-     * run-Methode,ist fuer das Blinken(3x) der Munitionsanzeige zustaendig
+     * run-Methode, ist fuer das Blinken(3x) der Munitionsanzeige zustaendig
      */
     public void run() {
         for (int i = 0; (i < 6) && (hauptfenster.getDionaRapModel().getShootAmount() == 0); i++) {
@@ -384,5 +409,118 @@ class Thread1 extends Thread {
                 Thread.sleep(blinkDelay);
             } catch (InterruptedException ex) { }
         }
+    }
+}
+
+
+/**
+ * Thread2
+ * Blinken der Felder wenn der Spieler auf ein nicht benachbartes Feld klickt
+ * Copyright (c) 2014
+ * @author Christian Hoegerle / Thomas Buck
+ * @version 1.0
+ */
+class Thread2 extends Thread {
+    private Hauptfenster hauptfenster;
+    private boolean run = true;
+    private static final long blinkDelay = 500;
+    private JLabel[][] label;
+    private int y;
+    private int x;
+
+    /**
+     * Konstruktor des Thread vom Typ <code>Thread</code>.
+     * Zuweisen der Hauptfensters
+     *
+     * @param bekommt das Hauptfenster uebergeben
+     */
+    Thread2(Hauptfenster hauptfenster) {
+        this.hauptfenster = hauptfenster;
+    }
+
+    /**
+     * run-Methode, ist fuer das Blinken(4x) der benachbarten Felder zustaendig
+     */
+    public void run() {
+        label = new JLabel [hauptfenster.getDionaRapModel().getGrid().getGridSizeY()][hauptfenster.getDionaRapModel().getGrid().getGridSizeX()];
+        label = hauptfenster.getSpielfeld().getLabel();
+        // aktuelle Position des Spielers
+        y = hauptfenster.getPlayer().getY();
+        x = hauptfenster.getPlayer().getX();
+
+        for (int i = 0; (i < 8) && (run); i++) {
+            if ((i % 2) == 0) {
+                if(!isObstacle(y + 1, x - 1)) { // Richtung 1
+                    label[y+1][x-1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+                if(!isObstacle(y + 1, x)) { // Richtung 2
+                    label[y+1][x].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+                if(!isObstacle(y + 1, x + 1)) { // Richtung 3
+                    label[y+1][x+1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+                if(!isObstacle(y, x - 1)) { // Richtung 4
+                    label[y][x-1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+                if(!isObstacle(y, x + 1)) { // Richtung 6
+                    label[y][x+1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+                if(!isObstacle(y - 1, x - 1)) { // Richtung 7
+                    label[y-1][x-1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+                if(!isObstacle(y - 1, x)) { // Richtung 8
+                    label[y-1][x].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+                if(!isObstacle(y - 1, x + 1)) { // Richtung 9
+                    label[y-1][x+1].setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3,Color.RED));
+                }
+            } else {
+                label[y+1][x-1].setBorder(BorderFactory.createEmptyBorder());
+                label[y+1][x].setBorder(BorderFactory.createEmptyBorder());
+                label[y+1][x+1].setBorder(BorderFactory.createEmptyBorder());
+                label[y][x-1].setBorder(BorderFactory.createEmptyBorder());
+                label[y][x+1].setBorder(BorderFactory.createEmptyBorder());
+                label[y-1][x-1].setBorder(BorderFactory.createEmptyBorder());
+                label[y-1][x].setBorder(BorderFactory.createEmptyBorder());
+                label[y-1][x+1].setBorder(BorderFactory.createEmptyBorder());
+            }
+            try {
+                Thread.sleep(blinkDelay);
+            } catch (InterruptedException ex) { }
+        }
+        // Als letzten Schritt den Border wieder entfernen
+        if(!run) {
+            label[y+1][x-1].setBorder(BorderFactory.createEmptyBorder());
+            label[y+1][x].setBorder(BorderFactory.createEmptyBorder());
+            label[y+1][x+1].setBorder(BorderFactory.createEmptyBorder());
+            label[y][x-1].setBorder(BorderFactory.createEmptyBorder());
+            label[y][x+1].setBorder(BorderFactory.createEmptyBorder());
+            label[y-1][x-1].setBorder(BorderFactory.createEmptyBorder());
+            label[y-1][x].setBorder(BorderFactory.createEmptyBorder());
+            label[y-1][x+1].setBorder(BorderFactory.createEmptyBorder());
+        }
+    }
+    /**
+     * Methode, prueft ob sich ein Hinderniss an den uebergebenen Koordinaten befindet
+     * true: wenn sich ein Hindernis an den uebergebenen Koordinaten befindet
+     * false: wenn sich kein Hindernis an den uebergebenen Koordinaten befindet
+     */
+    public boolean isObstacle(int y, int x) {
+        AbstractPawn[] spielfiguren = hauptfenster.getPawns();
+        for(int i = 0; i < (int) spielfiguren.length; i++) {
+            if (spielfiguren[i] instanceof Obstacle) {
+                if((spielfiguren[i].getY() == y) && (spielfiguren[i].getX() == x)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Methode, setzt das run-Flag auf false, dadurch wird die for-Schleife in der run-Methode beendet
+     */
+    public void stopRun() {
+        run = false;
     }
 }
