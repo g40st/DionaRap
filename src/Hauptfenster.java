@@ -231,6 +231,7 @@ public class Hauptfenster extends JFrame {
      */
     public void createNewThread2() {
         t2 = new Thread2(this);
+        t2.fillArray();
         t2.start();
     }
 
@@ -424,10 +425,10 @@ class Thread2 extends Thread {
     private Hauptfenster hauptfenster;
     private boolean run = true;
     private static final long blinkDelay = 500;
-    private JLabel[][] label;
     // Array das alle Objekte bekommt, die Blinken sollen
-    JLabel[] arr_blink = new JLabel[8];
-    int count = 0;
+    private JLabel[] arr_blink = new JLabel[8];
+    private int count = 0;
+    private JLabel[][] label;
     private int y;
     private int x;
 
@@ -439,42 +440,16 @@ class Thread2 extends Thread {
      */
     Thread2(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
+        label = new JLabel [hauptfenster.getDionaRapModel().getGrid().getGridSizeY()][hauptfenster.getDionaRapModel().getGrid().getGridSizeX()];
+        label = hauptfenster.getSpielfeld().getLabel();
+        y = hauptfenster.getPlayer().getY();
+        x = hauptfenster.getPlayer().getX();
     }
 
     /**
      * run-Methode, ist fuer das Blinken(4x) der benachbarten Felder zustaendig
      */
     public void run() {
-        label = new JLabel [hauptfenster.getDionaRapModel().getGrid().getGridSizeY()][hauptfenster.getDionaRapModel().getGrid().getGridSizeX()];
-        label = hauptfenster.getSpielfeld().getLabel();
-        // aktuelle Position des Spielers
-        y = hauptfenster.getPlayer().getY();
-        x = hauptfenster.getPlayer().getX();
-
-        if(!isObstacle(y + 1, x - 1)) { // Richtung 1
-            addLabel(y + 1, x - 1);
-        }
-        if(!isObstacle(y + 1, x)) { // Richtung 2
-            addLabel(y + 1, x);
-        }
-        if(!isObstacle(y + 1, x + 1)) { // Richtung 3
-            addLabel(y + 1, x + 1);
-        }
-        if(!isObstacle(y, x - 1)) { // Richtung 4
-            addLabel(y, x - 1);
-        }
-        if(!isObstacle(y, x + 1)) { // Richtung 6
-            addLabel(y, x + 1);
-        }
-        if(!isObstacle(y - 1, x - 1)) { // Richtung 7
-            addLabel(y - 1, x - 1);
-        }
-        if(!isObstacle(y - 1, x)) { // Richtung 8
-            addLabel(y - 1, x);
-        }
-        if(!isObstacle(y - 1, x + 1)) { // Richtung 9
-            addLabel(y - 1, x + 1);
-        }
 
         for (int i = 0; (i < 6) && (run); i++) {
             for (int k = 0; k < count; k++) { // die Liste der zu blinkenden Felder abarbeiten
@@ -488,7 +463,7 @@ class Thread2 extends Thread {
                 Thread.sleep(blinkDelay);
             } catch (InterruptedException ex) {}
         }
-        for (int k = 0; k < count; k++) {
+        for (int k = 0; k < count; k++) { // zum Schluss alle Borders entfernen
             arr_blink[k].setBorder(BorderFactory.createEmptyBorder());
         }
     }
@@ -517,6 +492,37 @@ class Thread2 extends Thread {
     public void stopRun() {
         run = false;
     }
+
+    /**
+     * Methode, fuellt das Array mit Objekten die benachbarte Felder darstellen
+     */
+    public void fillArray() {
+        if(!isObstacle(y + 1, x - 1)) { // Richtung 1
+            addLabel(y + 1, x - 1);
+        }
+        if(!isObstacle(y + 1, x)) { // Richtung 2
+            addLabel(y + 1, x);
+        }
+        if(!isObstacle(y + 1, x + 1)) { // Richtung 3
+            addLabel(y + 1, x + 1);
+        }
+        if(!isObstacle(y, x - 1)) { // Richtung 4
+            addLabel(y, x - 1);
+        }
+        if(!isObstacle(y, x + 1)) { // Richtung 6
+            addLabel(y, x + 1);
+        }
+        if(!isObstacle(y - 1, x - 1)) { // Richtung 7
+            addLabel(y - 1, x - 1);
+        }
+        if(!isObstacle(y - 1, x)) { // Richtung 8
+            addLabel(y - 1, x);
+        }
+        if(!isObstacle(y - 1, x + 1)) { // Richtung 9
+            addLabel(y - 1, x + 1);
+        }
+    }
+
     /**
      * Methode, die das arr_blink fuellt
      * @param die Y-Koordinate und die X-Koordinate, um die benachbarten Felder blicken lassen zu koennen
