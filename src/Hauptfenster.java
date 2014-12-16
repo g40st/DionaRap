@@ -29,13 +29,15 @@ import de.fhwgt.dionarap.controller.DionaRapController;
  */
 public class Hauptfenster extends JFrame {
     // ein Spielfeld anlegen
-    static Grid grid = new Grid(10, 16);
+    private static int y = 10;
+    private static int x = 16;
+    private Grid grid = new Grid(y, x);
     // Anzahl der Gegner
-    static int opponents = 0;
+    private static int opponents = 3;
     // Anzahl der Hindernisse
-    static int obstacles = 4;
+    private static int obstacles = 4;
     // Multithreading-Configuration
-    static MTConfiguration conf = new MTConfiguration();
+    private static MTConfiguration conf = new MTConfiguration();
     // ausgewaehltes Theme zu beginn
     private static String theme = "Dracula";
     private DionaRapModel dionaRapModel;
@@ -174,6 +176,49 @@ public class Hauptfenster extends JFrame {
      */
     public MTConfiguration getConf() {
         return conf;
+    }
+
+    /**
+     * set-Methode, setzt die Groeße der Spielflaeche
+     *
+     * @param die gewuenschte Groeße in Y-Richtung, die gewuenschte Groeße in X-Richtung
+     */
+    public void setGrid(int y, int x) {
+        this.y = y;
+    }
+
+    /**
+     * set-Methode, setzt die Anzahl der Gegner
+     *
+     * @param gewuenschte Anzahl wird uebergeben
+     */
+    public void setOpponents(int i) {
+        this.opponents = i;
+    }
+
+    /**
+     * set-Methode, setzt die Anzahl der Hindernisse
+     *
+     * @param gewuenschte Anzahl wird uebergeben
+     */
+    public void setObstacles(int i) {
+        this.obstacles = i;
+    }
+
+    /**
+     * get-Methode, gibt die Anzahl der Gegner an
+     *
+     */
+    public int getOpponents() {
+        return opponents;
+    }
+
+    /**
+     * get-Methode, gibt die Anzahl der Hindernisse an
+     *
+     */
+    public int getObstacles() {
+        return obstacles;
     }
 
     /**
@@ -325,6 +370,7 @@ public class Hauptfenster extends JFrame {
     /**
      * set-Methode, das aktuelle Theme setzen und das Spielfeld neu zeichnen
      *
+     * @param der Name des Ordners indem sich die Bilddateien befinden wird uebergeben
      */
     public void setTheme(String theme) {
         this.theme = theme;
@@ -335,7 +381,7 @@ public class Hauptfenster extends JFrame {
     /**
      * set-Methode, vertauscht das Spielfeld mit der Toolbar
      *
-     * @param falls true wird die Toolbar im CENTER-Bereich positioniert / false dann im SOUTH-Bereich
+     * @param falls true wird die Toolbar im NORTH-Bereich positioniert / false dann im SOUTH-Bereich
      */
     public void setToolbarPosition(boolean north) {
         if(north) {
