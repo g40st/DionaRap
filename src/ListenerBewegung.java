@@ -25,13 +25,21 @@ class ListenerBewegung implements ActionListener {
             JButton btn = (JButton) e.getSource();
             Hauptfenster hauptfenster = (Hauptfenster) btn.getTopLevelAncestor().getParent();
             DionaRapController drcp = (DionaRapController) hauptfenster.getDionaRapController();
+            // fuer die aktuelle Spielerposition
+            int x = hauptfenster.getPlayer().getX();
+            int y = hauptfenster.getPlayer().getY();
 
             hauptfenster.getSpielfeld().setLastDirection(Integer.parseInt(e.getActionCommand()));
             drcp.movePlayer(Integer.parseInt(e.getActionCommand()));
             if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) { // Sobald eine gueltige Bewegung vollzogen wird, wird der Thread 2 beendet
                 hauptfenster.stopThread2Run();
+            } else { // wenn die Position geaendert wurde -> Sound
+                hauptfenster.getSounds().playMove();
             }
-            hauptfenster.getSounds().playMove();
+
+            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) { // die Spielerposition hat sich zur vorherigen Position nicht geaendert
+                hauptfenster.createNewThread2();
+            }
 
             hauptfenster.requestFocus();
         }

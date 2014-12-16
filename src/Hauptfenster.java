@@ -413,7 +413,6 @@ class Thread1 extends Thread {
     }
 }
 
-
 /**
  * Thread2
  * Blinken der Felder wenn der Spieler auf ein nicht benachbartes Feld klickt
@@ -476,6 +475,9 @@ class Thread2 extends Thread {
      */
     public boolean isObstacle(int y, int x) {
         AbstractPawn[] spielfiguren = hauptfenster.getPawns();
+        if((y < 0) || (y >= hauptfenster.getDionaRapModel().getGrid().getGridSizeY()) || (x < 0) || x >= (hauptfenster.getDionaRapModel().getGrid().getGridSizeX())) {
+            return true;
+        }
         for(int i = 0; i < (int) spielfiguren.length; i++) {
             if (spielfiguren[i] instanceof Obstacle) {
                 if((spielfiguren[i].getY() == y) && (spielfiguren[i].getX() == x)) {

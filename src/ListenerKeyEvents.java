@@ -13,6 +13,8 @@ import de.fhwgt.dionarap.controller.DionaRapController;
  * @version 1.0
  */
 public class ListenerKeyEvents implements KeyListener {
+    int x;
+    int y;
 
     @Override
     public void keyPressed(KeyEvent e) {}
@@ -30,13 +32,18 @@ public class ListenerKeyEvents implements KeyListener {
         DionaRapController drcp = hauptfenster.getDionaRapController();
 
         if(e.getKeyChar() != '5' &&  ('1' <= e.getKeyChar() && e.getKeyChar() <= '9')){
+            x = hauptfenster.getPlayer().getX();
+            y = hauptfenster.getPlayer().getY();
             hauptfenster.getSpielfeld().setLastDirection(Character.getNumericValue(e.getKeyChar()));
             drcp.movePlayer(Character.getNumericValue(e.getKeyChar()));
             if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) { // Sobald eine gueltige Bewegung vollzogen wird, wird der Thread 2 beendet
                 hauptfenster.stopThread2Run();
             }
-            hauptfenster.getSounds().playMove();
-            //System.out.println("Move " + hauptfenster.getTitle() + " " + e.getKeyChar());
+            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) { // die Spielerposition hat sich zur vorherigen Position nicht geaendert
+                hauptfenster.createNewThread2();
+            } else { // wenn die Position geaendert wurde -> Sound
+                hauptfenster.getSounds().playMove();
+            }
         }
         else if((e.getKeyChar() == '5')) {
             if (hauptfenster.getDionaRapModel().getShootAmount() == 0) { // Erzuegen des "Blink"-Threads, falls Munition = 0
@@ -53,7 +60,6 @@ public class ListenerKeyEvents implements KeyListener {
                 hauptfenster.getSounds().playShoot();
             }
             drcp.shoot();
-            //System.out.println("Shot " + hauptfenster.getTitle() + " " + e.getKeyChar());
         }
         else {
             System.out.println(e.getKeyChar());
