@@ -11,7 +11,7 @@ import java.net.URL;
  * @version 1.0
  */
 class Sounds {
-    Hauptfenster hauptfenster;
+    private Hauptfenster hauptfenster;
     private AudioInputStream gameWon;
     private AudioInputStream gameOver;
     private AudioInputStream move;

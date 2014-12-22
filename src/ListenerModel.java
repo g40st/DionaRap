@@ -70,7 +70,7 @@ class ListenerModel implements DionaRapListener {
             System.err.println("File kann nicht gelesen werden: " + ex);
         }
         if(end_position != HighScoreFile.SCORE_TO_LOW_FOR_HIGHSCORE && gameWon) {
-            addBestlist();
+            addBestlist(); // Bestenliste Dialog zeichnen
         }
         addDialog(gameWon); // den Dialog zeichnen
     }

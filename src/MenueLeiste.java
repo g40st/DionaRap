@@ -5,10 +5,12 @@ import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.GridLayout;
 
+import javax.swing.filechooser.FileFilter;
 import java.lang.Exception;
 import java.io.IOException;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.io.File;
 
 import javax.swing.*;
 
@@ -34,7 +36,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
     // Flag, ob die Toolbar sichtbar ist
     private boolean navigator = true;
     // Array indem alle Look and Feels gespeichert werden
-    private UIManager.LookAndFeelInfo [] lookandfeelinfo;
+    private UIManager.LookAndFeelInfo[] lookandfeelinfo;
     // Fuer jedes Look and Feel ein JRadioButtonMenuItem
     private JRadioButtonMenuItem lookandfeel[];
     // Anzahl der vorhanden Look and Feels
@@ -207,22 +209,25 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         if (e.getSource() == read_level) { // XML Datei einlesen (LevelReader)
                 // Filechooser fuer die XML Datei
                 JFileChooser chooser = new JFileChooser(Hauptfenster.getDirectory() + "level");
-                chooser.showOpenDialog(hauptfenster);
-                // Alle Labels des bisherigen Spielfeldes loeschen
-                hauptfenster.getSpielfeld().delAllLabels();
-                // Levelreader ausfuehren
-                LevelReader levelreader = new LevelReader(hauptfenster.getConf(), hauptfenster.getDionaRapModel());
-                levelreader.readLevel(chooser.getSelectedFile().toString());
-                // neues Spielfeld zeichnen
-                hauptfenster.getSpielfeld().addJLabels();
-                hauptfenster.getSpielfeld().drawNew();
-                hauptfenster.getToolbar().updateToolbar(hauptfenster.getDionaRapModel().getShootAmount(), hauptfenster.getDionaRapModel().getScore(), hauptfenster.getProgress());
-                // neue Multithreading-Configuration setzen
-                hauptfenster.getDionaRapController().setMultiThreaded(hauptfenster.getDionaRapModel().getActiveConfiguration());
-                // den Navigator zum Hauptfenster positionieren
-                hauptfenster.pack();
-                ListenerFenster lis = hauptfenster.getListenerFenster();
-                lis.componentMoved(new ComponentEvent(hauptfenster, ComponentEvent.COMPONENT_MOVED));
+                chooser.setFileFilter(new ExtensionFileFilter("XML", new String[]{"xml"}));
+                int returnValue = chooser.showOpenDialog(hauptfenster);
+                if(returnValue == JFileChooser.APPROVE_OPTION) {
+                    // Alle Labels des bisherigen Spielfeldes loeschen
+                    hauptfenster.getSpielfeld().delAllLabels();
+                    // Levelreader ausfuehren
+                    LevelReader levelreader = new LevelReader(hauptfenster.getConf(), hauptfenster.getDionaRapModel());
+                    levelreader.readLevel(chooser.getSelectedFile().toString());
+                    // neues Spielfeld zeichnen
+                    hauptfenster.getSpielfeld().addJLabels();
+                    hauptfenster.getSpielfeld().drawNew();
+                    hauptfenster.getToolbar().updateToolbar(hauptfenster.getDionaRapModel().getShootAmount(), hauptfenster.getDionaRapModel().getScore(), hauptfenster.getProgress());
+                    // neue Multithreading-Configuration setzen
+                    hauptfenster.getDionaRapController().setMultiThreaded(hauptfenster.getDionaRapModel().getActiveConfiguration());
+                    // den Navigator zum Hauptfenster positionieren
+                    hauptfenster.pack();
+                    ListenerFenster lis = hauptfenster.getListenerFenster();
+                    lis.componentMoved(new ComponentEvent(hauptfenster, ComponentEvent.COMPONENT_MOVED));
+            }
         }
 
         if (e.getSource() == game_description) { // Anzeigen der Spielbeschreibung (erzeugen des JDialog und JEditorPane)
@@ -254,7 +259,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         if (e.getSource() == game_settings) { // erzeugen des Spieleinstellung-Dialoges
             // panel fuer den Dialog
             JPanel panel = new JPanel();
-            conf = hauptfenster.conf;
+            conf = hauptfenster.getConf();
             for (int i = 0; i < 7; i++) {
                 text[i] = new JTextField();
             }
@@ -313,9 +318,9 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             conf.setRandomOpponentWaitTime(box1.isSelected());
             conf.setAvoidCollisionWithOpponent(box3.isSelected());
             conf.setAvoidCollisionWithObstacles(box2.isSelected());
-            hauptfenster.grid = new Grid(Integer.parseInt(text[3].getText()), Integer.parseInt(text[4].getText()));
-            hauptfenster.opponents = (Integer.parseInt(text[6].getText()));
-            hauptfenster.obstacles = (Integer.parseInt(text[5].getText()));
+            hauptfenster.setGrid((Integer.parseInt(text[3].getText())), Integer.parseInt(text[4].getText()));
+            hauptfenster.setOpponents((Integer.parseInt(text[6].getText())));
+            hauptfenster.setObstacles(Integer.parseInt(text[5].getText()));
             hauptfenster.setGameSettings(); // Flag, dass die Spieleinstellungen geaendert wurden
             JOptionPane.showMessageDialog(settings, "Änderungen werden bei Neustart der Partie übernommen!");
             settings.dispose(); // Spieleinstellungen schließen
@@ -346,6 +351,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         }
     }
 
+
     /**
      * Methode, die die einzelnen Elemente in den Spieleinstellungen mit den aktuellen Werten aus der Multithreading-Config fuellt
      *
@@ -357,8 +363,8 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         text[2].setText(String.valueOf(conf.getOpponentWaitTime()));
         text[3].setText(String.valueOf(hauptfenster.getGrid().getGridSizeY()));
         text[4].setText(String.valueOf(hauptfenster.getGrid().getGridSizeX()));
-        text[5].setText(String.valueOf(hauptfenster.obstacles));
-        text[6].setText(String.valueOf(hauptfenster.opponents));
+        text[5].setText(String.valueOf(hauptfenster.getObstacles()));
+        text[6].setText(String.valueOf(hauptfenster.getOpponents()));
 
         if(conf.isRandomOpponentWaitTime()) {
             box1.setSelected(true);
@@ -370,5 +376,34 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
         if(conf.isAvoidCollisionWithOpponent()) {
             box3.setSelected(true);
         }
+    }
+}
+
+class ExtensionFileFilter extends FileFilter {
+    private String description;
+    private String extensions[];
+
+    public ExtensionFileFilter(String description, String extensions[]) {
+        this.description = description;
+        this.extensions = extensions;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean accept(File file) {
+        if (file.isDirectory()) {
+            return true;
+        } else {
+        String path = file.getAbsolutePath();
+        for (int i = 0; i < extensions.length; i++) {
+            String extension = extensions[i];
+            if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
+                return true;
+            }
+        }
+    }
+    return false;
     }
 }

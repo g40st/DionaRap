@@ -86,43 +86,51 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
                         } else if(y - i == -1 && x - k == 1) {
                             hauptfenster.getSpielfeld().setLastDirection(1);
                             drcp.movePlayer(1);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run(); // Blinken beenden falls es aktiv ist, gueltige Bewegung ausgefuehrt
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2(); // Blinken starten, da keine Positionsaenderung
+                            else hauptfenster.getSounds().playMove(); // wenn die Position geaendert wurde -> Sound
                         } else if(y - i == -1 && x - k == 0) {
                             hauptfenster.getSpielfeld().setLastDirection(2);
                             drcp.movePlayer(2);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run();
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2();
+                            else hauptfenster.getSounds().playMove();
                         } else if(y - i == -1 && x - k == -1) {
                             hauptfenster.getSpielfeld().setLastDirection(3);
                             drcp.movePlayer(3);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run();
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2();
+                            else hauptfenster.getSounds().playMove();
                         } else if(y - i == 0 && x - k == -1) {
                             hauptfenster.getSpielfeld().setLastDirection(6);
                             drcp.movePlayer(6);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run();
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2();
+                            else hauptfenster.getSounds().playMove();
                         } else if(y - i == 1 && x - k == -1) {
                             hauptfenster.getSpielfeld().setLastDirection(9);
                             drcp.movePlayer(9);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run();
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2();
+                            else hauptfenster.getSounds().playMove();
                         } else if(y - i == 1 && x - k == 0) {
                             hauptfenster.getSpielfeld().setLastDirection(8);
                             drcp.movePlayer(8);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run();
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2();
+                            else hauptfenster.getSounds().playMove();
                         } else if(y - i == 1 && x - k == 1) {
                             hauptfenster.getSpielfeld().setLastDirection(7);
                             drcp.movePlayer(7);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run();
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2();
+                            else hauptfenster.getSounds().playMove();
                         } else if(y - i == 0 && x - k == 1) {
                             hauptfenster.getSpielfeld().setLastDirection(4);
                             drcp.movePlayer(4);
-                            if(hauptfenster.getThread2().isAlive()) hauptfenster.stopThread2Run();
-                            hauptfenster.getSounds().playMove();
+                            if((hauptfenster.getThread2() != null) && (hauptfenster.getThread2().isAlive())) hauptfenster.stopThread2Run();
+                            if((x == hauptfenster.getPlayer().getX()) && y == (hauptfenster.getPlayer().getY())) hauptfenster.createNewThread2();
+                            else hauptfenster.getSounds().playMove();
                         } else {
                             if(hauptfenster.getThread2() == null) { // Uberpruefen, ob ein Objekte von Thread2 existiert
                                 hauptfenster.createNewThread2();
