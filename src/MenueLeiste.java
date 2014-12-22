@@ -72,7 +72,6 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
 
     /**
      * Konstruktor der Klasse Toolbar
-     *
      * ist fuer die Menueleiste zustaendig (Ansicht-Reiter, Konfiguration-Reiter und Hilfe-Reiter)
      * @param das Hauptfenster wird uebergeben
      */
@@ -149,7 +148,6 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
 
     /**
      * Methode, setzt das "Spieleinstellungen-Element" auf aktiv
-     *
      */
     public void setGameSettingsEnabled() {
         game_settings.setEnabled(true);
@@ -159,7 +157,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Fuer jedes Element in der Menueleiste wird das jeweilige Event abgearbeitet
      * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern
-     *         Einlesen von XML-Dateien(Levelreader), Aendern der Spieleinstellungen
+     *         Einlesen von XML-Dateien(Levelreader), Aendern der Spieleinstellungen, Hilfe anzeigen
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view_toolbar) { // Ein-/Ausblenden der Toolbar
@@ -177,7 +175,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
             }
         }
 
-        if (e.getSource() == toolbar_oben) { // positionieren der toolbar am oberen Rand
+        if (e.getSource() == toolbar_oben) { // positionieren der Toolbar am oberen Rand
                 north = true;
                 hauptfenster.setToolbarPosition(north);
                 toolbar_unten.setEnabled(true);
@@ -185,7 +183,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
                 hauptfenster.pack();
         }
 
-        if (e.getSource() == toolbar_unten) { // positionieren der toolbar am unteren Rand
+        if (e.getSource() == toolbar_unten) { // positionieren der Toolbar am unteren Rand
                 north = false;
                 hauptfenster.setToolbarPosition(north);
                 toolbar_unten.setEnabled(false);
@@ -354,7 +352,6 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
 
     /**
      * Methode, die die einzelnen Elemente in den Spieleinstellungen mit den aktuellen Werten aus der Multithreading-Config fuellt
-     *
      * @param aktuelle Multithreading-Config
      */
     private void setDefaults(MTConfiguration conf) {
@@ -379,31 +376,52 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
     }
 }
 
+/**
+ * ExtensionFileFilter
+ * Erstellen eines FileFilters abgeleitet von <code>FileFilter</code>
+ * Copyright (c) 2014
+ * @author Christian Hoegerle / Thomas Buck
+ * @version 1.0
+ */
 class ExtensionFileFilter extends FileFilter {
     private String description;
     private String extensions[];
 
+    /**
+     * Konstruktor der Klasse Toolbar
+     * ist fuer die Bereitstellung des FileFilter verantwortlich
+     * @param die Beschreibung des Filters und die verwendeten Dateiendungen
+     */
     public ExtensionFileFilter(String description, String extensions[]) {
         this.description = description;
         this.extensions = extensions;
     }
 
+    /**
+     * get-Methode, gibt die Beschreibung zurueck
+     * @return String
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Methode, erstellt den gewuenschten FileFilter
+     * @param File
+     * @return bool
+     */
     public boolean accept(File file) {
         if (file.isDirectory()) {
             return true;
         } else {
-        String path = file.getAbsolutePath();
-        for (int i = 0; i < extensions.length; i++) {
-            String extension = extensions[i];
-            if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
-                return true;
+            String path = file.getAbsolutePath();
+            for (int i = 0; i < extensions.length; i++) {
+                String extension = extensions[i];
+                if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
+                    return true;
+                }
             }
         }
-    }
-    return false;
+        return false;
     }
 }

@@ -116,7 +116,6 @@ public class Hauptfenster extends JFrame {
         dionaRapModel.setShootAmount(5);
         // Ein Ammo-Objekt auf dem Spielfeld anlegen
         dionaRapModel.addAmmo(new Ammo(4,5));
-        dionaRapModel.addObstacle(new Obstacle(5,7));
         // Spielfeld hinzufuegen
         spielfeld = new Spielfeld(this);
         this.add(spielfeld, BorderLayout.CENTER);
@@ -148,7 +147,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * Methode, setzt das Spieleinstellungen Flag auf true, wenn diese geändert wurden
-     *
      */
     public void setGameSettings() {
         game_settings = true;
@@ -156,7 +154,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Menuebar zurueck
-     *
+     * @return MenueLeiste
      */
     public MenueLeiste getMenubar() {
         return menubar;
@@ -164,7 +162,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Klasse Sounds zurueck
-     *
+     * @return Sounds
      */
     public Sounds getSounds() {
         return sounds;
@@ -172,7 +170,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Multithreading-Configuration zurueck
-     *
+     * @return MTConfiguration
      */
     public MTConfiguration getConf() {
         return conf;
@@ -180,7 +178,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, setzt die Groeße der Spielflaeche
-     *
      * @param die gewuenschte Groeße in Y-Richtung, die gewuenschte Groeße in X-Richtung
      */
     public void setGrid(int y, int x) {
@@ -189,7 +186,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, setzt die Anzahl der Gegner
-     *
      * @param gewuenschte Anzahl wird uebergeben
      */
     public void setOpponents(int i) {
@@ -198,7 +194,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, setzt die Anzahl der Hindernisse
-     *
      * @param gewuenschte Anzahl wird uebergeben
      */
     public void setObstacles(int i) {
@@ -207,7 +202,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Anzahl der Gegner an
-     *
+     * @return Anzahl der Gegner
      */
     public int getOpponents() {
         return opponents;
@@ -215,7 +210,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Anzahl der Hindernisse an
-     *
+     * @return Anzahl der Hindernisse
      */
     public int getObstacles() {
         return obstacles;
@@ -223,7 +218,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt das Grid zurueck
-     *
+     * @return Grid
      */
     public Grid getGrid() {
         return grid;
@@ -231,7 +226,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den ListenerBewegung zurueck
-     *
+     * @return ListenerFenster
      */
     public ListenerFenster getListenerFenster() {
         return lis_component;
@@ -239,7 +234,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt das Array mit den Spielfiguren zurueck
-     *
+     * @return AbstractPawn[]
      */
     public AbstractPawn[] getPawns() {
         return dionaRapModel.getAllPawns();
@@ -247,7 +242,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den Thread fuer das Blinken der Munitionsanzeige zurueck
-     *
+     * @retund Thread
      */
     public Thread getThread1() {
         return t1;
@@ -264,7 +259,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den Thread fuer das Blinken der benachbarten Felder zurueck
-     *
+     * @return Thread
      */
     public Thread getThread2() {
         return t2;
@@ -272,7 +267,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * Methode, startet den Thread fuer das Blinken der benachbarten Felder
-     *
      */
     public void createNewThread2() {
         t2 = new Thread2(this);
@@ -280,13 +274,16 @@ public class Hauptfenster extends JFrame {
         t2.start();
     }
 
+    /**
+     * Methode, beendet den Thread fuer das Blinken der benachbarten Felder
+     */
     public void stopThread2Run() {
         t2.stopRun();
     }
 
     /**
      * get-Methode, gibt die Instanz von DionaRapController zurueck
-     *
+     * @return DionaRapController
      */
     public DionaRapController getDionaRapController() {
         return dionaRapController;
@@ -294,7 +291,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Instanz von DionaRapController zurueck
-     *
+     * @return DionaRapModel
      */
     public DionaRapModel getDionaRapModel() {
         return dionaRapModel;
@@ -302,7 +299,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Instanz vom Spielfeld zurueck
-     *
+     * @return Spielfeld
      */
     public Spielfeld getSpielfeld() {
         return spielfeld;
@@ -310,7 +307,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den Player zurueck
-     *
+     * @return Player
      */
     public Player getPlayer() {
         return dionaRapModel.getPlayer();
@@ -318,7 +315,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * statische get-Methode, gibt den System-Separator zurueck
-     *
+     * @return String
      */
     public static String getSeparator() {
         String separator = System.getProperty("file.separator");
@@ -327,7 +324,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * statische get-Methode, gibt das Verzeichnis indem das Spiel gestartet wurde zurueck
-     *
+     * @return String
      */
     public static String getDirectory() {
         String home = System.getProperty("user.dir");
@@ -336,7 +333,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den Navigator zurueck
-     *
+     * @return Navigator
      */
     public Navigator getNavigator() {
         return navigator;
@@ -344,7 +341,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Toolbar zurueck
-     *
+     * @return Toolbar
      */
     public Toolbar getToolbar() {
         return toolbar;
@@ -352,7 +349,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den Spielfortschritt als Ganzzahl zurueck
-     *
+     * @return Spielfortschritt (int)
      */
     public int getProgress() {
         float d = ((opponents - (float) dionaRapModel.getOpponentCount()) / opponents) * 100;
@@ -361,7 +358,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt das aktuelle Theme als String zurueck
-     *
+     * @return String
      */
     public String getTheme() {
         return theme;
@@ -369,7 +366,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, das aktuelle Theme setzen und das Spielfeld neu zeichnen
-     *
      * @param der Name des Ordners indem sich die Bilddateien befinden wird uebergeben
      */
     public void setTheme(String theme) {
@@ -382,7 +378,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, vertauscht das Spielfeld mit der Toolbar
-     *
      * @param falls true wird die Toolbar im NORTH-Bereich positioniert / false dann im SOUTH-Bereich
      */
     public void setToolbarPosition(boolean north) {
@@ -400,7 +395,7 @@ public class Hauptfenster extends JFrame {
     }
 
     /**
-     * Methode, erzeugt ein neues Spiel
+     * Methode, speichert die aktuelle Position des Fensters, schließt das Fenster und erzeugt ein neues Spiel
      */
     public void newGame() {
         pos_y = this.getY();
@@ -411,7 +406,6 @@ public class Hauptfenster extends JFrame {
 
     /**
      * Main-Methode erzeugt das Hauptfenster
-     *
      * @param args Kommandozeilenparameter (nicht verwendet)
      */
     public static void main(String[] args) {
@@ -433,7 +427,6 @@ class Thread1 extends Thread {
     /**
      * Konstruktor des Thread vom Typ <code>Thread</code>.
      * Zuweisen der Hauptfensters
-     *
      * @param bekommt das Hauptfenster uebergeben
      */
     Thread1(Hauptfenster hauptfenster) {
@@ -481,8 +474,7 @@ class Thread2 extends Thread {
 
     /**
      * Konstruktor des Thread vom Typ <code>Thread</code>.
-     * Zuweisen der Hauptfensters
-     *
+     * Zuweisen der Hauptfensters, Anlegen der Labels des Spielfeldes
      * @param bekommt das Hauptfenster uebergeben
      */
     Thread2(Hauptfenster hauptfenster) {
@@ -520,6 +512,7 @@ class Thread2 extends Thread {
      * true: wenn sich ein Hindernis an den uebergebenen Koordinaten befindet
      * false: wenn sich kein Hindernis an den uebergebenen Koordinaten befindet
      * @param die Y-Koordinate und die X-Koordinate um die benachbarten Felder blicken lassen zu koennen
+     * @return true wenn der uebergebene Punkt außerhalb des Spielfeldes liegt oder wenn sich am Punkt ein Hindernis befindet; sonst false
      */
     public boolean isObstacle(int y, int x) {
         AbstractPawn[] spielfiguren = hauptfenster.getPawns();
@@ -574,7 +567,7 @@ class Thread2 extends Thread {
     }
 
     /**
-     * Methode, die das arr_blink fuellt
+     * Methode, die das Array fuellt. dass die Labels enthaelt die blinken sollen
      * @param die Y-Koordinate und die X-Koordinate, um die benachbarten Felder blicken lassen zu koennen
      */
     public void addLabel(int z, int t) {

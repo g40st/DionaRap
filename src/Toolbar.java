@@ -24,7 +24,7 @@ import de.fhwgt.dionarap.view.HighScoreFile;
 
 /**
  * Toolbar
- * Initialiserung der Toolbar, implementiert <code>JToolBar</code>
+ * Initialiserung der Toolbar, abgeleitet von <code>JToolBar</code>, implementiert <code>ActionListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -46,8 +46,7 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Konstruktor der Klasse Toolbar
-     *
-     * ist fuer die Toolbar zustaendig (NeuesSpiel-Button, Punktestand, Munition, Spielfortschritt, Bestenliste-Button)
+     * ist fuer die Toolbar zustaendig ("NeuesSpiel"-Button, Punktestand, Munition, Spielfortschritt, Bestenliste-Button)
      * @param das Hauptfenster wird uebergeben
      */
     Toolbar(Hauptfenster hauptfenster) {
@@ -106,7 +105,7 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * get-Methode gibt die Labels der Munitionsanzeige zurueck (benoetigt im Thread)
-     *
+     * @return JLabel[]
      */
     public JLabel[] getArrAmmo() {
         return arr_ammo;
@@ -114,7 +113,7 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * get-Methode gibt das Panel zurueck indem sich die Munitionsanzeige befindet (benoetigt im Thread)
-     *
+     * @return JPanel
      */
     public JPanel getAmmo() {
         return ammo;
@@ -122,7 +121,6 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode setzt den "Neues Spiel"-Button auf aktiv
-     *
      */
     public void setEnabled() {
         newGame.setEnabled(true);
@@ -130,7 +128,6 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode setzt den "Neues Spiel"-Button auf inaktiv
-     *
      */
     public void setDisabled() {
         newGame.setEnabled(false);
@@ -138,7 +135,6 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode setzt den Punktestand
-     *
      */
     private void setScore(int score) {
         textfield_score.setText(String.valueOf(score));
@@ -146,7 +142,6 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode setzt den Spielfortschritt
-     *
      */
     private void setProgress(int progress) {
         progressbar.setValue(progress);
@@ -154,7 +149,6 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode blendet die Toolbar aus
-     *
      */
     public void setDisabledToolbar() {
         this.setVisible(false);
@@ -162,7 +156,6 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode blendet die Toolbar ein
-     *
      */
     public void setEnabledToolbar() {
         this.setVisible(true);
@@ -170,7 +163,7 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode zeichnet die Munitionsanzeige in der Toolbar
-     *
+     * @param Munitionsvorrat
      */
     public void setAmmoIcons(int countAmmo) {
         String img_source = Hauptfenster.getDirectory() + "image" + separator + hauptfenster.getTheme();

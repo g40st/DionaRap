@@ -37,7 +37,6 @@ class Tastatur extends JPanel {
         // definieren des Layout-Mangers
         this.setLayout(new GridLayout(key_static, key_static));
         this.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-
         nav_source = nav_source + separator + "image" + separator + "navigator";
         addJButtons();
         this.setVisible(true);
@@ -69,7 +68,7 @@ class Tastatur extends JPanel {
 
     /**
      * Methode gibt das Objekt des ListenerBewegung zurueck
-     *
+     * @return ListenerBewegung
      */
     public ListenerBewegung getListenerBewegung() {
         return lis_move;

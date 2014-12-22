@@ -18,6 +18,7 @@ class ListenerWaffe implements ActionListener {
     /**
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Event zu Button 5 zum Schießen der Spielfigur
+     * @param ActionEvent
      */
     public void actionPerformed(ActionEvent e) {
         System.out.print(e.getActionCommand());

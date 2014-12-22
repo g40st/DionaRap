@@ -15,9 +15,8 @@ class ListenerFenster implements ComponentListener {
 
     /**
      * Konstruktor der Klasse ListenerFenster
-     *
      * den uebergebenen Parametern werden Hilfsvariablen zugeordnet
-     * @param das Spieldfeld, der Navigator und die Abstandskonstante wird uebergeben
+     * @param das Hauptfenster, der Navigator und die Abstandskonstante wird uebergeben
      */
     ListenerFenster(Hauptfenster hauptfenster, Navigator navigator, int nav_pos_const) {
         this.hauptfenster = hauptfenster;
@@ -31,6 +30,7 @@ class ListenerFenster implements ComponentListener {
     /**
      * Eventhandler fuer das Event <code>componentMoved</code>
      * Event, dass das Navigatorfenster relativ zum Hauptfenster platziert
+     * @param ComponentEvent
      */
     public void componentMoved(ComponentEvent e){
         navigator.setLocation(((int)hauptfenster.getBounds().getX()) + hauptfenster.getWidth() + nav_pos_const, ((int) hauptfenster.getBounds().getY()));

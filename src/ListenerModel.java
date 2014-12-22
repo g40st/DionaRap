@@ -26,10 +26,9 @@ class ListenerModel implements DionaRapListener {
     private boolean gameRunning = true;
 
     /**
-     * Konstruktor der Klasse ListenerFenster
-     *
-     * den uebergebenen Parametern werden Hilfsvariablen zugeordnet
-     * @param das Spieldfeld und das Spielfeld wird uebergeben
+     * Konstruktor der Klasse ListenerModel
+     * Zuordnung des Hauptfensters
+     * @param das Hauptfenster wird uebergeben
      */
     ListenerModel(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
@@ -37,6 +36,7 @@ class ListenerModel implements DionaRapListener {
 
     /**
      * Event, dass bei einer Spielaenderung alle Spielfiguren loescht und wieder neu setzt
+     * @param DionRapChangedEvent
      */
     public void modelChanged(DionaRapChangedEvent e) {
         if(gameRunning == true) {
@@ -47,6 +47,7 @@ class ListenerModel implements DionaRapListener {
 
     /**
      * Event, dass bei Spielende aufgerufen wird
+     * @param GameStatusEvent
      */
     public void statusChanged(GameStatusEvent e) {
         gameRunning = false;
@@ -77,7 +78,6 @@ class ListenerModel implements DionaRapListener {
 
     /**
      * Methode, die das JDialogPane zeichnet und nach "Neues Spiel / Abbrechen" fraegt
-     *
      *@param boolean ob das Spiel gewonnen oder verloren, Reaktion auf den Button "Neues Spiel"
      */
     private void addDialog(boolean gameWon) {
@@ -101,8 +101,7 @@ class ListenerModel implements DionaRapListener {
     }
 
     /**
-     * Methode, die einen JDialog zeichnet und anschließen den Spieler an die richtige Stelle in der Bestenliste eintraegt
-     *
+     * Methode, die einen JDialog zeichnet und anschließend den Spieler an die richtige Stelle in der Bestenliste eintraegt
      */
     private void addBestlist() {
         String separator = Hauptfenster.getSeparator();

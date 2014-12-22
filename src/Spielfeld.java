@@ -35,18 +35,24 @@ class Spielfeld extends JPanel {
     // Hintergrundbild
     private Image bg_img = null;
 
+    private ListenerMaus lis_maus;
+
     /**
      * Konstruktor des Spielfeldes vom Typ <code>JPanel</code>.
-     * legt den Layout-Manager fest und ruft die Methode addJLabels() auf
-     *
+     * zuweisen des Hauptfensters, anlegen eines Mauslisteners, ruft die Methode addJLabels() auf
      * @param bekommt das Hauptfenster uebergeben
      */
     Spielfeld(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
         img_source = img_source + "image" + separator + hauptfenster.getTheme();
+        lis_maus = new ListenerMaus(hauptfenster);
         addJLabels();
     }
 
+    /**
+     * paintComponent Methode, zeichnet das Hintergrundbild fuer das Theme "SpaceWars"
+     * @param Graphics
+     */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -85,7 +91,6 @@ class Spielfeld extends JPanel {
 
         this.setLayout(new GridLayout(hauptfenster.getDionaRapModel().getGrid().getGridSizeY(), hauptfenster.getDionaRapModel().getGrid().getGridSizeX()));
         label = new JLabel [hauptfenster.getDionaRapModel().getGrid().getGridSizeY()][hauptfenster.getDionaRapModel().getGrid().getGridSizeX()];
-        ListenerMaus lis_maus = new ListenerMaus(hauptfenster);
         for (int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {
             for (int k = 0; k < hauptfenster.getDionaRapModel().getGrid().getGridSizeX(); k++) {
                 label[i][k] = new JLabel();
@@ -117,7 +122,6 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, um die letzte Bewegungsrichtung zu ermitteln
-     *
      *@param erhaelt die letzte Richtungseingabe vom Event
      */
     public void setLastDirection(int lastDirection) {
@@ -126,7 +130,6 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die alle Spielfiguren zeichnet
-     *
      * @param Array vom Typ AbstractPawn, enthaelt alle Spielfiguren
      */
     public void drawAllPawns(AbstractPawn[] spielfiguren) {
@@ -151,7 +154,7 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die den Player bei Ende des Spiels zeichnet (gewonnen oder verloren)
-     *
+     * @param das Objekt des Spielers und ein Flag ob das Spiel gewonnen (true) oder verloren wurde
      */
     public void gameStatusEnd(Player player, boolean gameWon) {
         if(!gameWon) {
@@ -166,7 +169,6 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die alle Spielfiguren auf dem Spielfeld loescht
-     *
      */
     public void delAllPawns() {
         for(int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {
@@ -178,7 +180,6 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die das Verzeichnis der Bilder updatet
-     *
      */
     public void setImgSrc() {
         img_source = Hauptfenster.getDirectory();
@@ -187,7 +188,7 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die das Spielfeldarray zurueckgibt
-     *
+     * @return JLabel[][]
      */
     public JLabel[][] getLabel() {
         return label;
@@ -195,7 +196,6 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die alle Spielfiguren neu zeichnet
-     *
      */
     public void drawNew() {
         delAllPawns();

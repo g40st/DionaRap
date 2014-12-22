@@ -8,23 +8,20 @@ import de.fhwgt.dionarap.controller.DionaRapController;
 /**
  * Klasse realisiert den Listener fuer Tastatur-Ergeignisse und implementiert
  * das Interface <code>KeyListener</code>. Events, die die Ziffern 1-9 betreffen werden behandelt.
- *
+ * Copyright (c) 2014
  * @author Christian Hoegerle und Thomas Buck
  * @version 1.0
  */
 public class ListenerKeyEvents implements KeyListener {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
-    @Override
     public void keyPressed(KeyEvent e) {}
-
-    @Override
     public void keyReleased(KeyEvent e) {}
 
     /**
      * Eventhandler fuer das Event <code>keyTyped</code>,
-     * Events zu den Zifferntasten 1-4 und 6-9  fuer die Bewegung,
+     * Events zu den Zifferntasten 1-4 und 6-9 fuer die Bewegung,
      * Event zu Zifferntaste 5 zum Schießen der Spielfigur
      */
     public void keyTyped(KeyEvent e) {

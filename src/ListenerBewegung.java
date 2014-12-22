@@ -18,7 +18,7 @@ class ListenerBewegung implements ActionListener {
     /**
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Event zu den Buttons 1-4 / 6-9 zum Bewegen der Spielfigur
-     * Event auf den Button "Neues Spiel" in der Toolbar (ActionCommand 10)
+     * @param ActionEvent
      */
     public void actionPerformed(ActionEvent e) {
         if(Integer.parseInt(e.getActionCommand()) > 0 && Integer.parseInt(e.getActionCommand()) < 10) {

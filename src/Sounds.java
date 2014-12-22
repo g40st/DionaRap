@@ -25,7 +25,6 @@ class Sounds {
 
     /**
      * Konstruktor der Klasse Sounds
-     *
      * ist fuer die Erzeugung der Sounds zustaendig
      * @param das Hauptfenster wird uebergeben
      */
@@ -86,7 +85,6 @@ class Sounds {
 
     /**
      * Methode, spielt den Sound, wenn das Spiel verloren wurde
-     *
      */
     public void playGameOver() {
         try {
@@ -99,7 +97,6 @@ class Sounds {
 
     /**
      * Methode, spielt den Sound, wenn das Spiel gewonnen wurde
-     *
      */
     public void playGameWon() {
         try {
@@ -111,7 +108,6 @@ class Sounds {
     }
     /**
      * Methode, spielt den Sound, wenn sich der Spieler auf dem Spielfeld bewegt hat
-     *
      */
     public void playMove() {
         try {
@@ -126,7 +122,6 @@ class Sounds {
 
     /**
      * Methode, spielt den Sound, wenn der Spieler einen Schuss abgegeben hat (abhaengig vom aktuellen Theme)
-     *
      */
     public void playShoot() {
         try {
@@ -148,7 +143,6 @@ class Sounds {
 
      /**
      * Methode, beendet alle aktiven Soundwiedergaben
-     *
      */
     public void stopPlaying() {
         clip_gameOver.stop();

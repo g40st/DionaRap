@@ -16,7 +16,7 @@ import java.awt.Polygon;
  */
 class Navigator extends JWindow {
     // gibt den relativen Abstand zum Hauptfenster an (konstant)
-    public static final int nav_pos_const = 30;
+    static final int nav_pos_const = 30;
     // Polygon für die Form
     private Polygon octagon;
     private Tastatur tastatur;
@@ -24,9 +24,7 @@ class Navigator extends JWindow {
 
     /**
      * Konstruktor der Steuerflaeche vom Typ <code>JWindow</code>.
-     * Erzeugt das Kindfenster, dass relativ zum Hauptfenster plaziert wird.
-     * Erzeugen eines roten Rands um das JWindow und hinzufuegen der Tastatur
-     *
+     * Erzeugt das Kindfenster, dass relativ zum Hauptfenster plaziert wird
      * @param parent das Vaterfenster
      */
     Navigator(JFrame parent) {
@@ -44,7 +42,6 @@ class Navigator extends JWindow {
 
     /**
      * Methode erzeugt das Polygon fuer das regelmaeßige Achteck
-     *
      */
     private void addPolygon() {
         octagon = new Polygon();
@@ -60,7 +57,7 @@ class Navigator extends JWindow {
 
     /**
      * Methode gibt die Tastatur zurueck
-     *
+     * @return Tastatur
      */
     public Tastatur getTastatur() {
         return tastatur;
@@ -68,7 +65,6 @@ class Navigator extends JWindow {
 
     /**
      * Methode blendet den Navigator aus
-     *
      */
     public void setDisabledNavigator() {
         this.setVisible(false);
@@ -76,7 +72,6 @@ class Navigator extends JWindow {
 
     /**
      * Methode blendet den Navigator ein
-     *
      */
     public void setEnabledNavigator() {
         this.setVisible(true);

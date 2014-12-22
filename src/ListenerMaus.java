@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * ListenerMaus
- * Initialiserung des ListenerMaus der auf Interaktionen mit der Maus reagiert, abgeleitet von <code>MouseAdapter<code>, implementiert <code>MouseListener</code>
+ * Initialiserung des ListenerMaus der auf Interaktionen mit der Maus reagiert, abgeleitet von <code>MouseAdapter<code>, implementiert <code>ActionListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -33,27 +33,32 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
 
     /**
      * Konstruktor der Klasse ListenerMaus
-     *
-     * ist fuer das Popup-Menue zustaendig
+     * setzt die Default-Werter des Popup-Menues
      * @param das Hauptfenster wird uebergeben
      */
     ListenerMaus(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
         popupMenu = new JPopupMenu("Thema");
         popupMenu.add(dracula = new JMenuItem("Dracula", new ImageIcon(img_source + "image" + separator + "Dracula" + separator + "popup.gif")));
-        dracula.setEnabled(false);
         dracula.addActionListener(this);
         popupMenu.add(spaceWars = new JMenuItem("SpaceWars", new ImageIcon(img_source + "image" + separator + "SpaceWars" + separator + "popup.gif")));
         spaceWars.addActionListener(this);
         popupMenu.add(squareHead = new JMenuItem("SquareHead", new ImageIcon(img_source + "image" + separator + "SquareHead" + separator + "popup.gif")));
         squareHead.addActionListener(this);
-
+        if(hauptfenster.getTheme().equals("Dracula")) { // das aktuelle Theme deaktivieren
+            dracula.setEnabled(false);
+        } else if (hauptfenster.getTheme().equals("SpaceWars")) {
+            spaceWars.setEnabled(false);
+        } else if (hauptfenster.getTheme().equals("SquareHead")) {
+            squareHead.setEnabled(false);
+        }
     }
 
     /**
      * Eventhandler fuer das Event <code>mouseClicked</code>
      * Event, erzeugt ein Popup-Menue bei Rechtsklick auf die Spielflaeche
      * Event, das bei Linksklick auf ein benachbartes Feld den Spieler bewegt bzw. schießt
+     * @param MouseEvent
      */
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == 3) { // Anzeigen des Popup-Menues bei Rechtsklick
@@ -148,6 +153,7 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Fuer jedes Element im Popup-Menue
      * Events: setze Theme: Dracula, Spacewars und Sqarehead
+     * @param ActionEvent
      */
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == dracula) { // setzen des Themes "Dracula"
