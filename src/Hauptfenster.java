@@ -329,6 +329,8 @@ public class Hauptfenster extends JFrame {
     public void setTheme(String theme) {
         this.theme = theme;
         spielfeld.setImgSrc();
+        spielfeld.delAllLabels();
+        spielfeld.addJLabels();
         spielfeld.drawAllPawns(getPawns());
     }
 

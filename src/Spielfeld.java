@@ -6,6 +6,10 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 
 import de.fhwgt.dionarap.model.objects.*;
 
@@ -28,6 +32,8 @@ class Spielfeld extends JPanel {
     private String [] viewing_direction = {"player.gif", "player1.gif", "player2.gif", "player3.gif", "player4.gif", null, "player6.gif", "player7.gif", "player8.gif", "player9.gif", "loss.gif", "win.gif"};
     // Integer für die letzte Blickrichtung
     private int viewing_direction_Player = 0;
+    // Hintergrundbild
+    private Image bg_img = null;
 
     /**
      * Konstruktor des Spielfeldes vom Typ <code>JPanel</code>.
@@ -41,23 +47,57 @@ class Spielfeld extends JPanel {
         addJLabels();
     }
 
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        if (bg_img != null) {
+            int w = this.getWidth(), h = this.getHeight();
+            int wi = bg_img.getWidth(this), hi = bg_img.getHeight(this);
+
+            int y = 0;
+            while (y < h) {
+                int x = 0;
+                while (x < w) {
+                    g.drawImage(bg_img, x, y, wi, hi, this);
+                    x += wi;
+                }
+                y += hi;
+            }
+        }
+    }
+
     /**
      * Methode erzeugt das Spielfeld entsprechend der Vorgabe mit abwechselnder JLabel-Hintergrundfarbe
      */
     public void addJLabels() {
+        if (hauptfenster.getTheme().equals("SpaceWars")) {
+            bg_img = Toolkit.getDefaultToolkit().getImage(img_source + separator + "background_stars.png");
+            MediaTracker mt = new MediaTracker(this);
+            mt.addImage(bg_img, 0);
+            try {
+                mt.waitForAll();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            bg_img = null;
+        }
+
         this.setLayout(new GridLayout(hauptfenster.getDionaRapModel().getGrid().getGridSizeY(), hauptfenster.getDionaRapModel().getGrid().getGridSizeX()));
         label = new JLabel [hauptfenster.getDionaRapModel().getGrid().getGridSizeY()][hauptfenster.getDionaRapModel().getGrid().getGridSizeX()];
         ListenerMaus lis_maus = new ListenerMaus(hauptfenster);
         for (int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {
             for (int k = 0; k < hauptfenster.getDionaRapModel().getGrid().getGridSizeX(); k++) {
                 label[i][k] = new JLabel();
-                if((i+k) % 2 == 0) {    // Modulo-Operation fuer abwechselnde Felder
-                    label[i][k].setBackground(Color.BLACK);
-                } else {
-                    label[i][k].setBackground(Color.WHITE);
+                if (bg_img == null) {
+                    if ((i+k) % 2 == 0) { // Modulo-Operation fuer abwechselnde Felder
+                        label[i][k].setBackground(Color.BLACK);
+                    } else {
+                        label[i][k].setBackground(Color.WHITE);
+                    }
+                    label[i][k].setOpaque(true);
                 }
                 label[i][k].setPreferredSize(new Dimension(50, 50));
-                label[i][k].setOpaque(true);
                 label[i][k].addMouseListener(lis_maus);
                 this.add(label[i][k]);
             }
