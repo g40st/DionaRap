@@ -51,7 +51,9 @@
 
   <target name="doc">
     <javadoc sourcepath="${src}" destdir="${doc}">
-
+      <fileset dir="${src}">
+        <include name="**" />
+      </fileset>
       <classpath>
         <fileset dir="${lib}">
             <include name="*"/>
