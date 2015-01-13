@@ -14,7 +14,7 @@ import java.awt.Polygon;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class Navigator extends JWindow {
+public class Navigator extends JWindow {
     // gibt den relativen Abstand zum Hauptfenster an (konstant)
     static final int nav_pos_const = 30;
     // Polygon für die Form

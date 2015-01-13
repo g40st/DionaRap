@@ -10,7 +10,7 @@ import java.net.URL;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class Sounds {
+public class Sounds {
     private Hauptfenster hauptfenster;
     private AudioInputStream gameWon;
     private AudioInputStream gameOver;

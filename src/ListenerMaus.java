@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class ListenerMaus extends MouseAdapter implements ActionListener {
+public class ListenerMaus extends MouseAdapter implements ActionListener {
     // Objekt des Hauptfensters
     private Hauptfenster hauptfenster;
     private JLabel[][] label;

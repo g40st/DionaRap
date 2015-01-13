@@ -8,7 +8,7 @@ import java.awt.event.ComponentEvent;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class ListenerFenster implements ComponentListener {
+public class ListenerFenster implements ComponentListener {
     private Hauptfenster hauptfenster;
     private Navigator navigator;
     private int nav_pos_const;

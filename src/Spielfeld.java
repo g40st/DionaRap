@@ -20,7 +20,7 @@ import de.fhwgt.dionarap.model.objects.*;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class Spielfeld extends JPanel {
+public class Spielfeld extends JPanel {
     private Hauptfenster hauptfenster;
     // Array fuer das Spielfeld
     private JLabel[][] label;

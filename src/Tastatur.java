@@ -16,7 +16,7 @@ import java.awt.ComponentOrientation;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class Tastatur extends JPanel {
+public class Tastatur extends JPanel {
     // gibt die maximale Dimension der Tastaur an
     static final int key_static = 3;
     // gibt die maximale Anzahl der Tasten an

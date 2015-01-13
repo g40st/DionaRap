@@ -24,7 +24,7 @@ public class ListenerKeyEvents implements KeyListener {
      * Eventhandler fuer das Event <code>keyTyped</code>,
      * Events zu den Zifferntasten 1-4 und 6-9 fuer die Bewegung,
      * Event zu Zifferntaste 5 zum Schießen der Spielfigur
-     * @param e
+     * @param e Event
      */
     public void keyTyped(KeyEvent e) {
         Hauptfenster hauptfenster = (Hauptfenster) e.getSource();

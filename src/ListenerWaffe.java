@@ -13,7 +13,7 @@ import de.fhwgt.dionarap.controller.DionaRapController;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class ListenerWaffe implements ActionListener {
+public class ListenerWaffe implements ActionListener {
 
     /**
      * Eventhandler fuer das Event <code>actionPerformed</code>

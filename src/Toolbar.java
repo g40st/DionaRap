@@ -29,7 +29,7 @@ import de.fhwgt.dionarap.view.HighScoreFile;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class Toolbar extends JToolBar implements ActionListener {
+public class Toolbar extends JToolBar implements ActionListener {
     private Hauptfenster hauptfenster;
     // Separator
     private String separator = Hauptfenster.getSeparator();

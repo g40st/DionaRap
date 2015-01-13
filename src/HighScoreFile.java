@@ -103,7 +103,7 @@ public class HighScoreFile {
 	 * erstellt und mit Default-Werten belegt.
 	 *
 	 * @return Referenz auf die einmalige Instanz des Typs HighScoreFile
-	 * @throws IOException, falls die Highscore-Datei nicht erstellt werden konnte oder
+	 * @throws IOException falls die Highscore-Datei nicht erstellt werden konnte oder
 	 * aber die Rechte nicht vorhanden sind, um auf die bereits vorhandene Highscore-Datei zuzugreifen.
 	 */
 	public static HighScoreFile getInstance() throws IOException{
@@ -128,6 +128,7 @@ public class HighScoreFile {
 	 * würde. Mögliche Position liegen zwischen 1 und 10.
 	 * Falls allerdings der übergebene Punktestand nicht hoch genung ist, um die
 	 * Highscore-Datei übernommen zu werden, so ist der Rückgabewert SCORE_TO_LOW_FOR_HIGHSCORE.
+     * @throws IOException falls nicht gelesen werden konnte
 	 */
 	public int getScorePosition(int score) throws IOException{
 		//Datei-Stream erstellen (nur lesend)
@@ -215,8 +216,9 @@ public class HighScoreFile {
 	 *
 	 * @param name Spielername
 	 * @param score Punktestand des Spielers
-	 * @throws IOException, falls Zugriff auf die Highscore-Datei verweigert wird,
+	 * @throws IOException falls Zugriff auf die Highscore-Datei verweigert wird,
 	 * weil keine Zugriffsrechte vorhanden sind.
+     * @return Position in Highscore
 	 */
 	public int writeScoreIntoFile(String name, int score) throws IOException{
 
@@ -300,7 +302,7 @@ public class HighScoreFile {
 	 * @return String-Array mit der Bestenliste. Die Anordnung der Platzierungen im Array ist folgende:
 	 * [Name_1][Punktestand_1][Name_2][Punktestand_2]...[Name_10][Punktestand_10]
 	 * Die Postion eines Spielers im Array entspricht der Position des Spielers in der Highscore.
-	 * @throws IOException. Wird geworfen, falls Datei nicht vorhanden ist oder aber
+	 * @throws IOException Wird geworfen, falls Datei nicht vorhanden ist oder aber
 	 * die Zugriffsrechte für diese Datei fehlen.
 	 */
 	public String[] readFromHighscore() throws IOException{
@@ -375,7 +377,7 @@ public class HighScoreFile {
 	 * vorhanden ist, dann wird eine erstellt.
 	 * Es wird stets die max. erlaubte Anzahl an Platzierungen eingetragen.
 	 *
-	 * @throws IOException, falls Highscore-Datei nicht existiert oder Zugriff auf diese
+	 * @throws IOException falls Highscore-Datei nicht existiert oder Zugriff auf diese
 	 * wegen fehlenden Rechten nicht gestattet ist.
 	 */
 	private static void fillWithDefaultValues() throws IOException{

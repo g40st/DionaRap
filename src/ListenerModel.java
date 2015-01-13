@@ -15,7 +15,7 @@ import de.fhwgt.dionarap.view.HighScoreFile;
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
  */
-class ListenerModel implements DionaRapListener {
+public class ListenerModel implements DionaRapListener {
     // Instanz des Hauptfensters
     private Hauptfenster hauptfenster;
     // Instanz des Spielfeldes
