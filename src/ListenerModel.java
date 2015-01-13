@@ -36,7 +36,7 @@ public class ListenerModel implements DionaRapListener {
 
     /**
      * Event, dass bei einer Spielaenderung alle Spielfiguren loescht und wieder neu setzt
-     * @param DionRapChangedEvent
+     * @param e Event wenn sich im Spielablauf etwas aendert
      */
     public void modelChanged(DionaRapChangedEvent e) {
         if(gameRunning == true) {
@@ -47,7 +47,7 @@ public class ListenerModel implements DionaRapListener {
 
     /**
      * Event, dass bei Spielende aufgerufen wird
-     * @param GameStatusEvent
+     * @param e Event wenn das Spiel gewonnen oder verloren wurde
      */
     public void statusChanged(GameStatusEvent e) {
         gameRunning = false;

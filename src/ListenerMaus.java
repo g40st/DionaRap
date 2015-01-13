@@ -58,7 +58,7 @@ public class ListenerMaus extends MouseAdapter implements ActionListener {
      * Eventhandler fuer das Event <code>mouseClicked</code>
      * Event, erzeugt ein Popup-Menue bei Rechtsklick auf die Spielflaeche
      * Event, das bei Linksklick auf ein benachbartes Feld den Spieler bewegt bzw. schießt
-     * @param MouseEvent
+     * @param e wenn mit der Maus auf das <code>Spielfeld</code> geklickt wird
      */
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == 3) { // Anzeigen des Popup-Menues bei Rechtsklick
@@ -153,7 +153,7 @@ public class ListenerMaus extends MouseAdapter implements ActionListener {
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Fuer jedes Element im Popup-Menue
      * Events: setze Theme: Dracula, Spacewars und Sqarehead
-     * @param ActionEvent
+     * @param e reagieren auf die Buttons die sich im Popup-Fenster befinden (rechte Maustauste auf das Spielfeld)
      */
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == dracula) { // setzen des Themes "Dracula"

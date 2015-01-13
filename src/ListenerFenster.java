@@ -32,7 +32,7 @@ public class ListenerFenster implements ComponentListener {
     /**
      * Eventhandler fuer das Event <code>componentMoved</code>
      * Event, dass das Navigatorfenster relativ zum Hauptfenster platziert
-     * @param ComponentEvent
+     * @param e Event wenn das <code>Hauptfenster</code> verschoben wird
      */
     public void componentMoved(ComponentEvent e){
         navigator.setLocation(((int)hauptfenster.getBounds().getX()) + hauptfenster.getWidth() + nav_pos_const, ((int) hauptfenster.getBounds().getY()));

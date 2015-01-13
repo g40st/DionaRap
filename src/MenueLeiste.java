@@ -158,7 +158,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
      * Fuer jedes Element in der Menueleiste wird das jeweilige Event abgearbeitet
      * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern
      *         Einlesen von XML-Dateien(Levelreader), Aendern der Spieleinstellungen, Hilfe anzeigen
-     *@param e Event
+     *@param e Items aus der Menueleiste
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view_toolbar) { // Ein-/Ausblenden der Toolbar
@@ -392,7 +392,7 @@ class ExtensionFileFilter extends FileFilter {
      * Konstruktor der Klasse Toolbar
      * ist fuer die Bereitstellung des FileFilter verantwortlich
      * @param description die Beschreibung des Filters
-     * @param extensions[] die verwendeten Dateiendungen
+     * @param extensions die verwendeten Dateiendungen
      */
     public ExtensionFileFilter(String description, String extensions[]) {
         this.description = description;

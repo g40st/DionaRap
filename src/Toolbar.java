@@ -214,6 +214,7 @@ public class Toolbar extends JToolBar implements ActionListener {
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Fuer jedes Element in der Tollbar wird das Event verarbeietet
      * Events: "Neues Spiel"-Button wird betaetigt, Anzeigen der Bestenliste in einem JFrame
+     * @param e Event fuer Buttons "Neues Spiel" und "Bestenliste"
      */
     public void actionPerformed(ActionEvent e) {
         if(Integer.parseInt(e.getActionCommand()) == 10) { // ActionEvent fuer den "Neues Spiel"-Button in der Toolbar

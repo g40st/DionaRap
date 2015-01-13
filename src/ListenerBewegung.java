@@ -18,7 +18,7 @@ public class ListenerBewegung implements ActionListener {
     /**
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Event zu den Buttons 1-4 / 6-9 zum Bewegen der Spielfigur
-     * @param ActionEvent
+     * @param e reagieren auf die Buttons 1-4 / 6-9 aus der <code>Tastatur</code>
      */
     public void actionPerformed(ActionEvent e) {
         if(Integer.parseInt(e.getActionCommand()) > 0 && Integer.parseInt(e.getActionCommand()) < 10) {

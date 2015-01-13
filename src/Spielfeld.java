@@ -51,7 +51,7 @@ public class Spielfeld extends JPanel {
 
     /**
      * paintComponent Methode, zeichnet das Hintergrundbild fuer das Theme "SpaceWars"
-     * @param Graphics
+     * @param g
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
