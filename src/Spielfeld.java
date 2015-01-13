@@ -15,7 +15,7 @@ import de.fhwgt.dionarap.model.objects.*;
 
 /**
  * Spielfeld
- * Initialiserung des Spielfeldes, abgeleitet von <code>JPanel</code>
+ * Initialisierung des Spielfeldes, abgeleitet von <code>JPanel</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -40,7 +40,7 @@ class Spielfeld extends JPanel {
     /**
      * Konstruktor des Spielfeldes vom Typ <code>JPanel</code>.
      * zuweisen des Hauptfensters, anlegen eines Mauslisteners, ruft die Methode addJLabels() auf
-     * @param bekommt das Hauptfenster uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     Spielfeld(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
@@ -122,7 +122,7 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, um die letzte Bewegungsrichtung zu ermitteln
-     *@param erhaelt die letzte Richtungseingabe vom Event
+     *@param lastDirection setzt die letzte Bewegung des Spielers
      */
     public void setLastDirection(int lastDirection) {
         viewing_direction_Player = lastDirection;
@@ -130,7 +130,7 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die alle Spielfiguren zeichnet
-     * @param Array vom Typ AbstractPawn, enthaelt alle Spielfiguren
+     * @param spielfiguren enthaelt alle Spielfiguren
      */
     public void drawAllPawns(AbstractPawn[] spielfiguren) {
         for(int i = 0; i < (int) spielfiguren.length; i++) {
@@ -154,7 +154,8 @@ class Spielfeld extends JPanel {
 
     /**
      * Methode, die den Player bei Ende des Spiels zeichnet (gewonnen oder verloren)
-     * @param das Objekt des Spielers und ein Flag ob das Spiel gewonnen (true) oder verloren wurde
+     * @param player
+     * @param gameWon
      */
     public void gameStatusEnd(Player player, boolean gameWon) {
         if(!gameWon) {

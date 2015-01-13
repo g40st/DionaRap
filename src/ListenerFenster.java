@@ -2,8 +2,8 @@ import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 
 /**
- * Fensterlistener
- * Initialiserung des FensterListeners, implementiert <code>ComponentListener</code>
+ * ListenerFenster
+ * Initialisierung des FensterListeners, implementiert <code>ComponentListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -16,7 +16,9 @@ class ListenerFenster implements ComponentListener {
     /**
      * Konstruktor der Klasse ListenerFenster
      * den uebergebenen Parametern werden Hilfsvariablen zugeordnet
-     * @param das Hauptfenster, der Navigator und die Abstandskonstante wird uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
+     * @param navigator Instanz des <code>Navigator</code>
+     * @param nav_pos_const Abstand zwischen <code>Hauptfenster</code> und <code>Navigator</code>
      */
     ListenerFenster(Hauptfenster hauptfenster, Navigator navigator, int nav_pos_const) {
         this.hauptfenster = hauptfenster;

@@ -24,7 +24,7 @@ import de.fhwgt.dionarap.view.HighScoreFile;
 
 /**
  * Toolbar
- * Initialiserung der Toolbar, abgeleitet von <code>JToolBar</code>, implementiert <code>ActionListener</code>
+ * Initialisierung der Toolbar, abgeleitet von <code>JToolBar</code>, implementiert <code>ActionListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -47,7 +47,7 @@ class Toolbar extends JToolBar implements ActionListener {
     /**
      * Konstruktor der Klasse Toolbar
      * ist fuer die Toolbar zustaendig ("NeuesSpiel"-Button, Punktestand, Munition, Spielfortschritt, Bestenliste-Button)
-     * @param das Hauptfenster wird uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     Toolbar(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
@@ -163,7 +163,7 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode zeichnet die Munitionsanzeige in der Toolbar
-     * @param Munitionsvorrat
+     * @param countAmmo Anzahl der Munition
      */
     public void setAmmoIcons(int countAmmo) {
         String img_source = Hauptfenster.getDirectory() + "image" + separator + hauptfenster.getTheme();
@@ -200,7 +200,9 @@ class Toolbar extends JToolBar implements ActionListener {
 
     /**
      * Methode updatet die Toolbar-Elemente (Munitionsanzeige, Punktestand, Fortschritt)
-     *@param aktuelle Munitionsvorrat, aktueller Punktestand, aktueller Fortschritt wird uebergeben
+     *@param countAmmo aktuelle Munitionsvorrat
+     *@param score aktueller Punktestand
+     *@param progress aktueller Spielfortschritt
      */
     public void updateToolbar(int countAmmo, int score, int progress) {
         setAmmoIcons(countAmmo);

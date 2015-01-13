@@ -9,7 +9,7 @@ import java.awt.Polygon;
 
 /**
  * Navigator
- * Initialiserung des Kindfensters, abgeleitet von <code>JWindow</code>
+ * Initialisierung des Kindfensters, abgeleitet von <code>JWindow</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -25,7 +25,7 @@ class Navigator extends JWindow {
     /**
      * Konstruktor der Steuerflaeche vom Typ <code>JWindow</code>.
      * Erzeugt das Kindfenster, dass relativ zum Hauptfenster plaziert wird
-     * @param parent das Vaterfenster
+     * @param frame Instanz des <code>Hauptfenster</code>
      */
     Navigator(JFrame parent) {
         super(parent);

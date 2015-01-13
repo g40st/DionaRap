@@ -8,7 +8,7 @@ import de.fhwgt.dionarap.controller.DionaRapController;
 
 /**
  * ListenerWaffe
- * Initialiserung des ListenerWaffe der auf Schuss reagiert, implementiert <code>ActionListener</code>
+ * Initialisierung des ListenerWaffe der auf Schuss reagiert, implementiert <code>ActionListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0

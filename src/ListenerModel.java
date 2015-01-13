@@ -10,7 +10,7 @@ import de.fhwgt.dionarap.view.HighScoreFile;
 
 /**
  * ListenerModel
- * Initialiserung des ListenerModel der auf die Events im Spiel reagiert, implementiert <code>DionaRapListener</code>
+ * Initialisierung des ListenerModel der auf die Events im Spiel reagiert, implementiert <code>DionaRapListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -28,7 +28,7 @@ class ListenerModel implements DionaRapListener {
     /**
      * Konstruktor der Klasse ListenerModel
      * Zuordnung des Hauptfensters
-     * @param das Hauptfenster wird uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     ListenerModel(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
@@ -78,7 +78,7 @@ class ListenerModel implements DionaRapListener {
 
     /**
      * Methode, die das JDialogPane zeichnet und nach "Neues Spiel / Abbrechen" fraegt
-     *@param boolean ob das Spiel gewonnen oder verloren, Reaktion auf den Button "Neues Spiel"
+     * @param gameWon ob das Spiel gewonnen oder verloren
      */
     private void addDialog(boolean gameWon) {
         String separator = Hauptfenster.getSeparator();

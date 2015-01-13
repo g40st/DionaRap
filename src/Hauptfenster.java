@@ -22,7 +22,7 @@ import de.fhwgt.dionarap.controller.DionaRapController;
 
 /**
  * Hauptfenster
- * Initialiserung des Hauptfensters
+ * Initialisierung des Hauptfensters, abgeleitet von <code>JFrame</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -63,7 +63,7 @@ public class Hauptfenster extends JFrame {
      * Standard Konstruktor der Klasse Hauptfenster
      *
      * Setzt die Fenstereingenschaften: Titel, Groesse, Sichtbarkeit, Verhalten des Exit-Knopfes, erzeugen des Spielfeldes(JPanel), erzuegen des Navigators (JWindow)
-     * @param String aus der public Methode wird uebergeben
+     * @param text <code>String</code> aus der public Methode
      */
     Hauptfenster(String text) {
         super(text);
@@ -178,7 +178,8 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, setzt die Groeße der Spielflaeche
-     * @param die gewuenschte Groeße in Y-Richtung, die gewuenschte Groeße in X-Richtung
+     * @param y die gewuenschte Groeße in Y-Richtung
+     * @param x die gewuenschte Groeße in X-Richtung
      */
     public void setGrid(int y, int x) {
         this.y = y;
@@ -186,7 +187,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, setzt die Anzahl der Gegner
-     * @param gewuenschte Anzahl wird uebergeben
+     * @param i gewuenschte Anzahl der Gegner
      */
     public void setOpponents(int i) {
         this.opponents = i;
@@ -194,7 +195,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, setzt die Anzahl der Hindernisse
-     * @param gewuenschte Anzahl wird uebergeben
+     * @param i gewuenschte Anzahl an Hindernissen
      */
     public void setObstacles(int i) {
         this.obstacles = i;
@@ -202,7 +203,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Anzahl der Gegner an
-     * @return Anzahl der Gegner
+     * @return int
      */
     public int getOpponents() {
         return opponents;
@@ -210,7 +211,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt die Anzahl der Hindernisse an
-     * @return Anzahl der Hindernisse
+     * @return int
      */
     public int getObstacles() {
         return obstacles;
@@ -242,7 +243,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den Thread fuer das Blinken der Munitionsanzeige zurueck
-     * @retund Thread
+     * @return Thread
      */
     public Thread getThread1() {
         return t1;
@@ -349,7 +350,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * get-Methode, gibt den Spielfortschritt als Ganzzahl zurueck
-     * @return Spielfortschritt (int)
+     * @return int
      */
     public int getProgress() {
         float d = ((opponents - (float) dionaRapModel.getOpponentCount()) / opponents) * 100;
@@ -366,7 +367,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, das aktuelle Theme setzen und das Spielfeld neu zeichnen
-     * @param der Name des Ordners indem sich die Bilddateien befinden wird uebergeben
+     * @param theme <code>String</code> der Name des Ordners indem sich die Bilddateien befinden wird uebergeben
      */
     public void setTheme(String theme) {
         this.theme = theme;
@@ -378,7 +379,7 @@ public class Hauptfenster extends JFrame {
 
     /**
      * set-Methode, vertauscht das Spielfeld mit der Toolbar
-     * @param falls true wird die Toolbar im NORTH-Bereich positioniert / false dann im SOUTH-Bereich
+     * @param north falls true wird die Toolbar im NORTH-Bereich positioniert / false dann im SOUTH-Bereich
      */
     public void setToolbarPosition(boolean north) {
         if(north) {
@@ -427,7 +428,7 @@ class Thread1 extends Thread {
     /**
      * Konstruktor des Thread vom Typ <code>Thread</code>.
      * Zuweisen der Hauptfensters
-     * @param bekommt das Hauptfenster uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     Thread1(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
@@ -475,7 +476,7 @@ class Thread2 extends Thread {
     /**
      * Konstruktor des Thread vom Typ <code>Thread</code>.
      * Zuweisen der Hauptfensters, Anlegen der Labels des Spielfeldes
-     * @param bekommt das Hauptfenster uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     Thread2(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
@@ -511,7 +512,8 @@ class Thread2 extends Thread {
      * Methode, prueft ob sich ein Hinderniss an den uebergebenen Koordinaten befindet
      * true: wenn sich ein Hindernis an den uebergebenen Koordinaten befindet
      * false: wenn sich kein Hindernis an den uebergebenen Koordinaten befindet
-     * @param die Y-Koordinate und die X-Koordinate um die benachbarten Felder blicken lassen zu koennen
+     * @param y die Y-Koordinate
+     * @param x die X-Koordinate
      * @return true wenn der uebergebene Punkt außerhalb des Spielfeldes liegt oder wenn sich am Punkt ein Hindernis befindet; sonst false
      */
     public boolean isObstacle(int y, int x) {
@@ -568,7 +570,8 @@ class Thread2 extends Thread {
 
     /**
      * Methode, die das Array fuellt. dass die Labels enthaelt die blinken sollen
-     * @param die Y-Koordinate und die X-Koordinate, um die benachbarten Felder blicken lassen zu koennen
+     * @param z die Y-Koordinate
+     * @param t die X-Koordinate
      */
     public void addLabel(int z, int t) {
         arr_blink[count] = label[z][t];

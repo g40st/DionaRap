@@ -11,7 +11,7 @@ import java.awt.ComponentOrientation;
 
 /**
  * Tastatur
- * Initialiserung der Tastatur, abgeleitet von <code>JPanel</code>
+ * Initialisierung der Tastatur, abgeleitet von <code>JPanel</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0

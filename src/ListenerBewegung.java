@@ -8,7 +8,7 @@ import de.fhwgt.dionarap.controller.DionaRapController;
 
 /**
  * ListenerBewegung
- * Initialiserung des ListenerBewegung, implementiert <code>ActionListener</code>
+ * Initialisierung des ListenerBewegung, implementiert <code>ActionListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0

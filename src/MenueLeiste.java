@@ -19,7 +19,7 @@ import de.fhwgt.dionarap.model.data.Grid;
 import de.fhwgt.dionarap.model.data.MTConfiguration;
 
 /**
- * Menueleiste
+ * MenueLeiste
  * Initialisierung der Menueleiste abgeleitet von <code>JMenuBar</code>, implementiert <code>ActionListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
@@ -73,7 +73,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
     /**
      * Konstruktor der Klasse Toolbar
      * ist fuer die Menueleiste zustaendig (Ansicht-Reiter, Konfiguration-Reiter und Hilfe-Reiter)
-     * @param das Hauptfenster wird uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     MenueLeiste(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
@@ -158,6 +158,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
      * Fuer jedes Element in der Menueleiste wird das jeweilige Event abgearbeitet
      * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern
      *         Einlesen von XML-Dateien(Levelreader), Aendern der Spieleinstellungen, Hilfe anzeigen
+     *@param e
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view_toolbar) { // Ein-/Ausblenden der Toolbar
@@ -352,7 +353,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
 
     /**
      * Methode, die die einzelnen Elemente in den Spieleinstellungen mit den aktuellen Werten aus der Multithreading-Config fuellt
-     * @param aktuelle Multithreading-Config
+     * @param conf aktuelle Multithreading-Konfigurtion
      */
     private void setDefaults(MTConfiguration conf) {
         text[0].setText(String.valueOf(conf.getOpponentStartWaitTime()));
@@ -390,7 +391,8 @@ class ExtensionFileFilter extends FileFilter {
     /**
      * Konstruktor der Klasse Toolbar
      * ist fuer die Bereitstellung des FileFilter verantwortlich
-     * @param die Beschreibung des Filters und die verwendeten Dateiendungen
+     * @param description die Beschreibung des Filters
+     * @param extensions[] die verwendeten Dateiendungen
      */
     public ExtensionFileFilter(String description, String extensions[]) {
         this.description = description;
@@ -407,8 +409,8 @@ class ExtensionFileFilter extends FileFilter {
 
     /**
      * Methode, erstellt den gewuenschten FileFilter
-     * @param File
-     * @return bool
+     * @param file
+     * @return boolean
      */
     public boolean accept(File file) {
         if (file.isDirectory()) {

@@ -26,7 +26,7 @@ class Sounds {
     /**
      * Konstruktor der Klasse Sounds
      * ist fuer die Erzeugung der Sounds zustaendig
-     * @param das Hauptfenster wird uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     public Sounds(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;

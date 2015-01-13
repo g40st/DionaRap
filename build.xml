@@ -50,10 +50,13 @@
   </target>
 
   <target name="doc">
-    <javadoc packagenames="src"  sourcepath="${src}" destdir="${doc}">
-      <fileset dir="${src}">
-        <include name="**" />
-      </fileset>
+    <javadoc sourcepath="${src}" destdir="${doc}">
+
+      <classpath>
+        <fileset dir="${lib}">
+            <include name="*"/>
+        </fileset>
+      </classpath>
     </javadoc>
   </target>
 

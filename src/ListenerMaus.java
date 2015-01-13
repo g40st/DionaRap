@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * ListenerMaus
- * Initialiserung des ListenerMaus der auf Interaktionen mit der Maus reagiert, abgeleitet von <code>MouseAdapter<code>, implementiert <code>ActionListener</code>
+ * Initialisierung des ListenerMaus der auf Interaktionen mit der Maus reagiert, abgeleitet von <code>MouseAdapter<code>, implementiert <code>ActionListener</code>
  * Copyright (c) 2014
  * @author Christian Hoegerle / Thomas Buck
  * @version 1.0
@@ -34,7 +34,7 @@ class ListenerMaus extends MouseAdapter implements ActionListener {
     /**
      * Konstruktor der Klasse ListenerMaus
      * setzt die Default-Werter des Popup-Menues
-     * @param das Hauptfenster wird uebergeben
+     * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
     ListenerMaus(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;

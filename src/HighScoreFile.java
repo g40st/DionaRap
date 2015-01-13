@@ -50,7 +50,7 @@ public class HighScoreFile {
 
 	/**
 	 * Kennzeichnung dafür, dass ein Punktestand nicht in der Highscore-Datei vorhanden ist.
-	 * Kann einzig von der Methode {@link HighScoreFile#getScorePosition(int)} zurückgegeben werden.
+	 * Kann einzig von der Methode {@link #getScorePosition(int)} zurückgegeben werden.
 	 */
 	public final static int SCORE_TO_LOW_FOR_HIGHSCORE = -1;
 	/**

@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import de.fhwgt.dionarap.controller.DionaRapController;
 
 /**
+ * ListenerKeyEvents
  * Klasse realisiert den Listener fuer Tastatur-Ergeignisse und implementiert
  * das Interface <code>KeyListener</code>. Events, die die Ziffern 1-9 betreffen werden behandelt.
  * Copyright (c) 2014
@@ -23,6 +24,7 @@ public class ListenerKeyEvents implements KeyListener {
      * Eventhandler fuer das Event <code>keyTyped</code>,
      * Events zu den Zifferntasten 1-4 und 6-9 fuer die Bewegung,
      * Event zu Zifferntaste 5 zum Schießen der Spielfigur
+     * @param e
      */
     public void keyTyped(KeyEvent e) {
         Hauptfenster hauptfenster = (Hauptfenster) e.getSource();
