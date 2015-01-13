@@ -51,7 +51,7 @@ public class Spielfeld extends JPanel {
 
     /**
      * paintComponent Methode, zeichnet das Hintergrundbild fuer das Theme "SpaceWars"
-     * @param g
+     * @param g Objekt der Klasse Graphics
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -154,8 +154,8 @@ public class Spielfeld extends JPanel {
 
     /**
      * Methode, die den Player bei Ende des Spiels zeichnet (gewonnen oder verloren)
-     * @param player
-     * @param gameWon
+     * @param player Objekt des Players
+     * @param gameWon Flag ob das Spiel gewonnen wurde
      */
     public void gameStatusEnd(Player player, boolean gameWon) {
         if(!gameWon) {
