@@ -30,7 +30,7 @@ public class ListenerModel implements DionaRapListener {
      * Zuordnung des Hauptfensters
      * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
-    ListenerModel(Hauptfenster hauptfenster) {
+    public ListenerModel(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
     }
 

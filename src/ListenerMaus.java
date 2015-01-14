@@ -33,10 +33,10 @@ public class ListenerMaus extends MouseAdapter implements ActionListener {
 
     /**
      * Konstruktor der Klasse ListenerMaus
-     * setzt die Default-Werter des Popup-Menues
+     * setzt die Default-Werte des Popup-Menues
      * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
-    ListenerMaus(Hauptfenster hauptfenster) {
+    public ListenerMaus(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
         popupMenu = new JPopupMenu("Thema");
         popupMenu.add(dracula = new JMenuItem("Dracula", new ImageIcon(img_source + "image" + separator + "Dracula" + separator + "popup.gif")));
@@ -56,7 +56,7 @@ public class ListenerMaus extends MouseAdapter implements ActionListener {
 
     /**
      * Eventhandler fuer das Event <code>mouseClicked</code>
-     * Event, erzeugt ein Popup-Menue bei Rechtsklick auf die Spielflaeche
+     * Event, erzeugt ein Popup-Menue bei Rechtsklick auf die Spielflaeche;
      * Event, das bei Linksklick auf ein benachbartes Feld den Spieler bewegt bzw. schießt
      * @param e wenn mit der Maus auf das <code>Spielfeld</code> geklickt wird
      */

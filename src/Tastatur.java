@@ -31,9 +31,9 @@ public class Tastatur extends JPanel {
 
     /**
      * Konstruktor der Steuerflaeche vom Typ <code>JPanel</code>.
-     * legt den Layout-Manager fest und ruft die Methode addJButtons() auf
+     * Legt den Layout-Manager fest und ruft die Methode addJButtons() auf
      */
-    Tastatur() {
+    public Tastatur() {
         // definieren des Layout-Mangers
         this.setLayout(new GridLayout(key_static, key_static));
         this.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);

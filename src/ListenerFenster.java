@@ -20,7 +20,7 @@ public class ListenerFenster implements ComponentListener {
      * @param navigator Instanz des <code>Navigator</code>
      * @param nav_pos_const Abstand zwischen <code>Hauptfenster</code> und <code>Navigator</code>
      */
-    ListenerFenster(Hauptfenster hauptfenster, Navigator navigator, int nav_pos_const) {
+    public ListenerFenster(Hauptfenster hauptfenster, Navigator navigator, int nav_pos_const) {
         this.hauptfenster = hauptfenster;
         this.navigator = navigator;
         this.nav_pos_const = nav_pos_const;

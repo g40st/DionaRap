@@ -49,7 +49,7 @@ public class Toolbar extends JToolBar implements ActionListener {
      * ist fuer die Toolbar zustaendig ("NeuesSpiel"-Button, Punktestand, Munition, Spielfortschritt, Bestenliste-Button)
      * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
-    Toolbar(Hauptfenster hauptfenster) {
+    public Toolbar(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
         this.setFloatable(false);
 
@@ -104,7 +104,7 @@ public class Toolbar extends JToolBar implements ActionListener {
     }
 
     /**
-     * get-Methode gibt die Labels der Munitionsanzeige zurueck (benoetigt im Thread)
+     * get-Methode, gibt die Labels der Munitionsanzeige zurueck (benoetigt im Thread)
      * @return JLabel[]
      */
     public JLabel[] getArrAmmo() {
@@ -112,7 +112,7 @@ public class Toolbar extends JToolBar implements ActionListener {
     }
 
     /**
-     * get-Methode gibt das Panel zurueck indem sich die Munitionsanzeige befindet (benoetigt im Thread)
+     * get-Methode, gibt das Panel zurueck indem sich die Munitionsanzeige befindet (benoetigt im Thread)
      * @return JPanel
      */
     public JPanel getAmmo() {
@@ -120,50 +120,50 @@ public class Toolbar extends JToolBar implements ActionListener {
     }
 
     /**
-     * Methode setzt den "Neues Spiel"-Button auf aktiv
+     * Methode, setzt den "Neues Spiel"-Button auf aktiv
      */
     public void setEnabled() {
         newGame.setEnabled(true);
     }
 
     /**
-     * Methode setzt den "Neues Spiel"-Button auf inaktiv
+     * Methode, setzt den "Neues Spiel"-Button auf inaktiv
      */
     public void setDisabled() {
         newGame.setEnabled(false);
     }
 
     /**
-     * Methode setzt den Punktestand
+     * Methode, setzt den Punktestand
      */
     private void setScore(int score) {
         textfield_score.setText(String.valueOf(score));
     }
 
     /**
-     * Methode setzt den Spielfortschritt
+     * Methode, setzt den Spielfortschritt
      */
     private void setProgress(int progress) {
         progressbar.setValue(progress);
     }
 
     /**
-     * Methode blendet die Toolbar aus
+     * Methode, blendet die Toolbar aus
      */
     public void setDisabledToolbar() {
         this.setVisible(false);
     }
 
     /**
-     * Methode blendet die Toolbar ein
+     * Methode, blendet die Toolbar ein
      */
     public void setEnabledToolbar() {
         this.setVisible(true);
     }
 
     /**
-     * Methode zeichnet die Munitionsanzeige in der Toolbar
-     * @param countAmmo Anzahl der Munition
+     * Methode, zeichnet die Munitionsanzeige in der Toolbar
+     * @param countAmmo akutelle Anzahl der Munition
      */
     public void setAmmoIcons(int countAmmo) {
         String img_source = Hauptfenster.getDirectory() + "image" + separator + hauptfenster.getTheme();
@@ -199,7 +199,7 @@ public class Toolbar extends JToolBar implements ActionListener {
     }
 
     /**
-     * Methode updatet die Toolbar-Elemente (Munitionsanzeige, Punktestand, Fortschritt)
+     * Methode, updatet die Toolbar-Elemente (Munitionsanzeige, Punktestand, Fortschritt)
      *@param countAmmo aktuelle Munitionsvorrat
      *@param score aktueller Punktestand
      *@param progress aktueller Spielfortschritt

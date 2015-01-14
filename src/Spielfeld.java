@@ -42,7 +42,7 @@ public class Spielfeld extends JPanel {
      * zuweisen des Hauptfensters, anlegen eines Mauslisteners, ruft die Methode addJLabels() auf
      * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
-    Spielfeld(Hauptfenster hauptfenster) {
+    public Spielfeld(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
         img_source = img_source + "image" + separator + hauptfenster.getTheme();
         lis_maus = new ListenerMaus(hauptfenster);
@@ -73,7 +73,7 @@ public class Spielfeld extends JPanel {
     }
 
     /**
-     * Methode erzeugt das Spielfeld entsprechend der Vorgabe mit abwechselnder JLabel-Hintergrundfarbe
+     * Methode, erzeugt das Spielfeld entsprechend der Vorgabe mit abwechselnder JLabel-Hintergrundfarbe
      */
     public void addJLabels() {
         if (hauptfenster.getTheme().equals("SpaceWars")) {
@@ -110,7 +110,7 @@ public class Spielfeld extends JPanel {
     }
 
     /**
-     * Methode loescht alle Labels aus dem JPanel
+     * Methode, loescht alle Labels aus dem JPanel
      */
     public void delAllLabels() {
         for (int i = 0; i < hauptfenster.getDionaRapModel().getGrid().getGridSizeY(); i++) {

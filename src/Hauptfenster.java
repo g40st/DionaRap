@@ -62,10 +62,10 @@ public class Hauptfenster extends JFrame {
     /**
      * Standard Konstruktor der Klasse Hauptfenster
      *
-     * Setzt die Fenstereingenschaften: Titel, Groesse, Sichtbarkeit, Verhalten des Exit-Knopfes, erzeugen des Spielfeldes(JPanel), erzuegen des Navigators (JWindow)
+     * setzt die Fenstereingenschaften: Titel, Groesse, Sichtbarkeit, Verhalten des Exit-Knopfes, erzeugen des Spielfeldes(JPanel), erzeugen des Navigators (JWindow)
      * @param text <code>String</code> aus der public Methode
      */
-    Hauptfenster(String text) {
+    public Hauptfenster(String text) {
         super(text);
 
         // Klasse fuer die Sounds
@@ -110,7 +110,7 @@ public class Hauptfenster extends JFrame {
      * Methode, die die Spielelogik und das Spielfeld initialisiert (DionaRapModel,DionaRapController und Spielfeld)
      *
      */
-    public void newDionaRap() {
+    private void newDionaRap() {
         dionaRapModel = new DionaRapModel(grid.getGridSizeY(), grid.getGridSizeX(), opponents, obstacles);
         // Anzahl der Munition zu beginn des Spiels
         dionaRapModel.setShootAmount(5);
@@ -146,7 +146,7 @@ public class Hauptfenster extends JFrame {
     }
 
     /**
-     * Methode, setzt das Spieleinstellungen Flag auf true, wenn diese geändert wurden
+     * set-Methode, setzt das Spieleinstellungen Flag auf true, wenn diese geändert wurden
      */
     public void setGameSettings() {
         game_settings = true;
@@ -183,6 +183,7 @@ public class Hauptfenster extends JFrame {
      */
     public void setGrid(int y, int x) {
         this.y = y;
+        this.x = x;
     }
 
     /**
@@ -250,7 +251,7 @@ public class Hauptfenster extends JFrame {
     }
 
     /**
-     * set-Methode, startet den Thread fuer das Blinken der Munitionsanzeige
+     * Methode, startet den Thread fuer das Blinken der Munitionsanzeige
      *
      */
     public void createNewThread1() {
@@ -378,7 +379,7 @@ public class Hauptfenster extends JFrame {
     }
 
     /**
-     * set-Methode, vertauscht das Spielfeld mit der Toolbar
+     * set-Methode, legt die Toolbar entweder in den NORTH oder in den SOUTH des BorderLayouts
      * @param north falls true wird die Toolbar im NORTH-Bereich positioniert / false dann im SOUTH-Bereich
      */
     public void setToolbarPosition(boolean north) {

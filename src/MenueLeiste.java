@@ -75,7 +75,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
      * ist fuer die Menueleiste zustaendig (Ansicht-Reiter, Konfiguration-Reiter und Hilfe-Reiter)
      * @param hauptfenster Instanz des <code>Hauptfenster</code>
      */
-    MenueLeiste(Hauptfenster hauptfenster) {
+    public MenueLeiste(Hauptfenster hauptfenster) {
         this.hauptfenster = hauptfenster;
         view = new JMenu("Ansicht");
         config = new JMenu("Konfiguration");
@@ -156,7 +156,7 @@ public class MenueLeiste extends JMenuBar implements ActionListener {
     /**
      * Eventhandler fuer das Event <code>actionPerformed</code>
      * Fuer jedes Element in der Menueleiste wird das jeweilige Event abgearbeitet
-     * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern
+     * Events: Toolbar ein-/ausblenden, Toolbar Position oben/unten , Navigator ein-/ausblenden, Spielbeschreibung anzeigen, Look and Feel aendern,
      *         Einlesen von XML-Dateien(Levelreader), Aendern der Spieleinstellungen, Hilfe anzeigen
      *@param e Items aus der Menueleiste
      */
